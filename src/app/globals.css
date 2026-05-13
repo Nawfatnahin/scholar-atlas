@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-bg text-ink font-body antialiased selection:bg-accent/10 selection:text-accent;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-border-strong shadow-sm;
+  }
+  
+  .nav-glass {
+    @apply bg-bg/95 md:bg-bg/80 backdrop-blur-md border-b border-border-strong;
+  }
+
+  .btn-primary {
+    @apply bg-accent text-white px-6 py-3 rounded-xl font-bold shadow-sm hover:bg-accent/90 transition-all active:scale-[0.98] disabled:opacity-50;
+    @apply touch-manipulation;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-ink border border-border-strong px-6 py-3 rounded-xl font-bold shadow-sm hover:bg-stone-50 transition-all active:scale-[0.98] disabled:opacity-50;
+    @apply touch-manipulation;
+  }
+
+  /* Mobile-first optimizations */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .no-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @keyframes shine {
+    from { transform: translateX(-100%) skewX(-20deg); }
+    to { transform: translateX(200%) skewX(-20deg); }
+  }
+  .animate-shine {
+    animation: shine 3s infinite;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
