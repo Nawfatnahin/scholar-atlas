@@ -109,7 +109,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
       setSubscriptions(subscriptions.map(s => s.email === email ? { ...s, plan: !isPro ? 'pro' : 'free', premium_until } : s));
       toast.success(`${email} matrix updated.`);
     } catch {
-      toast.error("Failed to update node.");
+      toast.error("Failed to update account.");
     }
   };
 
@@ -150,7 +150,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
   };
 
   const handleDeleteUser = async (email: string) => {
-    if (!window.confirm(`Decommission node ${email}?`)) return;
+    if (!window.confirm(`Remove account ${email}?`)) return;
     try {
       const result = await deleteSubscription(email);
       if (result && !result.success) {
@@ -177,12 +177,12 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
       {/* Holographic Sticky Header */}
       <header className="h-28 border-b border-white/5 sticky top-0 z-50 px-8 flex items-center justify-between bg-black/60 backdrop-blur-2xl">
         <div className="flex items-center gap-12">
-          <div className="relative group perspective-1000">
-            <Link href="/dashboard" className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center transform group-hover:-translate-x-2 transition-all duration-500 hover:border-jarvis-accent/50 shadow-[0_0_30px_rgba(0,0,0,0.5)]" title="Back to Dashboard">
+          <Link href="/dashboard" className="relative group perspective-1000 block">
+            <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center transform group-hover:-translate-x-2 transition-all duration-500 hover:border-jarvis-accent/50 shadow-[0_0_30px_rgba(0,0,0,0.5)]" title="Back to Dashboard">
               <ArrowLeft className="text-jarvis-accent w-8 h-8 drop-shadow-[0_0:10px_rgba(34,211,238,0.8)]" />
-            </Link>
-            <div className="absolute -inset-2 bg-jarvis-accent/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
-          </div>
+            </div>
+            <div className="absolute -inset-2 bg-jarvis-accent/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+          </Link>
           
           <div className="space-y-1.5">
             <h1 className="text-3xl font-semibold tracking-widest text-white  flex items-center gap-4 font-sans">
@@ -240,7 +240,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                  </div>
                  <div className="space-y-4">
                     <p className="text-3xl sm:text-4xl font-semibold text-white leading-tight">
-                       Sir, all systems are at your disposal. The ecosystem is currently hosting <span className="text-jarvis-accent">{totalGmails} units</span> with <span className="text-amber-500">{premiumCount} elite threads</span> active.
+                       Sir, all systems are at your disposal. The ecosystem is currently hosting <span className="text-jarvis-accent">{totalGmails} accounts</span> with <span className="text-amber-500">{premiumCount} premium accounts</span> active.
                     </p>
                     <p className="text-white/40 font-medium text-lg leading-relaxed border-l-2 border-jarvis-accent/30 pl-6">
                        Network latency is within nominal bounds. I have prepared the latest user registries and session logs for your review. How shall we proceed with the matrix today, Sir?
@@ -350,7 +350,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                        <Users className="w-12 h-12 text-jarvis-accent" />
                        User<span className="text-jarvis-accent">_Types</span>
                     </h2>
-                    <p className="text-white/20 font-semibold  tracking-normal text-sm">Strategic Management of Encrypted Student Nodes</p>
+                    <p className="text-white/20 font-semibold  tracking-normal text-sm">Strategic Management of Student Accounts</p>
                  </div>
                  
                  <div className="relative group">
@@ -360,7 +360,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                        className="relative bg-white border border-white/10 px-10 py-5 rounded-[22px] flex items-center gap-4 group-hover:bg-jarvis-accent group-hover:border-jarvis-accent transition-all duration-500 shadow-2xl"
                     >
                        <Plus className="w-5 h-5 text-black group-hover:rotate-90 transition-transform" />
-                       <span className="text-black font-semibold text-base  tracking-widest">Provision New Node</span>
+                       <span className="text-black font-semibold text-base  tracking-widest">Provision New Account</span>
                     </button>
                  </div>
               </div>
@@ -374,7 +374,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                           <input 
                             value={newEmail}
                             onChange={(e) => setNewEmail(e.target.value)}
-                            placeholder="Input node identity (email)..."
+                            placeholder="Input account email..."
                             className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 text-sm font-semibold text-white tracking-normal outline-none focus:border-jarvis-accent focus:bg-white/10 transition-all font-sans"
                             required
                           />
@@ -432,7 +432,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                                         <div className="space-y-1.5">
                                            <p className="text-lg font-semibold text-white tracking-tight group-hover/row:text-jarvis-accent transition-colors font-sans">{s.email}</p>
                                            <span className="text-xs font-semibold text-white/10  tracking-widest flex items-center gap-2 font-sans">
-                                              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Node_Online
+                                              <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
                                            </span>
                                         </div>
                                      </div>
@@ -445,7 +445,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                                          : "bg-white/5 border-white/10 text-white/20"
                                      )}>
                                         {isActuallyPro(s) ? <Zap className="w-4 h-4" /> : <Monitor className="w-4 h-4" />}
-                                        {isActuallyPro(s) ? 'Elite Node' : 'Basic Node'}
+                                        {isActuallyPro(s) ? 'Premium User' : 'Standard User'}
                                      </div>
                                   </td>
                                   <td className="px-12 py-10">
@@ -520,12 +520,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
 
       </main>
 
-      {/* Persistent System Overlay Icons */}
-      <div className="fixed top-1/2 left-8 -translate-y-1/2 flex flex-col gap-10 opacity-20 hover:opacity-100 transition-opacity hidden 2xl:flex">
-         <div className="p-3 bg-white/5 border border-white/10 rounded-xl cursor-help" title="SYSTEM RADAR"><Radar className="w-5 h-5" /></div>
-         <div className="p-3 bg-white/5 border border-white/10 rounded-xl cursor-help" title="NEURAL LINK"><Zap className="w-5 h-5" /></div>
-         <div className="p-3 bg-white/5 border border-white/10 rounded-xl cursor-help" title="CORE DATABASE"><Database className="w-5 h-5" /></div>
-      </div>
+      {/* Persistent System Overlay Icons Removed */}
 
       {/* 3D HUD Decorative Borders */}
       <div className="fixed top-0 left-0 w-64 h-64 pointer-events-none opacity-20 border-t-2 border-l-2 border-white/10 rounded-tl-[60px] m-8" />
