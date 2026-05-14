@@ -25,7 +25,9 @@ import {
   Radar,
   ArrowRight,
   Settings,
-  Terminal
+  Terminal,
+  MessageSquare,
+  Sparkles
 } from "lucide-react";
 import { toggleProStatus, deleteSubscription } from "./actions";
 import { toast } from "sonner";
@@ -184,15 +186,11 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
           </div>
           
           <div className="space-y-1.5">
-            <h1 className="text-2xl font-black tracking-tighter text-white uppercase flex items-center gap-3">
-              <Terminal className="w-5 h-5 text-cyan-500" />
-              OS<span className="text-cyan-500">.ADMIN</span>
-              <span className="ml-3 px-2 py-0.5 bg-white/5 text-white/40 text-[9px] font-bold rounded border border-white/10 uppercase tracking-widest">Internal Build 4.0</span>
+            <h1 className="text-3xl font-black tracking-widest text-white uppercase flex items-center gap-4">
+              <span className="bg-cyan-500 text-black px-3 py-1 rounded-lg text-xl shadow-[0_0_15px_rgba(34,211,238,0.4)] animate-pulse">ADMIN</span>
+              <span className="text-cyan-500">OS</span>
+              <div className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e]" />
             </h1>
-            <div className="flex items-center gap-6 text-[9px] font-black uppercase tracking-[0.4em] text-white/20">
-              <span className="flex items-center gap-2 text-cyan-500/60"><Activity className="w-3 h-3" /> Core: Stable</span>
-              <span className="flex items-center gap-2"><Lock className="w-3 h-3" /> Encrypted Link</span>
-            </div>
           </div>
         </div>
 
@@ -217,8 +215,9 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                   <Settings className="w-4 h-4 text-white/20" />
                 </button>
               </div>
-              <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-transparent border border-white/20 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-2xl">
+              <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-transparent border border-white/20 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-2xl overflow-hidden relative group/avatar">
                 {adminName[0].toUpperCase()}
+                <div className="absolute inset-0 bg-cyan-500/10 opacity-0 group-hover/avatar:opacity-100 transition-opacity" />
               </div>
            </div>
         </div>
@@ -226,6 +225,42 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
 
       <main className="p-8 lg:p-16 max-w-[1800px] mx-auto w-full space-y-24 relative z-10">
         
+        {/* Intelligence Briefing Section */}
+        <section className="relative group">
+           <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500/20 to-purple-500/20 blur-2xl rounded-[40px] opacity-30 group-hover:opacity-60 transition-opacity" />
+           <div className="relative bg-white/[0.02] border border-white/10 rounded-[40px] p-10 backdrop-blur-3xl overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-5">
+                 <MessageSquare className="w-40 h-40 text-cyan-500" />
+              </div>
+              <div className="relative space-y-8 max-w-4xl">
+                 <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-full flex items-center justify-center">
+                       <Sparkles className="w-6 h-6 text-cyan-400 animate-pulse" />
+                    </div>
+                    <h2 className="text-[12px] font-black uppercase tracking-[0.5em] text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]">Intelligence Briefing</h2>
+                 </div>
+                 <div className="space-y-4">
+                    <p className="text-3xl sm:text-4xl font-black text-white italic leading-tight">
+                       "Sir, all systems are at your disposal. The ecosystem is currently hosting <span className="text-cyan-400">{totalGmails} units</span> with <span className="text-amber-500">{premiumCount} elite threads</span> active."
+                    </p>
+                    <p className="text-white/40 font-medium text-lg leading-relaxed border-l-2 border-cyan-500/30 pl-6">
+                       Network latency is within nominal bounds. I have prepared the latest user registries and session logs for your review. How shall we proceed with the matrix today, Sir?
+                    </p>
+                 </div>
+                 <div className="flex items-center gap-8 pt-4">
+                    <div className="flex items-center gap-3">
+                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]" />
+                       <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Voice Analysis: Active</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                       <div className="w-2 h-2 bg-cyan-500 rounded-full animate-pulse shadow-[0_0_8px_#22d3ee]" />
+                       <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/40">Neural Sync: 100%</span>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+
         {/* Advanced 3D Stats Pedestals */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
            {[
@@ -235,7 +270,6 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
              { label: 'Security Shield', val: 'MAX', icon: ShieldCheck, accent: 'green' }
            ].map((stat, i) => (
              <div key={i} className="group relative">
-                {/* 3D Shadow/Underground Glow */}
                 <div className="absolute inset-0 bg-cyan-500/5 blur-[40px] rounded-[40px] group-hover:bg-cyan-500/10 transition-all duration-700" />
                 
                 <div className="relative bg-white/[0.03] border border-white/10 rounded-[40px] p-10 backdrop-blur-3xl transform transition-all duration-500 hover:-translate-y-4 hover:rotate-2 hover:shadow-[0_40px_80px_rgba(0,0,0,0.6)] group-hover:border-cyan-500/30">
@@ -263,7 +297,6 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
            {/* Recessed Login Matrix */}
            <div className="xl:col-span-4 space-y-10">
               <div className="relative group">
-                 {/* Underground Box Style */}
                  <div className="absolute inset-x-4 -bottom-4 h-full bg-cyan-500/5 blur-3xl rounded-[50px] pointer-events-none" />
                  
                  <div className="relative bg-white/[0.02] border border-white/10 rounded-[50px] p-10 backdrop-blur-md shadow-2xl group-hover:border-cyan-500/20 transition-all">
@@ -315,15 +348,14 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
               <div className="flex flex-col md:flex-row justify-between items-end gap-10">
                  <div className="space-y-4">
                     <h2 className="text-5xl font-black text-white italic tracking-tighter uppercase flex items-center gap-6">
-                       <Database className="w-12 h-12 text-cyan-500" />
-                       Node<span className="text-cyan-500">_Registry</span>
+                       <Users className="w-12 h-12 text-cyan-500" />
+                       User<span className="text-cyan-500">_Types</span>
                     </h2>
                     <p className="text-white/20 font-black uppercase tracking-[0.3em] text-[10px]">Strategic Management of Encrypted Student Nodes</p>
                  </div>
                  
-                 {/* Modern Glowing Option Pedestal */}
                  <div className="relative group">
-                    <div className="absolute inset-0 bg-orange-500/20 blur-2xl rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-cyan-500/20 blur-2xl rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
                     <button 
                        onClick={() => setIsAdding(!isAdding)}
                        className="relative bg-white border border-white/10 px-10 py-5 rounded-[22px] flex items-center gap-4 group-hover:bg-cyan-500 group-hover:border-cyan-500 transition-all duration-500 shadow-2xl"
@@ -357,21 +389,40 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
 
               {/* 3D Interactive Table Box */}
               <div className="relative group/matrix">
-                 {/* Underground Glow Shadow */}
                  <div className="absolute -inset-4 bg-cyan-900/5 blur-[80px] rounded-[50px] pointer-events-none" />
                  
                  <div className="relative bg-white/[0.02] border border-white/5 rounded-[50px] overflow-hidden backdrop-blur-3xl shadow-2xl group-hover/matrix:border-white/10 transition-all duration-700">
                     <div className="overflow-x-auto">
                        <table className="w-full text-left border-collapse">
                           <thead>
-                             <tr className="bg-white/[0.02] border-b border-white/5">
-                                <th className="px-12 py-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Ident_ID</th>
-                                <th className="px-12 py-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Access_Key</th>
-                                <th className="px-12 py-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/20">Sync_Status</th>
-                                <th className="px-12 py-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/20 text-right">Overrides</th>
+                             <tr className="bg-white/[0.04] border-b border-white/10">
+                                <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 border-r border-white/5">
+                                   <div className="flex items-center gap-2">
+                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      IDENT_ID
+                                   </div>
+                                </th>
+                                <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 border-r border-white/5">
+                                   <div className="flex items-center gap-2">
+                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      ACCESS_KEY
+                                   </div>
+                                </th>
+                                <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 border-r border-white/5">
+                                   <div className="flex items-center gap-2">
+                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      SYNC_STATUS
+                                   </div>
+                                </th>
+                                <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 text-right">
+                                   <div className="flex items-center justify-end gap-2">
+                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      OVERRIDES
+                                   </div>
+                                </th>
                              </tr>
                           </thead>
-                          <tbody className="divide-y divide-white/[0.02]">
+                          <tbody className="divide-y divide-white/[0.04]">
                              {filteredSubscriptions.map((s, idx) => (
                                <tr key={s.id} className="group/row hover:bg-white/[0.03] transition-all">
                                   <td className="px-12 py-10">
@@ -408,7 +459,6 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                                   </td>
                                   <td className="px-12 py-10 text-right">
                                      <div className="flex items-center justify-end gap-6 opacity-0 group-hover/row:opacity-100 transition-all translate-x-4 group-hover/row:translate-x-0">
-                                        {/* Recursive Glowing Button Underground */}
                                         <div className="relative group/btn">
                                            <div className={cn("absolute inset-0 blur-xl opacity-0 group-hover/btn:opacity-60 transition-opacity", s.plan === 'pro' ? "bg-red-500" : "bg-cyan-500")} />
                                            <button 
@@ -489,7 +539,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                <Cpu className="w-6 h-6 text-white/40" />
             </div>
             <div>
-               <p className="text-[11px] font-black text-white uppercase tracking-[0.5em]">JARVIS_PROTOCOL.v4.0.5</p>
+               <p className="text-[11px] font-black text-white uppercase tracking-[0.5em]">JARVIS_PROTOCOL.v4.0.8</p>
                <p className="text-[9px] font-bold text-cyan-500/40 uppercase tracking-widest mt-1">Stark Unified Architecture · Terminal 7</p>
             </div>
          </div>
