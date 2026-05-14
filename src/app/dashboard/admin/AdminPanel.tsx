@@ -264,78 +264,78 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 items-start">
            
            {/* Modern 3D Admin OS Sidebar */}
-           <div className="xl:col-span-4 space-y-8 perspective-2000">
+           <div className="xl:col-span-5 space-y-8 perspective-2000">
               
               {/* Buddy OS AI Assistant Card */}
               <div className="group relative transition-all duration-700 hover:translate-z-10 transform-gpu">
                  <div className="absolute -inset-1 bg-gradient-to-br from-jarvis-accent via-purple-500 to-blue-600 blur-2xl rounded-[40px] opacity-10 group-hover:opacity-30 transition-opacity animate-pulse-slow" />
                  
-                 <div className="jarvis-box !p-8 !rounded-[40px] backdrop-blur-3xl border-jarvis-accent/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group-hover:border-jarvis-accent/40 transition-all duration-500">
+                 <div className="jarvis-box !p-12 !rounded-[50px] backdrop-blur-3xl border-jarvis-accent/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group-hover:border-jarvis-accent/40 transition-all duration-500">
                     {/* Glowing corner accents */}
-                    <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-jarvis-accent/20 rounded-tl-[40px] group-hover:border-jarvis-accent transition-colors" />
-                    <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-jarvis-accent/20 rounded-br-[40px] group-hover:border-jarvis-accent transition-colors" />
+                    <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-jarvis-accent/20 rounded-tl-[50px] group-hover:border-jarvis-accent transition-colors" />
+                    <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-jarvis-accent/20 rounded-br-[50px] group-hover:border-jarvis-accent transition-colors" />
                     
-                    <div className="relative space-y-6">
+                    <div className="relative space-y-10">
                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-4">
-                             <div className="w-10 h-10 bg-jarvis-accent/10 border border-jarvis-accent/30 rounded-full flex items-center justify-center relative">
-                                <Sparkles className="w-5 h-5 text-jarvis-accent animate-pulse" />
+                          <div className="flex items-center gap-6">
+                             <div className="w-14 h-14 bg-jarvis-accent/10 border border-jarvis-accent/30 rounded-full flex items-center justify-center relative">
+                                <Sparkles className="w-8 h-8 text-jarvis-accent animate-pulse" />
                                 <div className="absolute inset-0 bg-jarvis-accent/20 blur-lg rounded-full animate-ping" />
                              </div>
                              <div>
-                                <h2 className="text-lg font-bold tracking-tight text-white group-hover:text-jarvis-accent transition-colors">Buddy OS</h2>
+                                <h2 className="text-2xl font-bold tracking-tight text-white group-hover:text-jarvis-accent transition-colors">Buddy OS</h2>
                                 <div className="flex items-center gap-2">
-                                   <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_#22c55e]" />
-                                   <span className="text-[9px] font-bold uppercase tracking-widest text-white/40">Neural Sync: Online</span>
+                                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
+                                   <span className="text-xs font-bold uppercase tracking-widest text-white/40">Neural Sync: Online</span>
                                 </div>
                              </div>
                           </div>
-                          <div className="p-2 bg-white/5 rounded-xl border border-white/10 group-hover:border-jarvis-accent/30 transition-colors">
-                             <Cpu className="w-4 h-4 text-jarvis-accent animate-spin-slow" />
+                          <div className="p-3 bg-white/5 rounded-xl border border-white/10 group-hover:border-jarvis-accent/30 transition-colors">
+                             <Cpu className="w-6 h-6 text-jarvis-accent animate-spin-slow" />
                           </div>
                        </div>
 
-                       <div className="space-y-4 min-h-[140px]">
-                          <div className="p-5 bg-black/40 border border-white/5 rounded-2xl relative group-hover:border-jarvis-accent/20 transition-all">
-                             <div className="absolute top-2 left-3 flex gap-1">
-                                <div className="w-1 h-1 rounded-full bg-red-500/50" />
-                                <div className="w-1 h-1 rounded-full bg-amber-500/50" />
-                                <div className="w-1 h-1 rounded-full bg-green-500/50" />
+                       <div className="space-y-6 min-h-[220px]">
+                          <div className="p-8 bg-black/40 border border-white/5 rounded-[32px] relative group-hover:border-jarvis-accent/20 transition-all">
+                             <div className="absolute top-4 left-5 flex gap-1.5">
+                                <div className="w-1.5 h-1.5 rounded-full bg-red-500/50" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-amber-500/50" />
+                                <div className="w-1.5 h-1.5 rounded-full bg-green-500/50" />
                              </div>
-                             <div className="mt-3">
+                             <div className="mt-4">
                                 {isTyping ? (
-                                   <div className="flex gap-1 items-center py-2">
-                                      <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                      <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                      <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full animate-bounce" />
+                                   <div className="flex gap-1.5 items-center py-4">
+                                      <div className="w-2 h-2 bg-jarvis-accent rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                      <div className="w-2 h-2 bg-jarvis-accent rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                      <div className="w-2 h-2 bg-jarvis-accent rounded-full animate-bounce" />
                                    </div>
                                 ) : (
-                                   <p className="text-sm font-medium text-white/90 leading-relaxed tracking-tight italic">
+                                   <p className="text-lg font-medium text-white/90 leading-relaxed tracking-tight italic">
                                       &quot;{jarvisMessage}&quot;
                                    </p>
                                 )}
                              </div>
                           </div>
                           
-                          <div className="grid grid-cols-2 gap-3">
-                             <div className="bg-white/5 border border-white/10 p-3 rounded-2xl group-hover:bg-jarvis-accent/5 transition-colors">
-                                <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest mb-1">Users</p>
-                                <p className="text-xl font-bold text-white">{totalGmails}</p>
+                          <div className="grid grid-cols-2 gap-5">
+                             <div className="bg-white/5 border border-white/10 p-5 rounded-3xl group-hover:bg-jarvis-accent/5 transition-colors">
+                                <p className="text-xs font-bold text-white/30 uppercase tracking-widest mb-1.5">Users</p>
+                                <p className="text-3xl font-bold text-white">{totalGmails}</p>
                              </div>
-                             <div className="bg-white/5 border border-white/10 p-3 rounded-2xl group-hover:bg-amber-500/5 transition-colors">
-                                <p className="text-[9px] font-bold text-white/30 uppercase tracking-widest mb-1">Elite</p>
-                                <p className="text-xl font-bold text-amber-500">{premiumCount}</p>
+                             <div className="bg-white/5 border border-white/10 p-5 rounded-3xl group-hover:bg-amber-500/5 transition-colors">
+                                <p className="text-xs font-bold text-white/30 uppercase tracking-widest mb-1.5">Elite</p>
+                                <p className="text-3xl font-bold text-amber-500">{premiumCount}</p>
                              </div>
                           </div>
                        </div>
 
-                       <div className="pt-4 border-t border-white/5">
-                          <div className="flex items-center justify-between text-[9px] font-bold text-white/20 uppercase tracking-[0.2em]">
+                       <div className="pt-6 border-t border-white/5">
+                          <div className="flex items-center justify-between text-xs font-bold text-white/20 uppercase tracking-[0.2em]">
                              <span>System Status</span>
                              <span className="text-jarvis-accent">Nominal</span>
                           </div>
-                          <div className="mt-2.5 h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                             <div className="h-full bg-jarvis-accent shadow-[0_0_10px_#22d3ee] w-3/4 animate-shimmer" />
+                          <div className="mt-4 h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+                             <div className="h-full bg-jarvis-accent shadow-[0_0_15px_#22d3ee] w-3/4 animate-shimmer" />
                           </div>
                        </div>
                     </div>
@@ -390,7 +390,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
            </div>
 
            {/* Elevated Database Console */}
-           <div className="xl:col-span-8 space-y-10">
+           <div className="xl:col-span-7 space-y-10">
               <div className="flex flex-col md:flex-row justify-between items-end gap-6">
                  <div className="space-y-2">
                     <h2 className="text-4xl font-bold text-white tracking-tighter flex items-center gap-4 font-sans">
