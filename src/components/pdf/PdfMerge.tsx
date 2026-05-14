@@ -22,6 +22,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { File, X, GripVertical, Plus, Loader2, Download } from "lucide-react";
 import { toast } from "sonner";
 import { PDFDocument } from "pdf-lib";
+import { usePdfSessionLimit } from "@/hooks/usePdfSessionLimit";
 import { useSubscription } from "@/components/SubscriptionProvider";
 
 const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB

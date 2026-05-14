@@ -14,7 +14,7 @@ export function usePdfSessionLimit(isPro: boolean = false) {
   const [actions, setActions] = useState<PdfAction[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const MAX_ACTIONS = isPro ? 9999 : 5;
+  const MAX_ACTIONS = isPro ? Infinity : 5;
 
   useEffect(() => {
     try {
