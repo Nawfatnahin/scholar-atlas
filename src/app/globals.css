@@ -40,8 +40,8 @@
   }
 
   .jarvis-theme .jarvis-box {
-    @apply relative overflow-hidden bg-[#0A0A0C] border border-white/[0.08] rounded-3xl p-6 transition-all duration-500;
-    @apply hover:border-jarvis-accent/40 hover:shadow-[0_0_40px_rgba(6,182,212,0.1)];
+    @apply relative overflow-hidden bg-slate-900/60 backdrop-blur-2xl border border-cyan-500/30 rounded-3xl p-6 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.5)];
+    @apply hover:border-cyan-400/80 hover:shadow-[0_0_30px_rgba(6,182,212,0.4)] hover:bg-slate-900/80;
   }
 
   .jarvis-theme .jarvis-box::before {
