@@ -237,7 +237,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                     <div className="w-12 h-12 bg-cyan-500/10 border border-cyan-500/30 rounded-full flex items-center justify-center">
                        <Sparkles className="w-6 h-6 text-cyan-400 animate-pulse" />
                     </div>
-                    <h2 className="text-[12px] font-black uppercase tracking-[0.5em] text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]">Intelligence Briefing</h2>
+                    <h2 className="text-[12px] font-black uppercase tracking-[0.5em] text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]">BUDDY_OS INTEL</h2>
                  </div>
                  <div className="space-y-4">
                     <p className="text-3xl sm:text-4xl font-black text-white leading-tight">
@@ -575,6 +575,21 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
         }
         .animate-spin-slow {
           animation: spin-slow 15s linear infinite;
+        }
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
+        }
+        .animate-shimmer {
+          background: linear-gradient(90deg, transparent, rgba(34, 211, 238, 0.05), transparent);
+          background-size: 200% 100%;
+          animation: shimmer 4s infinite linear;
+        }
+      `}</style>
+    </div>
+  );
+}
+te;
         }
         @keyframes shimmer {
           0% { background-position: -200% 0; }
