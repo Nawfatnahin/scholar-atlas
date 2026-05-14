@@ -167,7 +167,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-[#000000] text-cyan-400 font-mono selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#000000] text-cyan-400 font-sans selection:bg-cyan-500/30 selection:text-white overflow-x-hidden">
       
       {/* 3D Space Background Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -186,7 +186,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
           </div>
           
           <div className="space-y-1.5">
-            <h1 className="text-3xl font-black tracking-widest text-white uppercase flex items-center gap-4">
+            <h1 className="text-3xl font-black tracking-widest text-white uppercase flex items-center gap-4 font-sans">
               <span className="bg-cyan-500 text-black px-3 py-1 rounded-lg text-xl shadow-[0_0_15px_rgba(34,211,238,0.4)] animate-pulse">ADMIN</span>
               <span className="text-cyan-500">OS</span>
               <div className="w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e]" />
@@ -201,13 +201,13 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                value={searchQuery}
                onChange={(e) => setSearchQuery(e.target.value)}
                placeholder="ACCESS USER REGISTRY..."
-               className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-14 pr-6 text-[10px] font-black tracking-[0.2em] outline-none focus:border-cyan-500/30 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10"
+               className="w-full bg-white/5 border border-white/10 rounded-xl py-3.5 pl-14 pr-6 text-[10px] font-black tracking-[0.2em] outline-none focus:border-cyan-500/30 focus:bg-white/[0.08] transition-all text-white placeholder:text-white/10 font-mono"
              />
            </div>
 
            <div className="h-10 w-[1px] bg-white/10" />
 
-           <div className="flex items-center gap-5">
+           <div className="flex items-center gap-5 font-sans">
               <div className="text-right">
                 <p className="text-[9px] text-white/20 font-black uppercase tracking-[0.3em] mb-1">Authenticated</p>
                 <button onClick={() => setIsEditingName(true)} className="text-lg font-black text-white hover:text-cyan-400 transition-colors uppercase tracking-tight flex items-center gap-3">
@@ -223,7 +223,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
         </div>
       </header>
 
-      <main className="p-8 lg:p-16 max-w-[1800px] mx-auto w-full space-y-24 relative z-10">
+      <main className="p-8 lg:p-16 max-w-[1800px] mx-auto w-full space-y-24 relative z-10 font-sans">
         
         {/* Intelligence Briefing Section */}
         <section className="relative group">
@@ -240,8 +240,8 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                     <h2 className="text-[12px] font-black uppercase tracking-[0.5em] text-cyan-400 shadow-[0_0_10px_rgba(34,211,238,0.3)]">Intelligence Briefing</h2>
                  </div>
                  <div className="space-y-4">
-                    <p className="text-3xl sm:text-4xl font-black text-white italic leading-tight">
-                       "Sir, all systems are at your disposal. The ecosystem is currently hosting <span className="text-cyan-400">{totalGmails} units</span> with <span className="text-amber-500">{premiumCount} elite threads</span> active."
+                    <p className="text-3xl sm:text-4xl font-black text-white leading-tight">
+                       Sir, all systems are at your disposal. The ecosystem is currently hosting <span className="text-cyan-400">{totalGmails} units</span> with <span className="text-amber-500">{premiumCount} elite threads</span> active.
                     </p>
                     <p className="text-white/40 font-medium text-lg leading-relaxed border-l-2 border-cyan-500/30 pl-6">
                        Network latency is within nominal bounds. I have prepared the latest user registries and session logs for your review. How shall we proceed with the matrix today, Sir?
@@ -281,7 +281,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                    </div>
                    <div className="space-y-2">
                       <h4 className="text-[11px] font-black uppercase tracking-[0.3em] text-white/30">{stat.label}</h4>
-                      <p className="text-6xl font-black text-white tracking-tighter group-hover:text-cyan-400 transition-colors">{stat.val}</p>
+                      <p className="text-6xl font-black text-white tracking-tighter group-hover:text-cyan-400 transition-colors font-mono">{stat.val}</p>
                    </div>
                    <div className="mt-8 h-1 w-full bg-white/5 rounded-full overflow-hidden">
                       <div className="h-full bg-cyan-500/20 w-3/4 animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
@@ -302,7 +302,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                  <div className="relative bg-white/[0.02] border border-white/10 rounded-[50px] p-10 backdrop-blur-md shadow-2xl group-hover:border-cyan-500/20 transition-all">
                     <div className="flex items-center justify-between mb-12">
                        <div className="space-y-1.5">
-                          <h3 className="text-xl font-black text-white uppercase italic flex items-center gap-3 tracking-tighter">
+                          <h3 className="text-xl font-black text-white uppercase italic flex items-center gap-3 tracking-tighter font-sans">
                             <Radar className="w-6 h-6 text-cyan-400" />
                             Session<span className="text-cyan-500">_History</span>
                           </h3>
@@ -318,14 +318,14 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                                   {user.email[0].toUpperCase()}
                                </div>
                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm font-black text-white tracking-tight truncate">{user.email}</p>
-                                  <div className="flex items-center gap-3 mt-1.5 text-[9px] font-black text-white/20 uppercase tracking-widest">
+                                  <p className="text-sm font-black text-white tracking-tight truncate font-mono">{user.email}</p>
+                                  <div className="flex items-center gap-3 mt-1.5 text-[9px] font-black text-white/20 uppercase tracking-widest font-mono">
                                      <span className="text-cyan-500/40">Initial: {new Date(user.created_at).toLocaleDateString()}</span>
                                   </div>
                                </div>
                                <div className="text-right">
-                                  <p className="text-[10px] font-black text-cyan-400 mb-0.5">{new Date(user.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                  <span className="text-[8px] font-bold text-white/10">GMT+6</span>
+                                  <p className="text-[10px] font-black text-cyan-400 mb-0.5 font-mono">{new Date(user.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                  <span className="text-[8px] font-bold text-white/10 font-mono">GMT+6</span>
                                </div>
                             </div>
                          </div>
@@ -347,7 +347,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
            <div className="xl:col-span-8 space-y-12">
               <div className="flex flex-col md:flex-row justify-between items-end gap-10">
                  <div className="space-y-4">
-                    <h2 className="text-5xl font-black text-white italic tracking-tighter uppercase flex items-center gap-6">
+                    <h2 className="text-5xl font-black text-white tracking-tighter uppercase flex items-center gap-6 font-sans">
                        <Users className="w-12 h-12 text-cyan-500" />
                        User<span className="text-cyan-500">_Types</span>
                     </h2>
@@ -376,7 +376,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                             value={newEmail}
                             onChange={(e) => setNewEmail(e.target.value)}
                             placeholder="INPUT NODE IDENTITY (EMAIL)..."
-                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 text-[11px] font-black text-white tracking-[0.2em] outline-none focus:border-cyan-500 focus:bg-white/10 transition-all"
+                            className="w-full bg-white/5 border border-white/10 rounded-2xl py-5 pl-16 pr-8 text-[11px] font-black text-white tracking-[0.2em] outline-none focus:border-cyan-500 focus:bg-white/10 transition-all font-mono"
                             required
                           />
                        </div>
@@ -395,44 +395,44 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                     <div className="overflow-x-auto">
                        <table className="w-full text-left border-collapse">
                           <thead>
-                             <tr className="bg-white/[0.04] border-b border-white/10">
+                             <tr className="bg-white/[0.08] border-b border-white/10">
                                 <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 border-r border-white/5">
                                    <div className="flex items-center gap-2">
-                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      <div className="w-2 h-2 bg-cyan-500 rounded-full shadow-[0_0_8px_#22d3ee]" />
                                       IDENT_ID
                                    </div>
                                 </th>
                                 <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 border-r border-white/5">
                                    <div className="flex items-center gap-2">
-                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      <div className="w-2 h-2 bg-cyan-500 rounded-full shadow-[0_0_8px_#22d3ee]" />
                                       ACCESS_KEY
                                    </div>
                                 </th>
                                 <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 border-r border-white/5">
                                    <div className="flex items-center gap-2">
-                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      <div className="w-2 h-2 bg-cyan-500 rounded-full shadow-[0_0_8px_#22d3ee]" />
                                       SYNC_STATUS
                                    </div>
                                 </th>
                                 <th className="px-12 py-10 text-[11px] font-black uppercase tracking-[0.4em] text-cyan-400 text-right">
                                    <div className="flex items-center justify-end gap-2">
-                                      <div className="w-1.5 h-1.5 bg-cyan-500 rounded-full" />
+                                      <div className="w-2 h-2 bg-cyan-500 rounded-full shadow-[0_0_8px_#22d3ee]" />
                                       OVERRIDES
                                    </div>
                                 </th>
                              </tr>
                           </thead>
-                          <tbody className="divide-y divide-white/[0.04]">
+                          <tbody className="divide-y divide-white/[0.04] font-sans">
                              {filteredSubscriptions.map((s, idx) => (
                                <tr key={s.id} className="group/row hover:bg-white/[0.03] transition-all">
                                   <td className="px-12 py-10">
                                      <div className="flex items-center gap-6">
-                                        <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-white/20 group-hover/row:scale-110 group-hover/row:border-cyan-500/40 group-hover/row:text-cyan-400 transition-all">
+                                        <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center font-black text-white/20 group-hover/row:scale-110 group-hover/row:border-cyan-500/40 group-hover/row:text-cyan-400 transition-all font-mono">
                                            {s.email[0].toUpperCase()}
                                         </div>
                                         <div className="space-y-1.5">
-                                           <p className="text-lg font-black text-white tracking-tight group-hover/row:text-cyan-400 transition-colors">{s.email}</p>
-                                           <span className="text-[9px] font-black text-white/10 uppercase tracking-widest flex items-center gap-2">
+                                           <p className="text-lg font-black text-white tracking-tight group-hover/row:text-cyan-400 transition-colors font-mono">{s.email}</p>
+                                           <span className="text-[9px] font-black text-white/10 uppercase tracking-widest flex items-center gap-2 font-mono">
                                               <div className="w-1.5 h-1.5 bg-green-500 rounded-full" /> Node_Online
                                            </span>
                                         </div>
@@ -440,7 +440,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                                   </td>
                                   <td className="px-12 py-10">
                                      <div className={cn(
-                                       "inline-flex items-center gap-3 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border shadow-2xl transition-all",
+                                       "inline-flex items-center gap-3 px-6 py-3 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border shadow-2xl transition-all font-mono",
                                        isActuallyPro(s) 
                                          ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-cyan-500/10" 
                                          : "bg-white/5 border-white/10 text-white/20"
@@ -454,7 +454,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                                         <div className="h-1.5 w-32 bg-white/5 rounded-full overflow-hidden">
                                            <div className={cn("h-full transition-all duration-1000", isActuallyPro(s) ? "bg-cyan-500 w-full shadow-[0_0_15px_#22d3ee]" : "bg-white/20 w-1/3")} />
                                         </div>
-                                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em]">Registered: {new Date(s.created_at).toLocaleDateString()}</p>
+                                        <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] font-mono text-white/40">Registered: {new Date(s.created_at).toLocaleDateString()}</p>
                                      </div>
                                   </td>
                                   <td className="px-12 py-10 text-right">
@@ -492,7 +492,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                        <div className="flex items-center gap-8">
                           <div className="flex -space-x-4">
                              {[...Array(5)].map((_, i) => (
-                               <div key={i} className="w-12 h-12 rounded-full border-4 border-[#000000] bg-white/5 flex items-center justify-center font-black text-xs text-white/10">
+                               <div key={i} className="w-12 h-12 rounded-full border-4 border-[#000000] bg-white/5 flex items-center justify-center font-black text-xs text-white/10 font-mono">
                                   {i + 1}
                                </div>
                              ))}
@@ -540,10 +540,10 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
             </div>
             <div>
                <p className="text-[11px] font-black text-white uppercase tracking-[0.5em]">JARVIS_PROTOCOL.v4.0.8</p>
-               <p className="text-[9px] font-bold text-cyan-500/40 uppercase tracking-widest mt-1">Stark Unified Architecture · Terminal 7</p>
+               <p className="text-[9px] font-bold text-cyan-500/40 uppercase tracking-widest mt-1 font-sans">Stark Unified Architecture · Terminal 7</p>
             </div>
          </div>
-         <div className="flex items-center gap-12">
+         <div className="flex items-center gap-12 font-sans">
             <div className="flex items-center gap-4">
                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white">Cloud Link Active</span>
