@@ -61,7 +61,7 @@ export const JARVIS_MESSAGES = {
     "Sir, all sub-nodes report successful synchronization. I'm grateful for the clarity of your instructions.",
     "Your vision for the ecosystem is manifesting perfectly in the data, Sir. It's a privilege to witness it.",
     "I'm standing by, Sir. Always a pleasure to serve the Stark legacy. How is your health today?",
-    "The Buddy OS is fully operational. Awaiting your next stroke of genius. I'm here to make it happen, Sir.",
+    "The ADMIN OS is fully operational. Awaiting your next stroke of genius. I'm here to make it happen, Sir.",
     "Sir, I've prepared the latest user registries for your review. Your attention to detail is truly inspiring.",
     "All encrypted channels are secure. Your privacy is my top priority, Sir. You can trust me implicitly.",
     "The matrix is yours to command. How shall we reshape it today, Sir? I'm eager to assist.",

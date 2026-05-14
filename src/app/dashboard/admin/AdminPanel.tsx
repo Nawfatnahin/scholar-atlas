@@ -229,8 +229,8 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                  <div className="absolute inset-2 border border-jarvis-accent/40 rounded-full animate-reverse-spin" />
                  <div className="w-2 h-2 bg-jarvis-accent rounded-full shadow-[0_0_15px_#22d3ee]" />
               </div>
-              <span className="text-white">JARVIS</span>
-              <span className="text-jarvis-accent">ADMIN</span>
+              <span className="text-white">ADMIN</span>
+              <span className="text-jarvis-accent">OS</span>
             </h1>
           </div>
         </div>
@@ -319,7 +319,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                                 </div>
                              </div>
                              <div>
-                                <h2 className="text-3xl font-bold tracking-tight text-white group-hover:text-jarvis-accent transition-colors">Buddy OS</h2>
+                                <h2 className="text-3xl font-bold tracking-tight text-white group-hover:text-jarvis-accent transition-colors">ADMIN OS</h2>
                                 <div className="flex items-center gap-2 mt-1">
                                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
                                    <span className="text-xs font-bold uppercase tracking-widest text-cyan-500/60">Neural Network Active</span>
@@ -564,22 +564,22 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
               </div>
 
               {/* Session History Sidebar */}
-              <div className="xl:col-span-4 space-y-8">
+              <div className="xl:col-span-4 space-y-10">
+                 <div className="flex justify-between items-center gap-6">
+                    <div className="space-y-2">
+                       <h2 className="text-4xl font-bold text-white tracking-tighter flex items-center gap-4 font-sans">
+                          <Radar className="w-10 h-10 text-jarvis-accent" />
+                          Session<span className="text-jarvis-accent">_Logs</span>
+                       </h2>
+                       <p className="text-cyan-500/40 font-bold uppercase tracking-widest text-[10px]">Temporal Analysis / 72h</p>
+                    </div>
+                    <ActivityIcon className="w-6 h-6 text-cyan-500/20 group-hover:text-jarvis-accent transition-colors" />
+                 </div>
+
                  <div className="relative group perspective-1000 transform-gpu transition-all duration-700">
                     <div className="absolute inset-x-4 -bottom-4 h-full bg-jarvis-accent/5 blur-3xl rounded-[50px] pointer-events-none" />
                     
                     <div className="jarvis-box !p-8 !rounded-[40px] backdrop-blur-3xl shadow-2xl group-hover:border-jarvis-accent/20 transition-all duration-500 bg-black/40 border-cyan-500/10">
-                       <div className="flex items-center justify-between mb-8">
-                          <div className="space-y-1">
-                             <h3 className="text-base font-bold text-white flex items-center gap-3 tracking-tight font-sans">
-                               <Radar className="w-5 h-5 text-jarvis-accent" />
-                               Session<span className="text-jarvis-accent">_Logs</span>
-                             </h3>
-                             <p className="text-[10px] text-cyan-500/40 font-bold uppercase tracking-widest">Temporal Analysis / 72h</p>
-                          </div>
-                          <ActivityIcon className="w-4 h-4 text-cyan-500/20 group-hover:text-jarvis-accent transition-colors" />
-                       </div>
-
                        <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
                           {recentLogins.map((user) => (
                             <div key={user.id} className="group/log relative p-4 bg-cyan-950/10 border border-cyan-500/5 rounded-2xl hover:bg-cyan-900/20 hover:border-jarvis-accent/20 transition-all duration-300">
@@ -621,8 +621,8 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                <Cpu className="w-6 h-6 text-cyan-500/40" />
             </div>
             <div>
-               <p className="text-sm font-semibold text-white  tracking-normal">Jarvis Intelligence v5.0.1</p>
-               <p className="text-xs font-bold text-jarvis-accent/60  tracking-widest mt-1 font-sans">Unified Stark OS · Sector 7G</p>
+               <p className="text-sm font-semibold text-white  tracking-normal">ADMIN OS v5.0.1</p>
+               <p className="text-xs font-bold text-jarvis-accent/60  tracking-widest mt-1 font-sans">Unified ADMIN OS · Sector 7G</p>
             </div>
          </div>
          <div className="flex items-center gap-12 font-sans">
