@@ -20,16 +20,35 @@ module.exports = {
         "accent-amber": "#f59e0b",
         "accent-light": "#F5EFEB",
         "border-strong": "rgba(0, 0, 0, 0.08)",
+        // Adding Jarvis colors as separate namespace
+        jarvis: {
+          bg: "#050505",
+          "bg-warm": "#0A0A0C",
+          "bg-sidebar": "#0C0C0E",
+          ink: "#FFFFFF",
+          "ink-2": "#94A3B8",
+          "ink-3": "#64748B",
+          "ink-4": "#475569",
+          accent: "#06B6D4",
+          "accent-blue": "#3B82F6",
+          "accent-cyan": "#06B6D4",
+          "accent-light": "rgba(6, 182, 212, 0.1)",
+          "border-strong": "rgba(6, 182, 212, 0.15)",
+          blue: "#0ea5e9",
+        }
       },
       fontFamily: {
         display: ["var(--font-lora)", "serif"],
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
         sans: ["var(--font-space-grotesk)", "system-ui", "sans-serif"],
         serif: ["var(--font-lora)", "serif"],
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
       },
       animation: {
         float: "floatY 4s ease-in-out infinite",
         "shimmer": "shimmer 2.5s infinite linear",
+        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "scanline": "scanline 8s linear infinite",
       },
       keyframes: {
         floatY: {
@@ -39,6 +58,10 @@ module.exports = {
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
+        },
+        scanline: {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" },
         },
       },
     },
