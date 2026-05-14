@@ -196,100 +196,84 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
   if (!mounted) return null;
 
   return (
-    <div className="jarvis-theme min-h-screen overflow-x-hidden relative bg-black">
+    <div className="min-h-screen overflow-x-hidden relative bg-bg text-ink font-body">
       
-      {/* Advanced 3D Space Background Effects */}
+      {/* Subtle Background Decoration */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-         <div className="absolute inset-0 bg-gradient-to-tr from-cyan-950/10 via-black to-blue-950/10" />
-         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-cyan-500/5 blur-[120px] rounded-full animate-pulse-slow" />
-         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600/5 blur-[150px] rounded-full animate-pulse-slow [animation-delay:2s]" />
-         
-         {/* Holographic Particles */}
-         <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-1/4 left-1/3 w-1 h-1 bg-cyan-400 rounded-full animate-ping" />
-            <div className="absolute top-2/3 left-1/2 w-1 h-1 bg-blue-400 rounded-full animate-ping [animation-delay:1s]" />
-            <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-cyan-300 rounded-full animate-ping [animation-delay:0.5s]" />
-         </div>
+         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[100px]" />
+         <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[80px]" />
       </div>
 
-      {/* Holographic Sticky Header */}
-      <header className="h-28 border-b border-cyan-500/10 sticky top-0 z-50 px-8 flex items-center justify-between bg-black/80 backdrop-blur-3xl">
+      {/* Clean Sticky Header */}
+      <header className="h-28 border-b border-border-strong sticky top-0 z-50 px-8 flex items-center justify-between bg-bg/80 backdrop-blur-xl">
         <div className="flex items-center gap-12">
-          <Link href="/dashboard" className="relative group perspective-1000 block">
-            <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center transform group-hover:-translate-x-2 transition-all duration-500 hover:border-jarvis-accent/50 shadow-[0_0_30px_rgba(0,0,0,0.5)]" title="Back to Dashboard">
-              <ArrowLeft className="text-jarvis-accent w-8 h-8 drop-shadow-[0_0:10px_rgba(34,211,238,0.8)]" />
+          <Link href="/dashboard" className="relative group block">
+            <div className="w-16 h-16 bg-white border border-border-strong rounded-2xl flex items-center justify-center transition-all duration-300 hover:border-accent shadow-sm" title="Back to Dashboard">
+              <ArrowLeft className="text-accent w-8 h-8" />
             </div>
-            <div className="absolute -inset-2 bg-jarvis-accent/10 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
           </Link>
           
           <div className="space-y-1.5">
-            <h1 className="text-3xl font-semibold tracking-widest text-white  flex items-center gap-4 font-sans">
-              <div className="relative w-10 h-10 flex items-center justify-center">
-                 <div className="absolute inset-0 border-2 border-jarvis-accent rounded-full animate-spin-slow" />
-                 <div className="absolute inset-2 border border-jarvis-accent/40 rounded-full animate-reverse-spin" />
-                 <div className="w-2 h-2 bg-jarvis-accent rounded-full shadow-[0_0_15px_#22d3ee]" />
-              </div>
-              <span className="text-white">NANASHI</span>
-              <span className="text-jarvis-accent">OS</span>
+            <h1 className="text-3xl font-serif font-bold tracking-tight text-ink flex items-center gap-4">
+              <span className="text-ink">Admin</span>
+              <span className="text-accent italic">Panel</span>
             </h1>
           </div>
         </div>
 
         <div className="hidden lg:flex items-center gap-12">
            <div className="relative w-96 group">
-             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-500/30 w-4 h-4 group-focus-within:text-jarvis-accent transition-colors" />
+             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-ink-3 w-4 h-4 group-focus-within:text-accent transition-colors" />
              <input 
                value={searchQuery}
                onChange={(e) => setSearchQuery(e.target.value)}
-               placeholder="Access system registry..."
-               className="w-full bg-cyan-950/20 border border-cyan-500/20 rounded-xl py-3.5 pl-14 pr-6 text-sm font-semibold tracking-normal outline-none focus:border-jarvis-accent/50 focus:bg-cyan-900/30 transition-all text-white placeholder:text-cyan-500/20 font-sans"
+               placeholder="Search registry..."
+               className="w-full bg-white border border-border-strong rounded-xl py-3.5 pl-14 pr-6 text-sm font-medium outline-none focus:border-accent transition-all text-ink placeholder:text-ink-4"
              />
            </div>
 
-           <div className="h-10 w-[1px] bg-cyan-500/10" />
+           <div className="h-10 w-[1px] bg-border-strong" />
 
-           <div className="flex items-center gap-5 font-sans">
+           <div className="flex items-center gap-5">
               <div className="text-right">
-                <p className="text-xs text-cyan-500/40 font-semibold  tracking-normal mb-1">Authenticated Administrator</p>
-                <button onClick={() => setIsEditingName(true)} className="text-lg font-semibold text-white hover:text-jarvis-accent transition-colors  tracking-tight flex items-center gap-3">
+                <p className="text-xs text-ink-3 font-semibold mb-1 uppercase tracking-wider">Administrator</p>
+                <button onClick={() => setIsEditingName(true)} className="text-lg font-bold text-ink hover:text-accent transition-colors flex items-center gap-3">
                   {adminName}
-                  <Settings className="w-4 h-4 text-cyan-500/20" />
+                  <Settings className="w-4 h-4 text-ink-4" />
                 </button>
               </div>
-              <div className="w-14 h-14 bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/20 rounded-2xl flex items-center justify-center text-white font-semibold text-xl shadow-2xl overflow-hidden relative group/avatar">
+              <div className="w-14 h-14 bg-white border border-border-strong rounded-2xl flex items-center justify-center text-ink font-bold text-xl shadow-sm overflow-hidden relative group/avatar">
                 {adminName[0].toUpperCase()}
-                <div className="absolute inset-0 bg-jarvis-accent/10 opacity-0 group-hover/avatar:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover/avatar:opacity-100 transition-opacity" />
               </div>
            </div>
         </div>
       </header>
 
-      <main className="p-8 lg:p-16 max-w-[1800px] mx-auto w-full space-y-20 relative z-10 font-sans">
+      <main className="p-8 lg:p-16 max-w-[1800px] mx-auto w-full space-y-20 relative z-10 font-body">
         
-        {/* Advanced 3D Stats Pedestals */}
+        {/* Stats Pedestals */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
            {[
-             { label: 'Network Population', val: totalGmails, icon: Users, accent: 'cyan', detail: 'Active Nodes' },
+             { label: 'Network Population', val: totalGmails, icon: Users, accent: 'amber', detail: 'Active Nodes' },
              { label: 'Elite Sub-Nodes', val: premiumCount, icon: Crown, accent: 'amber', detail: 'Pro Access' },
-             { label: 'Uptime Matrix', val: metrics.uptime, icon: Globe, accent: 'blue', detail: 'Real-time' },
-             { label: 'Security Shield', val: 'MAX', icon: ShieldCheck, accent: 'green', detail: 'Active' }
+             { label: 'Uptime Matrix', val: metrics.uptime, icon: Globe, accent: 'amber', detail: 'Real-time' },
+             { label: 'Security Shield', val: 'MAX', icon: ShieldCheck, accent: 'amber', detail: 'Active' }
            ].map((stat, i) => (
              <div key={i} className="group relative">
-                <div className="absolute inset-0 bg-jarvis-accent/5 blur-[40px] rounded-[40px] group-hover:bg-jarvis-accent/10 transition-all duration-700" />
-                
-                <div className="jarvis-box !p-8 backdrop-blur-3xl transform transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.4)] group-hover:border-jarvis-accent/30 bg-black/80 border-cyan-500/10">
+                <div className="bg-white border border-border-strong p-8 rounded-3xl shadow-sm hover:shadow-md transition-all duration-300">
                    <div className="flex justify-between items-start mb-6">
-                      <div className="w-12 h-12 rounded-xl bg-cyan-500/5 border border-cyan-500/10 flex items-center justify-center group-hover:scale-110 group-hover:border-jarvis-accent/40 transition-all">
-                        <stat.icon className="w-6 h-6 text-cyan-500/60 group-hover:text-jarvis-accent transition-colors" />
+                      <div className="w-12 h-12 rounded-xl bg-accent/5 border border-accent/10 flex items-center justify-center group-hover:bg-accent/10 transition-all">
+                        <stat.icon className="w-6 h-6 text-accent" />
                       </div>
-                      <div className="text-[10px] font-bold text-jarvis-accent/60 tracking-widest uppercase">{stat.detail}</div>
+                      <div className="text-[10px] font-bold text-ink-3 tracking-widest uppercase">{stat.detail}</div>
                    </div>
                    <div className="space-y-1">
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-cyan-500/40">{stat.label}</h4>
-                      <p className="text-4xl font-bold text-white tracking-tighter group-hover:text-jarvis-accent transition-colors font-sans">{stat.val}</p>
+                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-3">{stat.label}</h4>
+                      <p className="text-4xl font-serif font-bold text-ink tracking-tight">{stat.val}</p>
                    </div>
-                   <div className="mt-6 h-1 w-full bg-cyan-500/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-jarvis-accent/40 w-3/4 animate-shimmer" style={{ backgroundSize: '200% 100%' }} />
+                   <div className="mt-6 h-1 w-full bg-accent/5 rounded-full overflow-hidden">
+                      <div className="h-full bg-accent w-3/4" />
                    </div>
                 </div>
              </div>
@@ -298,101 +282,81 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
 
         <div className="flex flex-col gap-12">
            
-           {/* WIDENED Buddy OS AI Assistant Card */}
-           <div className="w-full perspective-2000">
-              <div className="group relative transition-all duration-700">
-                 <div className="absolute -inset-1 bg-gradient-to-r from-jarvis-accent via-blue-500 to-purple-600 blur-2xl rounded-[50px] opacity-10 group-hover:opacity-20 transition-opacity animate-pulse-slow" />
+           {/* AI Assistant Card */}
+           <div className="w-full">
+              <div className="bg-white border border-border-strong p-12 rounded-[40px] shadow-sm relative overflow-hidden group">
+                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
                  
-                 <div className="jarvis-box !p-12 !rounded-[50px] backdrop-blur-3xl border-cyan-500/20 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden group-hover:border-jarvis-accent/40 transition-all duration-500 bg-black/90">
-                    {/* Glowing corner accents */}
-                    <div className="absolute top-0 left-0 w-24 h-24 border-t-2 border-l-2 border-jarvis-accent/20 rounded-tl-[50px] group-hover:border-jarvis-accent transition-colors" />
-                    <div className="absolute bottom-0 right-0 w-24 h-24 border-b-2 border-r-2 border-jarvis-accent/20 rounded-br-[50px] group-hover:border-jarvis-accent transition-colors" />
-                    
-                    <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12">
-                       <div className="lg:col-span-4 space-y-10">
-                          <div className="flex items-center gap-6">
-                             <div className="w-20 h-20 bg-jarvis-accent/5 border border-jarvis-accent/30 rounded-full flex items-center justify-center relative">
-                                <div className="absolute inset-0 border border-jarvis-accent/20 rounded-full animate-ping" />
-                                <div className="w-12 h-12 flex items-center justify-center relative">
-                                   <div className="absolute inset-0 border-2 border-jarvis-accent rounded-full animate-spin-slow" />
-                                   <div className="w-4 h-4 bg-jarvis-accent rounded-full shadow-[0_0_20px_#22d3ee]" />
-                                </div>
-                             </div>
-                             <div>
-                                <h2 className="text-3xl font-bold tracking-tight text-white group-hover:text-jarvis-accent transition-colors">ADMIN OS</h2>
-                                <div className="flex items-center gap-2 mt-1">
-                                   <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
-                                   <span className="text-xs font-bold uppercase tracking-widest text-cyan-500/60">Neural Network Active</span>
-                                </div>
+                 <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    <div className="lg:col-span-4 space-y-10">
+                       <div className="flex items-center gap-6">
+                          <div className="w-20 h-20 bg-accent/5 border border-accent/10 rounded-full flex items-center justify-center relative">
+                             <div className="w-12 h-12 flex items-center justify-center relative">
+                                <div className="absolute inset-0 border-2 border-accent/30 rounded-full" />
+                                <div className="w-4 h-4 bg-accent rounded-full shadow-sm" />
                              </div>
                           </div>
-
-                          <div className="space-y-4">
-                             <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest">
-                                <span className="text-cyan-500/40">CPU Load</span>
-                                <span className="text-jarvis-accent">{metrics.cpu}%</span>
-                             </div>
-                             <div className="h-1.5 w-full bg-cyan-950/40 rounded-full overflow-hidden">
-                                <div className="h-full bg-jarvis-accent transition-all duration-1000 shadow-[0_0_15px_#22d3ee]" style={{ width: `${metrics.cpu}%` }} />
-                             </div>
-
-                             <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest mt-6">
-                                <span className="text-cyan-500/40">Memory Sync</span>
-                                <span className="text-blue-400">{metrics.ram}%</span>
-                             </div>
-                             <div className="h-1.5 w-full bg-cyan-950/40 rounded-full overflow-hidden">
-                                <div className="h-full bg-blue-500 transition-all duration-1000 shadow-[0_0_15px_#3b82f6]" style={{ width: `${metrics.ram}%` }} />
-                             </div>
-
-                             <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest mt-6">
-                                <span className="text-cyan-500/40">Neural Latency</span>
-                                <span className="text-purple-400">{metrics.latency}ms</span>
-                             </div>
-                             <div className="h-1.5 w-full bg-cyan-950/40 rounded-full overflow-hidden">
-                                <div className="h-full bg-purple-500 transition-all duration-1000 shadow-[0_0_15px_#a855f7]" style={{ width: `${(metrics.latency / 50) * 100}%` }} />
+                          <div>
+                             <h2 className="text-3xl font-serif font-bold tracking-tight text-ink group-hover:text-accent transition-colors">NANASHI OS</h2>
+                             <div className="flex items-center gap-2 mt-1">
+                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                                <span className="text-xs font-bold uppercase tracking-widest text-ink-3">System Online</span>
                              </div>
                           </div>
                        </div>
 
-                       <div className="lg:col-span-8 space-y-8">
-                          <div className="p-10 bg-black/80 border border-cyan-500/10 rounded-[40px] relative group-hover:border-jarvis-accent/20 transition-all min-h-[250px] flex items-center">
-                             <div className="absolute top-6 left-8 flex gap-2">
-                                <div className="w-2 h-2 rounded-full bg-red-500/40" />
-                                <div className="w-2 h-2 rounded-full bg-amber-500/40" />
-                                <div className="w-2 h-2 rounded-full bg-green-500/40" />
-                             </div>
-                             <div className="w-full">
-                                {isTyping ? (
-                                   <div className="flex gap-2 items-center py-4">
-                                      <div className="w-2.5 h-2.5 bg-jarvis-accent rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                      <div className="w-2.5 h-2.5 bg-jarvis-accent rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                      <div className="w-2.5 h-2.5 bg-jarvis-accent rounded-full animate-bounce" />
-                                   </div>
-                                ) : (
-                                   <p className="text-2xl font-medium text-white/90 leading-relaxed tracking-tight italic">
-                                      &quot;{nanashiMessage}&quot;
-                                   </p>
-                                )}
-                             </div>
+                       <div className="space-y-4">
+                          <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest">
+                             <span className="text-ink-3">CPU Load</span>
+                             <span className="text-accent">{metrics.cpu}%</span>
                           </div>
-                          
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                             <div className="bg-cyan-950/20 border border-cyan-500/10 p-6 rounded-3xl group-hover:bg-cyan-500/5 transition-colors">
-                                <p className="text-[10px] font-bold text-cyan-500/40 uppercase tracking-widest mb-2">Total Nodes</p>
-                                <p className="text-3xl font-bold text-white">{totalGmails}</p>
-                             </div>
-                             <div className="bg-cyan-950/20 border border-cyan-500/10 p-6 rounded-3xl group-hover:bg-amber-500/5 transition-colors">
-                                <p className="text-[10px] font-bold text-cyan-500/40 uppercase tracking-widest mb-2">Elite Status</p>
-                                <p className="text-3xl font-bold text-amber-500">{premiumCount}</p>
-                             </div>
-                             <div className="bg-cyan-950/20 border border-cyan-500/10 p-6 rounded-3xl group-hover:bg-green-500/5 transition-colors">
-                                <p className="text-[10px] font-bold text-cyan-500/40 uppercase tracking-widest mb-2">Sync Efficiency</p>
-                                <p className="text-3xl font-bold text-green-500">98.2%</p>
-                             </div>
-                             <div className="bg-cyan-950/20 border border-cyan-500/10 p-6 rounded-3xl group-hover:bg-purple-500/5 transition-colors">
-                                <p className="text-[10px] font-bold text-cyan-500/40 uppercase tracking-widest mb-2">Core Temp</p>
-                                <p className="text-3xl font-bold text-purple-400">42°C</p>
-                             </div>
+                          <div className="h-1.5 w-full bg-accent/5 rounded-full overflow-hidden">
+                             <div className="h-full bg-accent transition-all duration-1000" style={{ width: `${metrics.cpu}%` }} />
+                          </div>
+
+                          <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest mt-6">
+                             <span className="text-ink-3">Memory Sync</span>
+                             <span className="text-accent">{metrics.ram}%</span>
+                          </div>
+                          <div className="h-1.5 w-full bg-accent/5 rounded-full overflow-hidden">
+                             <div className="h-full bg-accent transition-all duration-1000" style={{ width: `${metrics.ram}%` }} />
+                          </div>
+                       </div>
+                    </div>
+
+                    <div className="lg:col-span-8 space-y-8">
+                       <div className="p-10 bg-bg/50 border border-border-strong rounded-[30px] min-h-[250px] flex items-center italic">
+                          <div className="w-full">
+                             {isTyping ? (
+                                <div className="flex gap-2 items-center py-4">
+                                   <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce" />
+                                   <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                                   <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                                </div>
+                             ) : (
+                                <p className="text-2xl font-serif font-medium text-ink leading-relaxed tracking-tight">
+                                   &quot;{nanashiMessage}&quot;
+                                </p>
+                             )}
+                          </div>
+                       </div>
+                       
+                       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
+                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">Total Nodes</p>
+                             <p className="text-3xl font-serif font-bold text-ink">{totalGmails}</p>
+                          </div>
+                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
+                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">Elite Status</p>
+                             <p className="text-3xl font-serif font-bold text-accent">{premiumCount}</p>
+                          </div>
+                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
+                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">Sync Efficiency</p>
+                             <p className="text-3xl font-serif font-bold text-green-600">98.2%</p>
+                          </div>
+                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
+                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">System Temp</p>
+                             <p className="text-3xl font-serif font-bold text-ink">42°C</p>
                           </div>
                        </div>
                     </div>
@@ -401,163 +365,123 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
            </div>
 
            <div className="grid grid-cols-1 xl:grid-cols-12 gap-12 items-start">
-              {/* Elevated Database Console */}
+              {/* Database Console */}
               <div className="xl:col-span-8 space-y-10">
                  <div className="flex flex-col md:flex-row justify-between items-end gap-6">
                     <div className="space-y-2">
-                       <h2 className="text-4xl font-bold text-white tracking-tighter flex items-center gap-4 font-sans">
-                          <Database className="w-10 h-10 text-jarvis-accent" />
-                          System<span className="text-jarvis-accent">_Registry</span>
+                       <h2 className="text-4xl font-serif font-bold text-ink tracking-tight flex items-center gap-4">
+                          <Database className="w-10 h-10 text-accent" />
+                          Registry
                        </h2>
-                       <p className="text-cyan-500/40 font-bold uppercase tracking-widest text-[10px]">Strategic Management of User Authorizations</p>
+                       <p className="text-ink-3 font-bold uppercase tracking-widest text-[10px]">Management of Authorized Nodes</p>
                     </div>
                     
-                    <div className="relative group">
-                       <div className="absolute inset-0 bg-jarvis-accent/20 blur-2xl rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity" />
-                       <button 
-                          onClick={() => setIsAdding(!isAdding)}
-                          className="relative bg-white border border-white/10 px-8 py-4 rounded-2xl flex items-center gap-3 group-hover:bg-jarvis-accent group-hover:border-jarvis-accent transition-all duration-500 shadow-xl"
-                       >
-                          <Plus className="w-4 h-4 text-black group-hover:rotate-90 transition-transform" />
-                          <span className="text-black font-bold text-xs uppercase tracking-widest">Provision New Node</span>
-                       </button>
-                    </div>
+                    <button 
+                       onClick={() => setIsAdding(!isAdding)}
+                       className="bg-accent text-white px-8 py-4 rounded-2xl flex items-center gap-3 hover:bg-accent/90 transition-all shadow-sm active:scale-95"
+                    >
+                       <Plus className="w-4 h-4" />
+                       <span className="font-bold text-xs uppercase tracking-widest">Provision New Node</span>
+                    </button>
                  </div>
 
                  {isAdding && (
-                    <div className="relative animate-in slide-in-from-top-4 duration-500">
-                       <div className="absolute inset-0 bg-jarvis-accent/10 blur-3xl rounded-[30px] pointer-events-none" />
-                       <form onSubmit={handleAddUser} className="relative bg-black/90 border border-cyan-500/20 p-8 rounded-[30px] backdrop-blur-2xl flex flex-col md:flex-row gap-4 shadow-2xl">
-                          <div className="flex-1 relative">
-                             <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-cyan-500/40 w-4 h-4" />
-                             <input 
-                               value={newEmail}
-                               onChange={(e) => setNewEmail(e.target.value)}
-                               placeholder="Input account email..."
-                               className="w-full bg-cyan-950/20 border border-cyan-500/10 rounded-xl py-4 pl-14 pr-6 text-sm font-medium text-white outline-none focus:border-jarvis-accent focus:bg-cyan-900/30 transition-all font-sans"
-                               required
-                             />
-                          </div>
-                          <button type="submit" className="bg-jarvis-accent text-black px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-white transition-all shadow-xl shadow-jarvis-accent/20 active:scale-95">
-                             Authorize Access
-                          </button>
-                       </form>
-                    </div>
+                    <form onSubmit={handleAddUser} className="bg-white border border-border-strong p-8 rounded-[30px] flex flex-col md:flex-row gap-4 shadow-sm animate-in slide-in-from-top-4 duration-300">
+                       <div className="flex-1 relative">
+                          <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-ink-3 w-4 h-4" />
+                          <input 
+                            value={newEmail}
+                            onChange={(e) => setNewEmail(e.target.value)}
+                            placeholder="Input account email..."
+                            className="w-full bg-bg border border-border-strong rounded-xl py-4 pl-14 pr-6 text-sm font-medium text-ink outline-none focus:border-accent transition-all"
+                            required
+                          />
+                       </div>
+                       <button type="submit" className="bg-accent text-white px-10 py-4 rounded-xl font-bold text-xs uppercase tracking-widest hover:bg-accent/90 transition-all shadow-sm">
+                          Authorize Access
+                       </button>
+                    </form>
                  )}
 
-                 {/* 3D Interactive Table Box */}
-                 <div className="relative group/matrix">
-                    <div className="absolute -inset-4 bg-jarvis-accent/5 blur-[80px] rounded-[50px] pointer-events-none" />
-                    
-                    <div className="jarvis-box !p-0 !rounded-[40px] overflow-hidden backdrop-blur-3xl shadow-2xl group-hover/matrix:border-cyan-500/20 transition-all duration-700 bg-black/80 border-cyan-500/10">
-                       <div className="overflow-x-auto">
-                          <table className="w-full text-left border-collapse">
-                             <thead>
-                                <tr className="bg-cyan-500/5 border-b border-cyan-500/10">
-                                   <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-jarvis-accent border-r border-cyan-500/10">
-                                      <div className="flex items-center gap-2">
-                                         <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full shadow-[0_0_8px_#22d3ee]" />
-                                         Identity
-                                      </div>
-                                   </th>
-                                   <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-jarvis-accent border-r border-cyan-500/10">
-                                      <div className="flex items-center gap-2">
-                                         <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full shadow-[0_0_8px_#22d3ee]" />
-                                         Access Level
-                                      </div>
-                                   </th>
-                                   <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-jarvis-accent border-r border-cyan-500/10">
-                                      <div className="flex items-center gap-2">
-                                         <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full shadow-[0_0_8px_#22d3ee]" />
-                                         Sync Status
-                                      </div>
-                                   </th>
-                                   <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-jarvis-accent text-right">
-                                      <div className="flex items-center justify-end gap-2">
-                                         <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full shadow-[0_0_8px_#22d3ee]" />
-                                         Actions
-                                      </div>
-                                   </th>
-                                </tr>
-                             </thead>
-                             <tbody className="divide-y divide-cyan-500/5 font-sans">
-                                {filteredSubscriptions.map((s) => (
-                                  <tr key={s.id} className="group/row hover:bg-cyan-500/5 transition-all">
-                                     <td className="px-10 py-8">
-                                        <div className="flex items-center gap-5">
-                                           <div className="w-12 h-12 rounded-xl bg-cyan-950/40 border border-cyan-500/10 flex items-center justify-center font-bold text-cyan-500/40 group-hover/row:scale-110 group-hover/row:border-jarvis-accent/40 group-hover/row:text-jarvis-accent transition-all text-sm">
-                                              {s.email[0].toUpperCase()}
-                                           </div>
-                                           <div className="space-y-1">
-                                              <p className="text-base font-bold text-white tracking-tight group-hover/row:text-jarvis-accent transition-colors font-sans">{s.email}</p>
-                                              <span className="text-[10px] font-bold text-cyan-500/20 uppercase tracking-widest flex items-center gap-2 font-sans">
-                                                 Verified Sector
-                                              </span>
-                                           </div>
+                 {/* Table Box */}
+                 <div className="bg-white border border-border-strong rounded-[40px] overflow-hidden shadow-sm">
+                    <div className="overflow-x-auto">
+                       <table className="w-full text-left border-collapse">
+                          <thead>
+                             <tr className="bg-bg border-b border-border-strong">
+                                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-ink-2">Identity</th>
+                                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-ink-2">Access Level</th>
+                                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-ink-2">Status</th>
+                                <th className="px-10 py-8 text-[10px] font-bold uppercase tracking-widest text-ink-2 text-right">Actions</th>
+                             </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border-strong">
+                             {filteredSubscriptions.map((s) => (
+                               <tr key={s.id} className="hover:bg-bg/30 transition-all">
+                                  <td className="px-10 py-8">
+                                     <div className="flex items-center gap-5">
+                                        <div className="w-12 h-12 rounded-xl bg-bg border border-border-strong flex items-center justify-center font-bold text-ink-3 text-sm">
+                                           {s.email[0].toUpperCase()}
                                         </div>
-                                     </td>
-                                     <td className="px-10 py-8">
-                                        <div className={cn(
-                                          "inline-flex items-center gap-2.5 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all font-sans",
-                                          isActuallyPro(s) 
-                                            ? "bg-jarvis-accent/10 border-jarvis-accent/30 text-jarvis-accent" 
-                                            : "bg-white/5 border-white/10 text-cyan-500/30"
-                                        )}>
-                                           {isActuallyPro(s) ? <Zap className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
-                                           {isActuallyPro(s) ? 'Elite Access' : 'Standard'}
+                                        <div>
+                                           <p className="text-base font-bold text-ink">{s.email}</p>
+                                           <span className="text-[10px] font-bold text-ink-3 uppercase tracking-widest">Verified Sector</span>
                                         </div>
-                                     </td>
-                                     <td className="px-10 py-8">
-                                        <div className="space-y-2.5">
-                                           <div className="h-1 w-24 bg-cyan-950/40 rounded-full overflow-hidden">
-                                              <div className={cn("h-full transition-all duration-1000", isActuallyPro(s) ? "bg-jarvis-accent w-full shadow-[0_0_15px_#22d3ee]" : "bg-cyan-500/20 w-1/3")} />
-                                           </div>
-                                           <p className="text-[9px] font-bold text-cyan-500/20 uppercase tracking-widest font-sans">Node Active</p>
-                                        </div>
-                                     </td>
-                                     <td className="px-10 py-8 text-right">
-                                        <div className="flex items-center justify-end gap-5 opacity-0 group-hover/row:opacity-100 transition-all translate-x-4 group-hover/row:translate-x-0">
-                                           <div className="relative group/btn">
-                                              <div className={cn("absolute inset-0 blur-xl opacity-0 group-hover/btn:opacity-60 transition-opacity", s.plan === 'pro' ? "bg-red-500" : "bg-jarvis-accent")} />
-                                              <button 
-                                                 onClick={() => handleTogglePro(s.email, s.plan)}
-                                                 className={cn(
-                                                   "relative px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all active:scale-90",
-                                                   s.plan === 'pro'
-                                                     ? "bg-red-500/10 border-red-500/30 text-red-500 hover:bg-red-500 hover:text-white"
-                                                     : "bg-white text-black hover:bg-jarvis-accent"
-                                                 )}
-                                              >
-                                                 {s.plan === 'pro' ? 'Revoke Elite' : 'Grant Elite'}
-                                              </button>
-                                           </div>
-                                           <button 
-                                              onClick={() => handleDeleteUser(s.email)}
-                                              className="p-2.5 text-cyan-500/20 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all active:scale-75"
-                                           >
-                                              <Trash2 className="w-5 h-5" />
-                                           </button>
-                                        </div>
-                                     </td>
-                                  </tr>
-                                ))}
-                             </tbody>
-                          </table>
-                       </div>
+                                     </div>
+                                  </td>
+                                  <td className="px-10 py-8">
+                                     <div className={cn(
+                                       "inline-flex items-center gap-2.5 px-4 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest border",
+                                       isActuallyPro(s) 
+                                         ? "bg-accent/10 border-accent/20 text-accent" 
+                                         : "bg-bg border-border-strong text-ink-3"
+                                     )}>
+                                        {isActuallyPro(s) ? <Zap className="w-3.5 h-3.5" /> : <Monitor className="w-3.5 h-3.5" />}
+                                        {isActuallyPro(s) ? 'Elite Access' : 'Standard'}
+                                     </div>
+                                  </td>
+                                  <td className="px-10 py-8">
+                                     <div className="flex items-center gap-2">
+                                        <div className={cn("w-2 h-2 rounded-full", isActuallyPro(s) ? "bg-accent" : "bg-ink-4")} />
+                                        <span className="text-[10px] font-bold text-ink-3 uppercase tracking-widest">Active</span>
+                                     </div>
+                                  </td>
+                                  <td className="px-10 py-8 text-right">
+                                     <div className="flex items-center justify-end gap-5">
+                                        <button 
+                                           onClick={() => handleTogglePro(s.email, s.plan)}
+                                           className={cn(
+                                             "px-5 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border transition-all active:scale-95",
+                                             s.plan === 'pro'
+                                               ? "bg-stone-100 border-border-strong text-ink-2 hover:bg-stone-200"
+                                               : "bg-accent text-white hover:bg-accent/90"
+                                           )}
+                                        >
+                                           {s.plan === 'pro' ? 'Revoke Elite' : 'Grant Elite'}
+                                        </button>
+                                        <button 
+                                           onClick={() => handleDeleteUser(s.email)}
+                                           className="p-2.5 text-ink-4 hover:text-red-600 transition-colors"
+                                        >
+                                           <Trash2 className="w-5 h-5" />
+                                        </button>
+                                     </div>
+                                  </td>
+                               </tr>
+                             ))}
+                          </tbody>
+                       </table>
+                    </div>
 
-                       {/* Matrix Controller Footer */}
-                       <div className="px-10 py-8 bg-cyan-500/[0.02] border-t border-cyan-500/10 flex flex-col md:flex-row items-center justify-between gap-8">
-                          <div className="flex items-center gap-6">
-                             <p className="text-[10px] font-bold text-cyan-500/30 uppercase tracking-widest">{filteredSubscriptions.length} Active System Nodes Identified</p>
-                          </div>
-                          
-                          <div className="flex gap-3">
-                             <button className="p-4 border border-cyan-500/10 rounded-xl text-cyan-500/20 hover:text-jarvis-accent hover:border-jarvis-accent transition-all"><ArrowLeft className="w-4 h-4" /></button>
-                             <button className="px-6 py-4 border border-cyan-500/10 rounded-xl text-cyan-500/20 hover:text-jarvis-accent hover:border-jarvis-accent transition-all flex items-center gap-3 group">
-                                <span className="text-[10px] font-bold uppercase tracking-widest">Next Sector</span>
-                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                             </button>
-                          </div>
+                    {/* Matrix Controller Footer */}
+                    <div className="px-10 py-8 bg-bg border-t border-border-strong flex flex-col md:flex-row items-center justify-between gap-8">
+                       <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest">{filteredSubscriptions.length} System Nodes Identified</p>
+                       <div className="flex gap-3">
+                          <button className="p-4 border border-border-strong rounded-xl text-ink-3 hover:text-accent transition-all"><ArrowLeft className="w-4 h-4" /></button>
+                          <button className="px-6 py-4 border border-border-strong rounded-xl text-ink-3 hover:text-accent transition-all flex items-center gap-3 group">
+                             <span className="text-[10px] font-bold uppercase tracking-widest">Next Sector</span>
+                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </button>
                        </div>
                     </div>
                  </div>
@@ -567,44 +491,40 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
               <div className="xl:col-span-4 space-y-10">
                  <div className="flex justify-between items-center gap-6">
                     <div className="space-y-2">
-                       <h2 className="text-4xl font-bold text-white tracking-tighter flex items-center gap-4 font-sans">
-                          <Radar className="w-10 h-10 text-jarvis-accent" />
-                          Session<span className="text-jarvis-accent">_Logs</span>
+                       <h2 className="text-4xl font-serif font-bold text-ink tracking-tight flex items-center gap-4">
+                          <Radar className="w-10 h-10 text-accent" />
+                          Logs
                        </h2>
-                       <p className="text-cyan-500/40 font-bold uppercase tracking-widest text-[10px]">Temporal Analysis / 72h</p>
+                       <p className="text-ink-3 font-bold uppercase tracking-widest text-[10px]">Temporal Analysis</p>
                     </div>
-                    <ActivityIcon className="w-6 h-6 text-cyan-500/20 group-hover:text-jarvis-accent transition-colors" />
+                    <ActivityIcon className="w-6 h-6 text-ink-4" />
                  </div>
 
-                 <div className="relative group perspective-1000 transform-gpu transition-all duration-700">
-                    <div className="absolute inset-x-4 -bottom-4 h-full bg-jarvis-accent/5 blur-3xl rounded-[50px] pointer-events-none" />
-                    
-                    <div className="jarvis-box !p-8 !rounded-[40px] backdrop-blur-3xl shadow-2xl group-hover:border-jarvis-accent/20 transition-all duration-500 bg-black/80 border-cyan-500/10">
-                       <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
-                          {recentLogins.map((user) => (
-                            <div key={user.id} className="group/log relative p-4 bg-cyan-950/10 border border-cyan-500/5 rounded-2xl hover:bg-cyan-900/20 hover:border-jarvis-accent/20 transition-all duration-300">
-                               <div className="flex items-center gap-4">
-                                  <div className="w-10 h-10 rounded-xl bg-cyan-950/40 flex items-center justify-center font-bold text-cyan-500/40 group-hover/log:text-jarvis-accent transition-colors text-sm">
-                                     {user.email[0].toUpperCase()}
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                     <p className="text-xs font-bold text-white tracking-tight truncate font-sans">{user.email}</p>
-                                     <p className="text-[10px] text-cyan-500/20 mt-0.5">{new Date(user.created_at).toLocaleDateString()}</p>
-                                  </div>
-                                  <div className="text-right">
-                                     <p className="text-xs font-bold text-jarvis-accent font-sans">{new Date(user.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                     <span className="text-[8px] font-bold text-cyan-500/10 font-sans uppercase">SECURED</span>
-                                  </div>
+                 <div className="bg-white border border-border-strong p-8 rounded-[40px] shadow-sm">
+                    <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                       {recentLogins.map((user) => (
+                         <div key={user.id} className="p-4 bg-bg/50 border border-border-strong rounded-2xl hover:bg-bg transition-all">
+                            <div className="flex items-center gap-4">
+                               <div className="w-10 h-10 rounded-xl bg-white border border-border-strong flex items-center justify-center font-bold text-ink-3 text-sm">
+                                  {user.email[0].toUpperCase()}
+                               </div>
+                               <div className="flex-1 min-w-0">
+                                  <p className="text-xs font-bold text-ink truncate">{user.email}</p>
+                                  <p className="text-[10px] text-ink-3 mt-0.5">{new Date(user.created_at).toLocaleDateString()}</p>
+                               </div>
+                               <div className="text-right">
+                                  <p className="text-xs font-bold text-accent">{new Date(user.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                  <span className="text-[8px] font-bold text-ink-4 uppercase tracking-tighter">SECURED</span>
                                </div>
                             </div>
-                          ))}
-                       </div>
+                         </div>
+                       ))}
+                    </div>
 
-                       <div className="mt-8 pt-6 border-t border-cyan-500/10 flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                             <div className="w-1.5 h-1.5 bg-jarvis-accent rounded-full animate-pulse shadow-[0_0_8px_#22d3ee]" />
-                             <span className="text-[9px] font-bold text-cyan-500/40 uppercase tracking-widest">Live Monitoring</span>
-                          </div>
+                    <div className="mt-8 pt-6 border-t border-border-strong">
+                       <div className="flex items-center gap-3">
+                          <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                          <span className="text-[9px] font-bold text-ink-3 uppercase tracking-widest">Monitoring Nodes</span>
                        </div>
                     </div>
                  </div>
@@ -615,22 +535,22 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
       </main>
 
       {/* Industrial Grade Footer */}
-      <footer className="mt-40 border-t border-cyan-500/10 py-16 px-12 flex flex-col md:flex-row items-center justify-between gap-10 opacity-30 hover:opacity-100 transition-all duration-700 bg-black/40">
+      <footer className="mt-40 border-t border-border-strong py-16 px-12 flex flex-col md:flex-row items-center justify-between gap-10 bg-white shadow-sm">
          <div className="flex items-center gap-8">
-            <div className="w-12 h-12 bg-cyan-950/40 border border-cyan-500/20 rounded-2xl flex items-center justify-center animate-spin-slow">
-               <Cpu className="w-6 h-6 text-cyan-500/40" />
+            <div className="w-12 h-12 bg-bg border border-border-strong rounded-2xl flex items-center justify-center">
+               <Cpu className="w-6 h-6 text-accent" />
             </div>
             <div>
-               <p className="text-sm font-semibold text-white  tracking-normal">NANASHI OS v1.0.0</p>
-               <p className="text-xs font-bold text-jarvis-accent/60  tracking-widest mt-1 font-sans">Loyal by choice · Sector 7G</p>
+               <p className="text-sm font-bold text-ink tracking-tight">NANASHI OS v1.0.0</p>
+               <p className="text-xs font-bold text-ink-3 uppercase tracking-widest mt-1">Loyal by choice · Sector 7G</p>
             </div>
          </div>
-         <div className="flex items-center gap-12 font-sans">
+         <div className="flex items-center gap-12">
             <div className="flex items-center gap-4">
-               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_10px_#22c55e]" />
-               <span className="text-sm font-semibold  tracking-normal text-white">Neural Link Optimized</span>
+               <div className="w-2 h-2 bg-green-500 rounded-full" />
+               <span className="text-sm font-bold text-ink tracking-tight">Neural Link Optimized</span>
             </div>
-            <div className="px-6 py-2 border border-cyan-500/20 rounded-full text-xs font-semibold  tracking-normal text-cyan-500/40">
+            <div className="px-6 py-2 border border-border-strong rounded-full text-xs font-bold text-ink-3 uppercase tracking-widest">
                © 2026 NANASHI Systems · Built for Mr. Nawfat
             </div>
          </div>
