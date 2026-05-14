@@ -50,6 +50,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
   const [mounted, setMounted] = useState(false);
   const [nanashiMessage, setNanashiMessage] = useState("");
   const [isTyping, setIsTyping] = useState(true);
+  const [neuralLogs, setNeuralLogs] = useState<string[]>([]);
 
   // Dynamic calculations
   const totalGmails = (subscriptions || []).length;
@@ -75,18 +76,38 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
     const message = getNanashiMessage(activityLevel);
     setNanashiMessage(message);
 
+    // Initial neural logs
+    setNeuralLogs([
+      "Neural sync established.",
+      "Matrix population: " + totalGmails + " nodes.",
+      "Security protocol: Active."
+    ]);
+
     // Typing effect simulation
     setIsTyping(true);
     const timer = setTimeout(() => setIsTyping(false), 2000);
 
-    // Simulate metric updates
+    // Simulate metric updates and neural logs
     const metricInterval = setInterval(() => {
+      const newCpu = Math.floor(Math.random() * 15) + 5;
+      const newRam = Math.floor(Math.random() * 10) + 40;
       setMetrics(prev => ({
-        cpu: Math.floor(Math.random() * 15) + 5,
-        ram: Math.floor(Math.random() * 10) + 40,
+        cpu: newCpu,
+        ram: newRam,
         latency: Math.floor(Math.random() * 10) + 15,
         uptime: "99.99" + (Math.floor(Math.random() * 9) + 1) + "%"
       }));
+
+      // Add a random neural log
+      const logs = [
+        `CPU throughput: ${newCpu}%`,
+        `Memory allocation shifted to ${newRam}%`,
+        "Packet integrity verified.",
+        "Neural sync pulse: Nominal.",
+        "Sub-node status: Synchronized.",
+        "Security scan: No threats."
+      ];
+      setNeuralLogs(prev => [logs[Math.floor(Math.random() * logs.length)], ...prev.slice(0, 4)]);
     }, 3000);
 
     return () => {
@@ -283,80 +304,105 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
         <div className="flex flex-col gap-12">
            
            {/* AI Assistant Card */}
-           <div className="w-full">
-              <div className="bg-white border border-border-strong p-12 rounded-[40px] shadow-sm relative overflow-hidden group">
-                 <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
+           <div className="w-full relative">
+              {/* Floating Status Pill */}
+              <div className="absolute -top-6 right-12 z-20 animate-float">
+                 <div className="bg-white border border-border-strong rounded-2xl px-6 py-3 shadow-xl flex items-center gap-3">
+                    <div className="relative w-3 h-3">
+                       <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" />
+                       <div className="w-3 h-3 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]" />
+                    </div>
+                    <span className="text-[10px] font-bold text-ink uppercase tracking-widest">Neural Pulse: Optimal</span>
+                 </div>
+              </div>
+
+              <div className="bg-white border border-border-strong p-12 rounded-[50px] shadow-sm relative overflow-hidden group hover:shadow-2xl hover:-rotate-1 transition-all duration-700 animate-float">
+                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
                  
-                 <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-12">
-                    <div className="lg:col-span-4 space-y-10">
-                       <div className="flex items-center gap-6">
-                          <div className="w-20 h-20 bg-accent/5 border border-accent/10 rounded-full flex items-center justify-center relative">
-                             <div className="w-12 h-12 flex items-center justify-center relative">
-                                <div className="absolute inset-0 border-2 border-accent/30 rounded-full" />
-                                <div className="w-4 h-4 bg-accent rounded-full shadow-sm" />
+                 <div className="relative grid grid-cols-1 lg:grid-cols-12 gap-16">
+                    {/* Left: Identity & Critical Stats */}
+                    <div className="lg:col-span-4 space-y-12">
+                       <div className="flex items-center gap-8">
+                          <div className="w-24 h-24 bg-accent/5 border border-accent/10 rounded-full flex items-center justify-center relative">
+                             <div className="absolute inset-0 border border-accent/20 rounded-full animate-ping opacity-10" />
+                             <div className="w-14 h-14 flex items-center justify-center relative">
+                                <div className="absolute inset-0 border-2 border-accent/30 rounded-full animate-spin-slow" />
+                                <div className="w-5 h-5 bg-accent rounded-full shadow-[0_0_15px_rgba(146,64,14,0.5)]" />
                              </div>
                           </div>
                           <div>
-                             <h2 className="text-3xl font-serif font-bold tracking-tight text-ink group-hover:text-accent transition-colors">NANASHI OS</h2>
-                             <div className="flex items-center gap-2 mt-1">
+                             <h2 className="text-4xl font-serif font-bold tracking-tight text-ink group-hover:text-accent transition-colors">NANASHI OS</h2>
+                             <div className="flex items-center gap-2.5 mt-2">
                                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                <span className="text-xs font-bold uppercase tracking-widest text-ink-3">System Online</span>
+                                <span className="text-xs font-bold uppercase tracking-widest text-ink-3">Core Synchronized</span>
                              </div>
                           </div>
                        </div>
 
-                       <div className="space-y-4">
-                          <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest">
-                             <span className="text-ink-3">CPU Load</span>
-                             <span className="text-accent">{metrics.cpu}%</span>
-                          </div>
-                          <div className="h-1.5 w-full bg-accent/5 rounded-full overflow-hidden">
-                             <div className="h-full bg-accent transition-all duration-1000" style={{ width: `${metrics.cpu}%` }} />
-                          </div>
-
-                          <div className="flex justify-between items-center text-xs font-bold uppercase tracking-widest mt-6">
-                             <span className="text-ink-3">Memory Sync</span>
-                             <span className="text-accent">{metrics.ram}%</span>
-                          </div>
-                          <div className="h-1.5 w-full bg-accent/5 rounded-full overflow-hidden">
-                             <div className="h-full bg-accent transition-all duration-1000" style={{ width: `${metrics.ram}%` }} />
-                          </div>
+                       <div className="space-y-8">
+                          {[
+                            { label: 'CPU Throughput', val: metrics.cpu, color: 'bg-accent' },
+                            { label: 'Neural Memory', val: metrics.ram, color: 'bg-accent' },
+                            { label: 'Packet Latency', val: metrics.latency, color: 'bg-accent', max: 50 }
+                          ].map((s, i) => (
+                            <div key={i} className="space-y-3">
+                               <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-ink-3">
+                                  <span>{s.label}</span>
+                                  <span className="text-accent">{s.val}{s.label.includes('Latency') ? 'ms' : '%'}</span>
+                               </div>
+                               <div className="h-2 w-full bg-accent/5 rounded-full overflow-hidden border border-accent/5">
+                                  <div 
+                                    className={cn("h-full transition-all duration-1000", s.color)} 
+                                    style={{ width: `${(s.val / (s.max || 100)) * 100}%` }} 
+                                  />
+                               </div>
+                            </div>
+                          ))}
                        </div>
                     </div>
 
-                    <div className="lg:col-span-8 space-y-8">
-                       <div className="p-10 bg-bg/50 border border-border-strong rounded-[30px] min-h-[250px] flex items-center italic">
+                    {/* Right: Message & Real-time Neural Stream */}
+                    <div className="lg:col-span-8 flex flex-col gap-10">
+                       <div className="flex-1 p-10 bg-bg/40 border border-border-strong rounded-[40px] flex items-center relative group-hover:bg-bg/60 transition-colors duration-500">
+                          <div className="absolute top-6 left-8 flex gap-2">
+                             <div className="w-2.5 h-2.5 rounded-full bg-red-400/40" />
+                             <div className="w-2.5 h-2.5 rounded-full bg-amber-400/40" />
+                             <div className="w-2.5 h-2.5 rounded-full bg-green-400/40" />
+                          </div>
                           <div className="w-full">
                              {isTyping ? (
                                 <div className="flex gap-2 items-center py-4">
-                                   <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce" />
-                                   <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce [animation-delay:0.2s]" />
-                                   <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce [animation-delay:0.4s]" />
+                                   <div className="w-2.5 h-2.5 bg-accent/30 rounded-full animate-bounce" />
+                                   <div className="w-2.5 h-2.5 bg-accent/30 rounded-full animate-bounce [animation-delay:0.2s]" />
+                                   <div className="w-2.5 h-2.5 bg-accent/30 rounded-full animate-bounce [animation-delay:0.4s]" />
                                 </div>
                              ) : (
-                                <p className="text-2xl font-serif font-medium text-ink leading-relaxed tracking-tight">
+                                <p className="text-3xl font-serif font-medium text-ink leading-relaxed tracking-tight">
                                    &quot;{nanashiMessage}&quot;
                                 </p>
                              )}
                           </div>
                        </div>
                        
-                       <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
-                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">Total Nodes</p>
-                             <p className="text-3xl font-serif font-bold text-ink">{totalGmails}</p>
-                          </div>
-                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
-                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">Elite Status</p>
-                             <p className="text-3xl font-serif font-bold text-accent">{premiumCount}</p>
-                          </div>
-                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
-                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">Sync Efficiency</p>
-                             <p className="text-3xl font-serif font-bold text-green-600">98.2%</p>
-                          </div>
-                          <div className="bg-white border border-border-strong p-6 rounded-3xl">
-                             <p className="text-[10px] font-bold text-ink-3 uppercase tracking-widest mb-2">System Temp</p>
-                             <p className="text-3xl font-serif font-bold text-ink">42°C</p>
+                       {/* Real-time Neural Stream Log */}
+                       <div className="bg-white/50 backdrop-blur-sm border border-border-strong rounded-3xl p-6 overflow-hidden relative">
+                          <div className="absolute top-0 left-0 w-1 h-full bg-accent/20" />
+                          <div className="space-y-2">
+                             <p className="text-[10px] font-bold text-accent uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <Sparkles className="w-3 h-3" /> Neural Sync Stream
+                             </p>
+                             <div className="space-y-2">
+                                {neuralLogs.map((log, i) => (
+                                  <div key={i} className={cn(
+                                    "text-xs font-medium text-ink-3 flex items-center gap-3 transition-all duration-500",
+                                    i === 0 ? "opacity-100 translate-x-0" : "opacity-40 -translate-x-1"
+                                  )}>
+                                     <span className="w-1 h-1 bg-accent rounded-full" />
+                                     <span className="font-mono text-[10px] opacity-40">[{new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}]</span>
+                                     {log}
+                                  </div>
+                                ))}
+                             </div>
                           </div>
                        </div>
                     </div>
