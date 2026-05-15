@@ -333,7 +333,7 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
                              </div>
                           </div>
                           <div>
-                             <h2 className="text-4xl font-serif font-bold tracking-tight text-ink group-hover:text-accent transition-colors">JARVIS OS</h2>
+                             <h2 className="text-4xl font-serif font-bold tracking-tight text-ink group-hover:text-accent transition-colors">LOGGER OS</h2>
                              <div className="flex items-center gap-2.5 mt-2">
                                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                                 <span className="text-xs font-bold uppercase tracking-widest text-ink-3">Core Synchronized</span>
