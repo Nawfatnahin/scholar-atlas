@@ -251,6 +251,11 @@ export default function AdminPanel({ initialSubscriptions, ownerEmail }: { initi
           </div>
 
           <div className="flex items-center gap-3 sm:gap-6">
+             <div className="hidden xs:flex items-center px-4 py-1.5 rounded-full bg-accent/5 border border-accent/10">
+                <ShieldCheck className="w-3 h-3 text-accent mr-2" />
+                <span className="text-[10px] font-black text-accent uppercase tracking-widest">Admin Panel</span>
+             </div>
+
              <div className="flex items-center gap-3">
                 <div className="hidden md:flex flex-col items-end mr-2">
                    <span className="text-[10px] font-black text-accent uppercase tracking-widest">Administrator</span>
