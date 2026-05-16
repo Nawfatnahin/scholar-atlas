@@ -49,7 +49,7 @@ export default async function DashboardPage() {
   if (user) {
     try {
       const [subjectsRes, tasksRes, todaysSessionsRes] = await Promise.all([
-        supabase.from('subjects').select('id, name, target_percentage, class_sessions(status)'),
+        supabase.from('subjects').select('id, name, target_percentage, class_sessions(status)').in('class_sessions.status', ['present', 'absent']),
         supabase.from('tasks').select('id').eq('status', 'todo'),
         getTodaysSessions(),
       ]);

@@ -55,7 +55,7 @@ export function getJarvisMessage(activityLevel: 'high' | 'idle' | 'normal'): str
 
   if (hour >= 5 && hour < 12) timeCategory = 'morning';
   else if (hour >= 12 && hour < 17) timeCategory = 'afternoon';
-  else if (hour >= 17 && hour < 21) timeCategory = 'evening';
+  else if (hour >= 17 && hour < 20) timeCategory = 'evening';
   else timeCategory = 'night';
 
   const categories: (keyof typeof JARVIS_MESSAGES)[] = [timeCategory, 'generic'];

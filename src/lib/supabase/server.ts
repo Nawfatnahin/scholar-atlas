@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'
  * Server-side Supabase client with requested settings and session handling.
  */
 export async function createClient() {
-  const cookieStore = cookies()
+  const cookieStore = await cookies()
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 

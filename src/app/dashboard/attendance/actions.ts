@@ -152,11 +152,14 @@ export async function updateSubject(id: string, data: {
   if (updateError) return { success: false, error: updateError.message };
 
   // 2. Wipe existing upcoming sessions and regenerate
-  // (We keep past 'present'/'absent' logs to avoid data loss, or wipe all if re-configuring from scratch)
-  // For simplicity and correctness with "re-input everything", we wipe and re-generate.
-  await supabase.from("class_sessions").delete().eq("subject_id", id);
+  // We preserve 'present' and 'absent' logs to prevent historical data loss.
+  await supabase
+    .from("class_sessions")
+    .delete()
+    .eq("subject_id", id)
+    .in("status", ["upcoming", "holiday", "cancelled"]);
 
-  return await generateSessionsForSubject(subject as Subject, 0); // Resetting to 0 on edit for safety, or user can re-mark
+  return await generateSessionsForSubject(subject as Subject, 0);
 }
 
 interface Subject {
