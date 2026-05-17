@@ -1,0 +1,67 @@
+export async function addSubject(data: {
+  name: string;
+  courseCode?: string;
+  requiredThreshold: number;
+  personalTarget?: number | null;
+  classDays: string[];
+  semesterStartDate: string;
+  totalWeeks: number;
+}) {
+  try {
+    const supabase = await createClient();
+    const user = await getAuthenticatedUser(supabase);
+
+    const payload = {
+      name: String(data.name).trim(),
+      course_code: data.courseCode ? String(data.courseCode).trim() : null,
+      required_threshold: Number(data.requiredThreshold),
+      personal_target: data.personalTarget !== null ? Number(data.personalTarget) : null,
+      schedule_days: Array.isArray(data.classDays) ? data.classDays : [],
+      semester_start_date: data.semesterStartDate,
+      total_classes_planned: Number(data.totalWeeks) * (Array.isArray(data.classDays) ? data.classDays.length : 0),
+      user_id: user.id,
+      color_tag: 'blue'
+    };
+
+    console.log('[JARVIS]: Initiating subject creation with payload:', payload);
+
+    const { data: subject, error } = await supabase
+      .from('subjects')
+      .insert(payload)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('[JARVIS]: Supabase Database Anomaly:', error);
+      return { success: false, error: `DATABASE_ERROR: ${error.message} (${error.code})` };
+    }
+
+    revalidatePath('/dashboard/attendance');
+    return { success: true, data: subject };
+  } catch (error: any) {
+    console.error('[JARVIS]: Server Action Exception:', error);
+    return { success: false, error: error.message || 'Internal Server Error' };
+  }
+}
+
+export async function deleteSubject(id: string) {
+  try {
+    const supabase = await createClient();
+    const user = await getAuthenticatedUser(supabase);
+
+    const { error } = await supabase
+      .from('subjects')
+      .delete()
+      .eq('id', id)
+      .eq('user_id', user.id);
+
+    if (error) {
+      return { success: false, error: `DATABASE_ERROR: ${error.message}` };
+    }
+    
+    revalidatePath('/dashboard/attendance');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}

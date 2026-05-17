@@ -59,32 +59,36 @@ export async function addSubject(data: {
     const supabase = await createClient();
     const user = await getAuthenticatedUser(supabase);
 
+    const payload = {
+      name: String(data.name).trim(),
+      course_code: data.courseCode ? String(data.courseCode).trim() : null,
+      required_threshold: Number(data.requiredThreshold),
+      personal_target: data.personalTarget !== null ? Number(data.personalTarget) : null,
+      schedule_days: Array.isArray(data.classDays) ? data.classDays : [],
+      semester_start_date: data.semesterStartDate,
+      total_classes_planned: Number(data.totalWeeks) * (Array.isArray(data.classDays) ? data.classDays.length : 0),
+      user_id: user.id,
+      color_tag: 'blue'
+    };
+
+    console.log('[JARVIS]: Initiating subject creation with payload:', payload);
+
     const { data: subject, error } = await supabase
       .from('subjects')
-      .insert({
-        name: data.name,
-        course_code: data.courseCode || null,
-        required_threshold: data.requiredThreshold,
-        personal_target: data.personalTarget || null,
-        schedule_days: data.classDays,
-        semester_start_date: data.semesterStartDate,
-        total_classes_planned: data.totalWeeks * data.classDays.length,
-        user_id: user.id,
-        color_tag: 'blue'
-      })
+      .insert(payload)
       .select()
       .single();
 
     if (error) {
-      console.error('Supabase insert error:', error);
-      throw new Error(`DATABASE_ERROR: ${error.message}`);
+      console.error('[JARVIS]: Supabase Database Anomaly:', error);
+      return { success: false, error: `DATABASE_ERROR: ${error.message} (${error.code})` };
     }
 
     revalidatePath('/dashboard/attendance');
     return { success: true, data: subject };
   } catch (error: any) {
-    console.error('AddSubject exception:', error);
-    return { success: false, error: error.message };
+    console.error('[JARVIS]: Server Action Exception:', error);
+    return { success: false, error: error.message || 'Internal Server Error' };
   }
 }
 
@@ -100,14 +104,12 @@ export async function deleteSubject(id: string) {
       .eq('user_id', user.id);
 
     if (error) {
-      console.error('Supabase delete error:', error);
-      throw new Error(`DATABASE_ERROR: ${error.message}`);
+      return { success: false, error: `DATABASE_ERROR: ${error.message}` };
     }
     
     revalidatePath('/dashboard/attendance');
     return { success: true };
   } catch (error: any) {
-    console.error('DeleteSubject exception:', error);
     return { success: false, error: error.message };
   }
 }
@@ -170,9 +172,6 @@ export async function markAttendance(input: z.infer<typeof MarkAttendanceSchema>
 
   if (upsertError) throw new Error(`Failed to mark attendance: ${upsertError.message}`);
 
-  // 4. Streak Detection & Goals (Optional post-save checks)
-  // [Logic for streak detection could go here or be handled client-side]
-
   revalidatePath('/dashboard/attendance');
   return { success: true };
 }
@@ -233,8 +232,8 @@ export async function upsertSubjectSchedule(input: z.infer<typeof UpsertSubjectS
       total_classes_planned: validated.totalClassesPlanned,
       semester_start_date: validated.semesterStartDate,
       semester_end_date: validated.semesterEndDate,
-      schedule_days: validated.scheduleDays,
-      schedule_time: validated.scheduleTime
+      schedule_days: validated.schedule_days,
+      schedule_time: validated.schedule_time
     })
     .eq('id', validated.subjectId)
     .eq('user_id', user.id);
@@ -273,5 +272,19 @@ export async function deleteHoliday(id: string) {
     .eq('user_id', user.id);
 
   if (error) throw new Error(`Failed to delete holiday: ${error.message}`);
+  revalidatePath('/dashboard/attendance');
+}
+
+export async function updateSubject(id: string, data: any) {
+  const supabase = await createClient();
+  const user = await getAuthenticatedUser(supabase);
+
+  const { error } = await supabase
+    .from('subjects')
+    .update(data)
+    .eq('id', id)
+    .eq('user_id', user.id);
+
+  if (error) throw new Error(`Failed to update subject: ${error.message}`);
   revalidatePath('/dashboard/attendance');
 }
