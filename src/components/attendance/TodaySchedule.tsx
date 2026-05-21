@@ -38,33 +38,28 @@ export const TodaySchedule: React.FC<TodayScheduleProps> = ({ subjects }) => {
   };
 
   return (
-    <div className="bg-zinc-950 rounded-[40px] p-8 border border-white/5 mb-10 overflow-hidden relative">
-      <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
-        <Clock className="w-24 h-24 text-white" />
+    <div className="bg-white/70 backdrop-blur-xl rounded-[40px] p-8 border border-border-strong shadow-[0_20px_50px_rgba(0,0,0,0.04)] mb-10 overflow-hidden relative">
+      <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+        <Clock className="w-24 h-24 text-[#92400e]" />
       </div>
 
       <div className="relative z-10">
-        <h3 className="text-sm font-black text-zinc-500 uppercase tracking-[0.3em] mb-4">
+        <h3 className="text-sm font-black text-[#92400e] uppercase tracking-[0.3em] mb-4">
           Today — {format(today, 'EEEE, MMMM do')}
         </h3>
 
         {todaysSubjects.length === 0 ? (
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-zinc-500 text-sm tracking-widest">
-              &mdash; No active modules assigned to this rotation slot &mdash;
-            </span>
-            <span className="inline-block w-2 h-4 bg-cyan-500/60 animate-pulse rounded-sm" />
-          </div>
+          <p className="text-ink-3 font-medium">No classes scheduled for today, Sir.</p>
         ) : (
           <div className="flex flex-wrap gap-4">
             {todaysSubjects.map(subject => (
               <div 
                 key={subject.id}
-                className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-6 flex flex-col gap-4 min-w-[240px]"
+                className="bg-white border border-border-strong rounded-3xl p-6 flex flex-col gap-4 min-w-[240px] shadow-sm hover:shadow-md transition-shadow"
               >
                 <div>
-                  <h4 className="font-bold text-white mb-1">{subject.name}</h4>
-                  <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider">
+                  <h4 className="font-bold text-ink mb-1">{subject.name}</h4>
+                  <p className="text-xs text-ink-3 font-bold uppercase tracking-wider">
                     {subject.schedule_time || 'No time set'}
                   </p>
                 </div>

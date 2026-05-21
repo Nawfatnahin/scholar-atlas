@@ -6,7 +6,7 @@ import { ArrowLeft, Home, CalendarCheck } from "lucide-react";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Precision Monitoring System — BackLogger Buddy",
+  title: "Attendance Tracker — BackLogger Buddy",
 };
 
 export default async function AttendancePage() {
@@ -36,25 +36,24 @@ export default async function AttendancePage() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex flex-col font-body">
-      <header className="bg-white dark:bg-zinc-900 border-b border-zinc-100 dark:border-zinc-800 py-6 sticky top-0 z-50 shadow-sm">
+    <div className="min-h-screen bg-bg flex flex-col font-body">
+      <header className="bg-bg/95 backdrop-blur-xl border-b border-[#92400e]/10 py-6 sticky top-0 z-50 shadow-sm">
         <div className="max-w-[1600px] mx-auto px-8 flex justify-between items-center">
           <div className="flex items-center gap-6">
-            <Link href="/dashboard" className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800 text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700 transition-all border border-zinc-100 dark:border-zinc-800">
+            <Link href="/dashboard" className="p-3 rounded-2xl bg-white text-[#92400e] hover:scale-105 transition-all border border-border-strong shadow-sm">
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-cyan-950 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
+              <div className="w-10 h-10 rounded-xl bg-[#92400e]/10 flex items-center justify-center text-[#92400e]">
                 <CalendarCheck className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-xl font-black text-zinc-900 dark:text-zinc-100 tracking-tight uppercase tracking-[0.15em]">Precision Monitoring System</h1>
-                <p className="text-[10px] font-mono text-cyan-500/70 tracking-widest hidden sm:block">ATTENDANCE COMMAND CENTER — ONLINE</p>
+                <h1 className="text-xl font-black text-[#92400e] tracking-tight uppercase tracking-[0.1em]">Attendance Tracker</h1>
               </div>
             </div>
           </div>
           
-          <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all">
+          <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-ink-2 hover:bg-white border border-transparent hover:border-border-strong shadow-sm transition-all">
             <Home className="w-4 h-4" />
             <span>Dashboard</span>
           </Link>

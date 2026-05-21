@@ -145,47 +145,35 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
   return (
     <div className="space-y-10 pb-32">
       {/* Semester Health Score Header */}
-      <div className="bg-white dark:bg-zinc-900 rounded-[44px] p-8 border border-zinc-100 dark:border-zinc-800 shadow-sm">
+      <div className="bg-white/70 backdrop-blur-xl rounded-[44px] p-8 border border-border-strong shadow-[0_20px_50px_rgba(0,0,0,0.04)]">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="space-y-1">
-            <h3 className="text-sm font-black text-zinc-400 uppercase tracking-[0.3em] font-mono">Semester Health Score</h3>
+            <h3 className="text-sm font-black text-[#92400e] uppercase tracking-[0.3em]">Semester Health</h3>
             <div className="flex items-baseline gap-3">
               <span className={`text-5xl font-black tracking-tighter ${
-                overallHealth >= 75 ? 'text-green-400' : overallHealth >= 65 ? 'text-amber-400' : 'text-red-400'
+                overallHealth >= 75 ? 'text-green-600' : overallHealth >= 65 ? 'text-amber-600' : 'text-red-600'
               }`}>
                 {overallHealth.toFixed(1)}%
               </span>
-              <span className={`text-xs font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border font-mono ${
-                overallHealth >= 75
-                  ? 'bg-green-500/10 text-green-400 border-green-500/25'
-                  : overallHealth >= 65
-                  ? 'bg-amber-500/10 text-amber-400 border-amber-500/25'
-                  : 'bg-red-500/10 text-red-400 border-red-500/25'
-              }`}>
-                {overallHealth >= 75 ? 'NOMINAL' : overallHealth >= 65 ? 'ATTENTION' : 'CRITICAL'}
-              </span>
+              <span className="text-xs font-bold text-ink-3 uppercase tracking-widest">Overall Average</span>
             </div>
           </div>
 
           <div className="flex gap-4 w-full md:w-auto">
-            <div className="flex-1 md:flex-none p-4 rounded-3xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-800">
-              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1 font-mono">Attention</p>
-              <p className="text-2xl font-black text-amber-500">{subjectsNeedingAttention}</p>
+            <div className="flex-1 md:flex-none p-4 rounded-3xl bg-white border border-border-strong">
+              <p className="text-[10px] font-black text-ink-3 uppercase tracking-widest mb-1">Attention</p>
+              <p className="text-2xl font-black text-amber-600">{subjectsNeedingAttention}</p>
             </div>
-            <div className="flex-1 md:flex-none p-4 rounded-3xl bg-zinc-50 dark:bg-zinc-800/50 border border-zinc-100 dark:border-zinc-800">
-              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1 font-mono">Critical</p>
-              <p className="text-2xl font-black text-red-500">{criticalSubjects}</p>
+            <div className="flex-1 md:flex-none p-4 rounded-3xl bg-white border border-border-strong">
+              <p className="text-[10px] font-black text-ink-3 uppercase tracking-widest mb-1">Critical</p>
+              <p className="text-2xl font-black text-red-600">{criticalSubjects}</p>
             </div>
           </div>
         </div>
 
-        {/* Weighted average explanation — prominent callout */}
-        <div className="mt-6 flex items-start gap-3 p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-700/50">
-          <Info className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
-          <p className="text-xs font-mono text-zinc-500 leading-relaxed">
-            <span className="font-bold text-zinc-400">Weighted semester average:</span> Modules with more total classes held carry proportionally greater weight in this score. A subject with 40 sessions impacts your health more than one with 10.
-          </p>
-        </div>
+        <p className="mt-6 text-xs font-medium text-ink-3 italic">
+          * Weighted by class count (subjects with more classes count more)
+        </p>
       </div>
 
       {/* Today's Schedule */}
@@ -194,47 +182,37 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
       {/* Main Controls */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-6">
         <div>
-          <h2 className="text-3xl font-black text-zinc-900 dark:text-zinc-100 tracking-tight">Active Modules</h2>
-          <p className="text-zinc-500 font-mono text-sm">Tracking {initialSubjects.length} mission-critical modules.</p>
+          <h2 className="text-3xl font-black text-ink tracking-tight">Your Courses</h2>
+          <p className="text-ink-3 font-medium">Monitoring {initialSubjects.length} active academic tracks.</p>
         </div>
         <div className="flex flex-wrap gap-3">
           <button
             onClick={() => setIsBatchMode(!isBatchMode)}
             className={`flex items-center gap-3 px-6 py-4 rounded-[20px] font-black uppercase tracking-widest transition-all active:scale-95 ${
               isBatchMode 
-                ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/20' 
-                : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-500 hover:text-zinc-900'
+                ? 'bg-[#92400e] text-white shadow-lg shadow-[#92400e]/20' 
+                : 'bg-white border border-border-strong text-ink-3 hover:text-ink'
             }`}
           >
             <Layers className="w-5 h-5" />
-            Batch Log Sessions
+            Batch Mark
           </button>
           <button
             onClick={() => setIsHolidayModalOpen(true)}
-            className="flex items-center gap-3 bg-zinc-100 dark:bg-zinc-800/80 text-zinc-600 dark:text-zinc-300 px-6 py-4 rounded-[20px] font-black uppercase tracking-widest hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-all active:scale-95 border border-zinc-200 dark:border-zinc-700"
+            className="flex items-center gap-3 bg-[#92400e]/10 text-[#92400e] px-6 py-4 rounded-[20px] font-black uppercase tracking-widest hover:bg-[#92400e]/20 transition-all active:scale-95"
           >
             <Calendar className="w-5 h-5" />
-            Suspend Days
+            Holidays
           </button>
           <button
             onClick={() => setIsAdding(true)}
-            className="flex items-center gap-3 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 px-8 py-4 rounded-[20px] font-black uppercase tracking-widest hover:scale-[1.02] transition-all active:scale-95 shadow-xl shadow-black/10"
+            className="flex items-center gap-3 bg-[#92400e] text-white px-8 py-4 rounded-[20px] font-black uppercase tracking-widest hover:-translate-y-1 transition-all active:scale-95 shadow-xl shadow-[#92400e]/20"
           >
             <Plus className="w-5 h-5" />
-            Deploy Module
+            Add Subject
           </button>
         </div>
       </div>
-
-      {/* Batch mode instruction banner */}
-      {isBatchMode && (
-        <div className="flex items-center gap-4 p-4 rounded-2xl bg-cyan-950/50 border border-cyan-500/20">
-          <div className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shrink-0" />
-          <p className="text-xs font-mono text-cyan-400/90">
-            <span className="font-bold text-cyan-300">BATCH LOG MODE ACTIVE</span> — Tap each date tile on any module card to cycle through session states: Present → Absent → Medical → Excused → Cancelled. Commit when ready.
-          </p>
-        </div>
-      )}
 
       {/* Subject Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -252,67 +230,13 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
 
       {/* Empty State */}
       {initialSubjects.length === 0 && (
-        <div className="py-20 text-center bg-zinc-950/50 dark:bg-zinc-800/20 rounded-[60px] border-2 border-dashed border-zinc-800 flex flex-col items-center justify-center px-8">
-          <div className="w-16 h-16 rounded-3xl bg-zinc-900 border border-cyan-500/20 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(6,182,212,0.15)]">
-            <BookOpen className="w-8 h-8 text-cyan-500/50" />
-          </div>
-          <h3 className="text-2xl font-black text-zinc-100 mb-2 tracking-tight">Academic Void Detected</h3>
-          <p className="text-zinc-500 font-mono text-sm max-w-sm mb-8">No modules deployed. Initialize your first tracking unit to activate precision monitoring.</p>
-          <button onClick={() => setIsAdding(true)} className="bg-cyan-500 hover:bg-cyan-400 text-white px-12 py-4 rounded-[20px] font-black uppercase tracking-widest shadow-xl shadow-cyan-500/20 active:scale-95 transition-all mb-14">
-            Deploy First Module
+        <div className="py-32 text-center bg-white/50 backdrop-blur-xl rounded-[60px] border-4 border-dashed border-border-strong flex flex-col items-center justify-center">
+          <BookOpen className="w-16 h-16 text-[#92400e]/30 mb-6" />
+          <h3 className="text-2xl font-black text-ink mb-2">Academic Void Detected</h3>
+          <p className="text-ink-3 font-medium max-w-sm mb-10">Initialize your first course tracking module to begin precision monitoring.</p>
+          <button onClick={() => setIsAdding(true)} className="bg-[#92400e] text-white px-12 py-5 rounded-[24px] font-black uppercase tracking-widest shadow-xl shadow-[#92400e]/20 active:scale-95 hover:-translate-y-1 transition-all">
+            Initialize Track
           </button>
-
-          {/* 3-step ghost onboarding preview */}
-          <div className="w-full max-w-2xl">
-            <p className="text-[10px] font-mono text-zinc-600 uppercase tracking-widest mb-6">— System Preview: What activating a module looks like —</p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {/* Step 1 */}
-              <div className="animate-pulse p-5 rounded-3xl border border-cyan-500/10 bg-zinc-900/60 flex flex-col gap-3 text-left">
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-5 h-5 rounded-full bg-cyan-500/20 flex items-center justify-center">
-                    <span className="text-[9px] font-black text-cyan-400">01</span>
-                  </div>
-                  <span className="text-[10px] font-black text-cyan-500/60 uppercase tracking-widest font-mono">Deploy Module</span>
-                </div>
-                <div className="h-3 bg-zinc-800 rounded-full w-3/4" />
-                <div className="h-2.5 bg-zinc-800/70 rounded-full w-1/2" />
-                <div className="h-8 bg-zinc-800/40 rounded-xl w-full mt-1" />
-                <p className="text-[10px] text-zinc-600 font-mono mt-1">Name your course, set schedule days &amp; semester length.</p>
-              </div>
-              {/* Step 2 */}
-              <div className="animate-pulse p-5 rounded-3xl border border-amber-500/10 bg-zinc-900/60 flex flex-col gap-3 text-left" style={{animationDelay:'0.15s'}}>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-5 h-5 rounded-full bg-amber-500/20 flex items-center justify-center">
-                    <span className="text-[9px] font-black text-amber-400">02</span>
-                  </div>
-                  <span className="text-[10px] font-black text-amber-500/60 uppercase tracking-widest font-mono">Log Daily Sessions</span>
-                </div>
-                <div className="flex gap-1.5">
-                  <div className="h-7 flex-1 bg-green-900/30 rounded-lg" />
-                  <div className="h-7 flex-1 bg-red-900/30 rounded-lg" />
-                  <div className="h-7 flex-1 bg-green-900/30 rounded-lg" />
-                  <div className="h-7 flex-1 bg-zinc-800/50 rounded-lg" />
-                </div>
-                <div className="h-2 bg-zinc-800 rounded-full w-full" />
-                <p className="text-[10px] text-zinc-600 font-mono mt-1">Mark Present or Absent daily. Batch log across sessions.</p>
-              </div>
-              {/* Step 3 */}
-              <div className="animate-pulse p-5 rounded-3xl border border-green-500/10 bg-zinc-900/60 flex flex-col gap-3 text-left" style={{animationDelay:'0.3s'}}>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <span className="text-[9px] font-black text-green-400">03</span>
-                  </div>
-                  <span className="text-[10px] font-black text-green-500/60 uppercase tracking-widest font-mono">Precision Forecast</span>
-                </div>
-                <div className="h-3 bg-green-900/30 rounded-full w-full" />
-                <div className="p-2 rounded-xl bg-green-950/50 border border-green-500/15">
-                  <div className="h-2 bg-green-800/40 rounded-full w-3/4 mb-1.5" />
-                  <div className="h-2 bg-green-800/30 rounded-full w-1/2" />
-                </div>
-                <p className="text-[10px] text-zinc-600 font-mono mt-1">See your skip budget &amp; how many classes to attend to recover.</p>
-              </div>
-            </div>
-          </div>
         </div>
       )}
 
