@@ -6,7 +6,7 @@ import { ArrowLeft, Home, CalendarCheck } from "lucide-react";
 import Footer from "@/components/Footer";
 
 export const metadata = {
-  title: "Attendance Tracker - BackLogger Buddy",
+  title: "Precision Monitoring System — BackLogger Buddy",
 };
 
 export default async function AttendancePage() {
@@ -44,10 +44,13 @@ export default async function AttendancePage() {
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-700 dark:text-green-400">
+              <div className="w-10 h-10 rounded-xl bg-cyan-950 border border-cyan-500/40 flex items-center justify-center text-cyan-400 shadow-[0_0_12px_rgba(6,182,212,0.3)]">
                 <CalendarCheck className="w-5 h-5" />
               </div>
-              <h1 className="text-xl font-black text-zinc-900 dark:text-zinc-100 tracking-tight uppercase tracking-[0.1em]">Attendance Tracker</h1>
+              <div>
+                <h1 className="text-xl font-black text-zinc-900 dark:text-zinc-100 tracking-tight uppercase tracking-[0.15em]">Precision Monitoring System</h1>
+                <p className="text-[10px] font-mono text-cyan-500/70 tracking-widest hidden sm:block">ATTENDANCE COMMAND CENTER — ONLINE</p>
+              </div>
             </div>
           </div>
           

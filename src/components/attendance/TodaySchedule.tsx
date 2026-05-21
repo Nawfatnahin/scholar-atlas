@@ -49,7 +49,12 @@ export const TodaySchedule: React.FC<TodayScheduleProps> = ({ subjects }) => {
         </h3>
 
         {todaysSubjects.length === 0 ? (
-          <p className="text-zinc-400 font-medium">No classes scheduled for today, Sir.</p>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-zinc-500 text-sm tracking-widest">
+              &mdash; No active modules assigned to this rotation slot &mdash;
+            </span>
+            <span className="inline-block w-2 h-4 bg-cyan-500/60 animate-pulse rounded-sm" />
+          </div>
         ) : (
           <div className="flex flex-wrap gap-4">
             {todaysSubjects.map(subject => (

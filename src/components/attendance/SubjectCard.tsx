@@ -87,6 +87,13 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
     unreachable: 'bg-red-900',
   };
 
+  const statusBadge = {
+    safe:        { label: 'SAFE',        cls: 'bg-green-500/15 text-green-400 border-green-500/30' },
+    caution:     { label: 'ATTENTION',   cls: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
+    danger:      { label: 'CRITICAL',    cls: 'bg-red-500/15 text-red-400 border-red-500/30' },
+    unreachable: { label: 'UNREACHABLE', cls: 'bg-red-950/40 text-red-600 border-red-900/40' },
+  };
+
   const handleMark = async (type: 'present' | 'unexcused', confirmed = false) => {
     try {
       const res = await markAttendance({
@@ -129,7 +136,7 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
       <div className="p-6">
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-3">
-            <div className={`w-3 h-3 rounded-full ${dotColors[stats.healthStatus]}`} />
+            <div className={`w-2.5 h-2.5 rounded-full ${dotColors[stats.healthStatus]} shrink-0 mt-1`} />
             <div>
               <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">{subject.name}</h3>
               {subject.course_code && (
@@ -137,7 +144,13 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
               )}
             </div>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
+            {/* Status Badge */}
+            <span className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-lg border font-mono ${
+              statusBadge[stats.healthStatus].cls
+            }`}>
+              {statusBadge[stats.healthStatus].label}
+            </span>
             <button 
               onClick={() => setIsSimulatorOpen(true)}
               className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl text-zinc-400 hover:text-cyan-500 transition-all"
@@ -156,17 +169,17 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-6">
-          <div className="flex justify-between text-sm font-bold mb-2">
+        <div className="mb-5">
+          <div className="flex justify-between text-sm font-bold mb-1.5">
             <span className={stats.currentPercentage < stats.requiredThreshold ? 'text-red-500' : 'text-green-500'}>
               {stats.currentPercentage.toFixed(1)}%
             </span>
-            <span className="text-zinc-400">Target: {stats.personalTarget ?? stats.requiredThreshold}%</span>
+            <span className="text-zinc-400 text-xs">Min: {stats.requiredThreshold}%</span>
           </div>
-          <div className="relative h-3 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
+          <div className="relative h-2.5 bg-zinc-100 dark:bg-zinc-800 rounded-full overflow-hidden">
             <div 
               className={`absolute top-0 left-0 h-full transition-all duration-500 ${
-                stats.healthStatus === 'danger' ? 'bg-red-500' : stats.healthStatus === 'caution' ? 'bg-amber-500' : 'bg-green-500'
+                stats.healthStatus === 'danger' || stats.healthStatus === 'unreachable' ? 'bg-red-500' : stats.healthStatus === 'caution' ? 'bg-amber-500' : 'bg-green-500'
               }`}
               style={{ width: `${Math.min(100, stats.currentPercentage)}%` }}
             />
@@ -175,6 +188,22 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
               className="absolute top-0 h-full w-0.5 bg-zinc-400 dark:bg-zinc-600" 
               style={{ left: `${stats.requiredThreshold}%` }}
             />
+          </div>
+        </div>
+
+        {/* Attendance stats row: held / attended */}
+        <div className="flex gap-2 mb-5 text-center">
+          <div className="flex-1 p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
+            <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-0.5">Classes Held</p>
+            <p className="text-base font-black text-zinc-900 dark:text-zinc-100">{stats.totalClasses}</p>
+          </div>
+          <div className="flex-1 p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
+            <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-0.5">Attended</p>
+            <p className="text-base font-black text-zinc-900 dark:text-zinc-100">{stats.attended}</p>
+          </div>
+          <div className="flex-1 p-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-800/50">
+            <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-0.5">Min Threshold</p>
+            <p className="text-base font-black text-zinc-400">{stats.requiredThreshold}%</p>
           </div>
         </div>
 
@@ -201,27 +230,40 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
         )}
 
         {/* Live Stats Rows */}
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50">
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Skips Left</p>
-            <p className={`text-lg font-bold ${
+            <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-1">Skip Budget</p>
+            <p className={`text-lg font-black ${
               stats.safeSkipsLeft !== null && stats.safeSkipsLeft <= 1 ? 'text-red-500' : stats.safeSkipsLeft === 2 ? 'text-amber-500' : 'text-green-500'
             }`}>
-              {stats.safeSkipsLeft ?? '—'}
+              {stats.safeSkipsLeft !== null ? `${stats.safeSkipsLeft} left` : '—'}
             </p>
           </div>
           <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50">
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">Classes Left</p>
-            <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">{stats.remainingClasses ?? '—'}</p>
+            <p className="text-[9px] font-black text-zinc-400 uppercase tracking-widest mb-1">Sessions Remaining</p>
+            <p className="text-lg font-black text-zinc-900 dark:text-zinc-100">{stats.remainingClasses ?? '—'}</p>
           </div>
         </div>
 
-        {stats.currentPercentage < stats.requiredThreshold && stats.classesNeededToRecover && (
-          <div className="mb-4 p-3 rounded-2xl bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-red-500" />
-            <p className="text-xs font-bold text-red-700 dark:text-red-400">
-              Attend {stats.classesNeededToRecover} more classes to recover
+        {/* Forecast banner */}
+        {stats.currentPercentage >= stats.requiredThreshold && stats.safeSkipsLeft !== null && (
+          <div className="mb-4 p-3 rounded-2xl bg-green-950/40 border border-green-500/20 flex items-center gap-2">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-400 shrink-0" />
+            <p className="text-xs font-mono text-green-400">
+              You can skip <span className="font-black">{stats.safeSkipsLeft}</span> more {stats.safeSkipsLeft === 1 ? 'class' : 'classes'} and stay safe.
             </p>
+          </div>
+        )}
+
+        {stats.currentPercentage < stats.requiredThreshold && stats.classesNeededToRecover && (
+          <div className="mb-4 p-3 rounded-2xl bg-red-950/40 border border-red-500/20 flex items-start gap-2">
+            <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+            <div>
+              <p className="text-xs font-black text-red-400 uppercase tracking-widest">Recovery Required</p>
+              <p className="text-xs font-mono text-red-300/80 mt-0.5">
+                Attend next <span className="font-bold text-red-300">{stats.classesNeededToRecover}</span> consecutive classes to recover.
+              </p>
+            </div>
           </div>
         )}
 

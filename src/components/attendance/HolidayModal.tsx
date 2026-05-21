@@ -80,7 +80,7 @@ export const HolidayModal: React.FC<HolidayModalProps> = ({
                 <div className="w-12 h-12 rounded-2xl bg-blue-500 flex items-center justify-center text-white shadow-lg">
                   <Calendar className="w-6 h-6" />
                 </div>
-                <h3 className="text-2xl font-black text-zinc-900 dark:text-zinc-100">Holiday Manager</h3>
+                <h3 className="text-2xl font-black text-zinc-900 dark:text-zinc-100">Suspension Day Registry</h3>
               </div>
               <button onClick={onClose} className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-xl transition-colors">
                 <X className="w-6 h-6 text-zinc-400" />
@@ -91,23 +91,32 @@ export const HolidayModal: React.FC<HolidayModalProps> = ({
               <button
                 onClick={() => setActiveTab('global')}
                 className={`flex-1 py-4 text-xs font-black uppercase tracking-[0.2em] transition-all ${
-                  activeTab === 'global' ? 'text-blue-500 border-b-2 border-blue-500' : 'text-zinc-400 hover:text-zinc-600'
+                  activeTab === 'global' ? 'text-cyan-500 border-b-2 border-cyan-500' : 'text-zinc-400 hover:text-zinc-600'
                 }`}
               >
-                Global Holidays
+                System-Wide Suspensions
               </button>
               <button
                 onClick={() => setActiveTab('subject')}
                 className={`flex-1 py-4 text-xs font-black uppercase tracking-[0.2em] transition-all ${
-                  activeTab === 'subject' ? 'text-blue-500 border-b-2 border-blue-500' : 'text-zinc-400 hover:text-zinc-600'
+                  activeTab === 'subject' ? 'text-cyan-500 border-b-2 border-cyan-500' : 'text-zinc-400 hover:text-zinc-600'
                 }`}
               >
-                Subject Cancellations
+                Module-Specific Cancellations
               </button>
             </div>
 
             <div className="flex-1 overflow-y-auto p-10 space-y-10">
               <form onSubmit={handleSubmit} className="space-y-6 p-8 bg-zinc-50 dark:bg-zinc-800/30 rounded-[32px] border border-zinc-100 dark:border-zinc-800">
+                {/* Denominator callout */}
+                <div className="flex items-start gap-3 p-4 rounded-2xl bg-cyan-950/60 border border-cyan-500/20">
+                  <div className="w-5 h-5 shrink-0 mt-0.5 rounded-full bg-cyan-500/20 flex items-center justify-center">
+                    <span className="text-cyan-400 text-[10px] font-black">i</span>
+                  </div>
+                  <p className="text-[11px] font-mono text-cyan-400/80 leading-relaxed">
+                    Suspension days are <span className="text-cyan-300 font-bold">excluded from the attendance denominator</span> automatically. They will not count against any module&apos;s attendance calculation.
+                  </p>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">Holiday Name</label>
@@ -152,14 +161,14 @@ export const HolidayModal: React.FC<HolidayModalProps> = ({
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] transition-all shadow-xl shadow-blue-500/20 active:scale-[0.98] disabled:opacity-50"
+                  className="w-full py-4 bg-cyan-500 hover:bg-cyan-600 text-white rounded-2xl font-black text-xs uppercase tracking-[0.3em] transition-all shadow-xl shadow-cyan-500/20 active:scale-[0.98] disabled:opacity-50"
                 >
-                  {isPending ? 'Processing...' : 'Add to Calendar'}
+                  {isPending ? 'Processing...' : 'Log Suspension'}
                 </button>
               </form>
 
               <div className="space-y-4">
-                <h4 className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em] px-2">Scheduled Items</h4>
+                <h4 className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em] px-2">Logged Suspension Days</h4>
                 <div className="space-y-3">
                   {holidays.filter(h => h.scope === activeTab).map(holiday => (
                     <div key={holiday.id} className="flex items-center justify-between p-6 bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-[28px] group transition-all hover:shadow-lg">
@@ -197,7 +206,7 @@ export const HolidayModal: React.FC<HolidayModalProps> = ({
                   {holidays.filter(h => h.scope === activeTab).length === 0 && (
                     <div className="py-20 text-center">
                       <Calendar className="w-12 h-12 text-zinc-100 dark:text-zinc-800 mx-auto mb-4" />
-                      <p className="text-sm font-bold text-zinc-400">No {activeTab} dates recorded yet.</p>
+                      <p className="text-sm font-mono text-zinc-500 tracking-widest">&mdash; No suspension days on record &mdash;</p>
                     </div>
                   )}
                 </div>
