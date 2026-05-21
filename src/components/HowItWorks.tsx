@@ -5,10 +5,7 @@ export default function HowItWorks() {
     <section id="how" className="py-[140px] bg-transparent overflow-hidden">
       <div className="max-w-[1240px] mx-auto px-8">
         <div className="text-center mb-10">
-          <div className="group inline-flex items-center gap-2.5 bg-white/40 backdrop-blur-2xl px-4 py-1.5 md:px-6 md:py-2.5 rounded-full border border-white/50 shadow-[0_0_20px_rgba(146,64,14,0.15),0_0_2px_rgba(146,64,14,0.1)] hover:shadow-[0_0_35px_rgba(146,64,14,0.25),0_0_5px_rgba(146,64,14,0.2)] hover:-translate-y-0.5 transition-all duration-500 cursor-default">
-            <span className="w-1.5 h-1.5 md:w-2.5 md:h-2.5 rounded-full bg-accent shadow-[0_0_12px_rgba(146,64,14,0.7)]" />
-            <span className="text-[10px] md:text-[12px] font-bold text-ink uppercase tracking-[0.25em] leading-none">How it works</span>
-          </div>
+
         </div>
         
         <h2 className="font-display text-[32px] sm:text-[40px] lg:text-[56px] font-extrabold leading-[1.1] tracking-tight text-ink text-center mb-6">
