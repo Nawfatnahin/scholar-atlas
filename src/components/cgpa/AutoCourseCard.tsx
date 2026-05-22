@@ -15,6 +15,7 @@ import {
   PartyPopper,
   ToggleLeft,
   ToggleRight,
+  BarChart2,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { AutoCourse, ClassTest, GradeScale, AttendanceSubject, CTForm } from '@/lib/cgpa/cgpa-types';
@@ -23,6 +24,7 @@ import {
   calculateCourseBreakdown,
 } from '@/lib/cgpa/cgpa-calculator';
 import { saveAutoCourse, saveClassTests, deleteAutoCourse } from '@/app/dashboard/cgpa/actions';
+import { MarksEntryModal } from './MarksEntryModal';
 
 interface AutoCourseCardProps {
   course: AutoCourse;
@@ -43,6 +45,7 @@ export function AutoCourseCard({
   const [isSaving, setIsSaving] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [isMarksModalOpen, setIsMarksModalOpen] = useState(false);
 
   // Local editable state
   const [localCourse, setLocalCourse] = useState<AutoCourse>({ ...course });
@@ -283,6 +286,14 @@ export function AutoCourseCard({
             </span>
           )}
           <button
+            onClick={() => setIsMarksModalOpen(true)}
+            title="Update marks"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all active:scale-95 text-[#92400e] hover:bg-[#92400e]/10"
+          >
+            <BarChart2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Marks</span>
+          </button>
+          <button
             onClick={handleDelete}
             disabled={isDeleting}
             title={confirmDelete ? 'Click again to confirm deletion' : 'Delete course'}
@@ -300,6 +311,20 @@ export function AutoCourseCard({
           </button>
         </div>
       </div>
+
+      {/* Marks Entry Modal */}
+      {isMarksModalOpen && (
+        <MarksEntryModal
+          course={localCourse}
+          gradeScales={gradeScales}
+          attendanceSubjects={attendanceSubjects}
+          onClose={() => setIsMarksModalOpen(false)}
+          onSaved={(updated) => {
+            setLocalCourse(updated);
+            onCourseChange(updated);
+          }}
+        />
+      )}
 
       {/* Expanded Content */}
       {expanded && (
