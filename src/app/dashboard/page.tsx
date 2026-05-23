@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { FileText, CalendarCheck, LayoutList, Home, ArrowRight, BookOpen, Clock, Crown, GraduationCap } from "lucide-react";
 import DashboardGreeting from "@/components/dashboard/DashboardGreeting";
+import SemesterProgressWidget from "@/components/dashboard/SemesterProgressWidget";
 import TodaysClasses from "@/components/dashboard/TodaysClasses";
 import SignOutButton from "@/components/dashboard/SignOutButton";
 import UserBadge from "@/components/dashboard/UserBadge";
@@ -123,6 +124,7 @@ export default async function DashboardPage() {
 
       <main className="flex-1 py-10 sm:py-20 px-4 sm:px-8">
         <div className="max-w-[1600px] mx-auto">
+          <SemesterProgressWidget />
           <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-10 sm:gap-12 mb-12 sm:mb-20">
             <DashboardGreeting initialName={displayName} />
             
