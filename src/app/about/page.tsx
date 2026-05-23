@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { format } from "date-fns";
 import { APP_VERSION } from "@/lib/version";
-import { RELEASES } from "@/lib/changelog";
+import { CHANGELOG } from "@/lib/changelog";
 import { 
   CalendarCheck, 
   LayoutList, 
@@ -23,7 +23,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
 export default function AboutPage() {
-  const currentRelease = RELEASES[0];
+  const currentRelease = CHANGELOG[0];
 
   const features = [
     {
