@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ArrowLeft, Home, GraduationCap } from "lucide-react";
 import Footer from "@/components/Footer";
 import { InstructionButton } from "@/components/InstructionButton";
+import { redirect } from "next/navigation";
+import { ADMIN_EMAILS } from "@/lib/constants";
 
 export const metadata = {
   title: "CGPA Manager — BackLogger Buddy",
@@ -14,6 +16,12 @@ export const metadata = {
 export default async function CGPAPage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const isFreeTier = user.email ? !ADMIN_EMAILS.includes(user.email) : true;
 
   // Fetch all CGPA data in parallel
   let settings = null;
@@ -118,6 +126,7 @@ export default async function CGPAPage() {
             initialManualCourses={manualCourses}
             initialAutoCourses={autoCourses}
             attendanceSubjects={attendanceSubjects}
+            isFreeTier={isFreeTier}
           />
         </div>
       </main>

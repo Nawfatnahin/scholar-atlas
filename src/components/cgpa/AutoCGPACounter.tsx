@@ -15,6 +15,7 @@ interface AutoCGPACounterProps {
   gradeScales: GradeScale[];
   attendanceSubjects: AttendanceSubject[];
   onCoursesChange: (courses: AutoCourse[]) => void;
+  isFreeTier?: boolean;
 }
 
 export function AutoCGPACounter({
@@ -23,6 +24,7 @@ export function AutoCGPACounter({
   gradeScales,
   attendanceSubjects,
   onCoursesChange,
+  isFreeTier,
 }: AutoCGPACounterProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -208,13 +210,25 @@ export function AutoCGPACounter({
 
       {/* Add Course Button */}
       {!isAdding && (
-        <button
-          onClick={() => setIsAdding(true)}
-          className="flex items-center gap-3 px-6 py-4 rounded-[20px] bg-[#92400e] text-white font-black text-xs uppercase tracking-widest hover:-translate-y-1 transition-all active:scale-95 shadow-xl shadow-[#92400e]/20"
-        >
-          <Plus className="w-5 h-5" />
-          Add Course
-        </button>
+        <div className="flex flex-col items-start gap-2">
+          <button
+            onClick={() => {
+              if (isFreeTier && courses.length >= 5) {
+                toast.error('Free tier is limited to 5 subjects, Sir.');
+                return;
+              }
+              setIsAdding(true);
+            }}
+            disabled={isFreeTier && courses.length >= 5}
+            className="flex items-center gap-3 px-6 py-4 rounded-[20px] bg-[#92400e] text-white font-black text-xs uppercase tracking-widest hover:-translate-y-1 transition-all active:scale-95 shadow-xl shadow-[#92400e]/20 disabled:opacity-50 disabled:hover:-translate-y-0"
+          >
+            <Plus className="w-5 h-5" />
+            Add Course
+          </button>
+          {isFreeTier && courses.length >= 5 && (
+            <p className="text-xs text-red-600 font-bold px-2">Limit of 5 subjects reached for free tier.</p>
+          )}
+        </div>
       )}
 
       {/* Overall Summary */}

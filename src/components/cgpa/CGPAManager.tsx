@@ -19,6 +19,7 @@ interface CGPAManagerProps {
   initialManualCourses: any[];
   initialAutoCourses: AutoCourse[];
   attendanceSubjects: AttendanceSubject[];
+  isFreeTier?: boolean;
 }
 
 export function CGPAManager({
@@ -26,6 +27,7 @@ export function CGPAManager({
   initialGradeScales,
   initialAutoCourses,
   attendanceSubjects,
+  isFreeTier,
 }: CGPAManagerProps) {
   const [targetCGPA, setTargetCGPA] = useState(initialSettings?.target_cgpa || 3.50);
   const [targetInput, setTargetInput] = useState(String(initialSettings?.target_cgpa || 3.50));
@@ -111,6 +113,7 @@ export function CGPAManager({
         gradeScales={gradeScales}
         attendanceSubjects={attendanceSubjects}
         onCoursesChange={setAutoCourses}
+        isFreeTier={isFreeTier}
       />
     </div>
   );

@@ -75,11 +75,12 @@ export default async function DashboardPage() {
     return { 
       name: s.name, 
       percentage: total === 0 ? 0 : Math.round((present / total) * 100),
-      target: s.target_percentage || 75
+      target: s.target_percentage || 75,
+      total
     };
   });
 
-  const lowAttendance = stats.filter(s => s.percentage < s.target);
+  const lowAttendance = stats.filter(s => s.total > 0 && s.percentage < s.target);
 
   return (
     <div className="min-h-screen bg-bg flex flex-col font-body">
