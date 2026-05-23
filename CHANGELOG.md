@@ -4,6 +4,21 @@ Format: [version] — YYYY-MM-DD
 
 ---
 
+## [1.0.1] — 2026-05-24
+
+### Added
+- Comprehensive Dark Mode system: dynamic CSS variable-based theming
+- No-flash synchronization script for premium initial load experience
+- Bespoke, animated DarkModeToggle component in dashboard header
+
+### Improved
+- Surgical color refactoring across Attendance, Tasks, CGPA, and PDF modules
+- Enhanced About page with high-fidelity glassmorphism design
+- Unified typography and humanized motivation narrative
+- Some UI adjustment
+
+---
+
 ## [1.0.0] — 2026-05-24
 
 ### Added

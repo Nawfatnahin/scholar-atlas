@@ -14,6 +14,18 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "1.0.1",
+    date: "2026-05-24",
+    summary: "High-fidelity Dark Mode system and UI refinements",
+    changes: [
+      { type: "NEW", description: "Comprehensive Dark Mode system with no-flash script" },
+      { type: "NEW", description: "Bespoke, animated DarkModeToggle component" },
+      { type: "IMPROVED", description: "Surgical color refactoring across all modules for theme compliance" },
+      { type: "IMPROVED", description: "Refined About page aesthetics with high-fidelity design" },
+      { type: "IMPROVED", description: "Some UI adjustment" },
+    ],
+  },
+  {
     version: "1.0.0",
     date: "2026-05-24",
     summary: "Initial public release of Scholar Atlas",

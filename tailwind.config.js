@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,7 +9,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: "#F2EFE6",
+        bg: {
+          base: 'var(--bg-base)',
+          surface: 'var(--bg-surface)',
+          elevated: 'var(--bg-elevated)',
+        },
+        border: {
+          subtle: 'var(--border-subtle)',
+          default: 'var(--border-default)',
+        },
+        text: {
+          primary: 'var(--text-primary)',
+          secondary: 'var(--text-secondary)',
+          tertiary: 'var(--text-tertiary)',
+        },
+        // Preserve existing named colors for compatibility
+        "bg-old": "#F2EFE6",
         "bg-warm": "#fdf8f0",
         "bg-sidebar": "#fffdf8",
         ink: "#0D0D0D",

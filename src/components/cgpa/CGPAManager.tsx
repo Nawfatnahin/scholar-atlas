@@ -59,32 +59,32 @@ export function CGPAManager({
   };
 
   return (
-    <div className="space-y-10 pb-32">
+    <div className="space-y-10 pb-32 text-text-primary">
       {/* Global Settings Panel */}
-      <div className="bg-white/70 backdrop-blur-xl rounded-[44px] p-6 sm:p-8 border border-border-strong shadow-[0_20px_50px_rgba(0,0,0,0.04)]">
+      <div className="bg-bg-surface/70 backdrop-blur-xl rounded-[44px] p-6 sm:p-8 border border-border-strong shadow-[0_20px_50px_rgba(0,0,0,0.04)] dark:bg-bg-elevated/70">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
           <div className="space-y-1">
-            <h3 className="text-sm font-black text-[#92400e] uppercase tracking-[0.3em]">
+            <h3 className="text-sm font-black text-accent uppercase tracking-[0.3em]">
               Global Settings
             </h3>
-            <p className="text-xs font-medium text-ink-3">
+            <p className="text-xs font-medium text-text-tertiary">
               Set your target CGPA and define the grade scale used across both calculators.
             </p>
           </div>
 
           {/* Target CGPA Input */}
           <div className="flex items-center gap-3 w-full md:w-auto">
-            <div className="flex items-center gap-2 p-4 rounded-3xl bg-white border border-border-strong flex-1 md:flex-none">
-              <Target className="w-4 h-4 text-[#92400e] shrink-0" />
+            <div className="flex items-center gap-2 p-4 rounded-3xl bg-bg-base border border-border-strong flex-1 md:flex-none dark:bg-bg-surface">
+              <Target className="w-4 h-4 text-accent shrink-0" />
               <div className="flex items-center gap-2">
-                <label className="text-[10px] font-black text-ink-3 uppercase tracking-widest whitespace-nowrap">
+                <label className="text-[10px] font-black text-text-tertiary uppercase tracking-widest whitespace-nowrap">
                   Target CGPA
                 </label>
                 <input
                   type="number"
                   value={targetInput}
                   onChange={(e) => setTargetInput(e.target.value)}
-                  className="w-20 px-3 py-2 rounded-xl border-2 border-stone-100 bg-stone-50 font-black text-lg text-[#92400e] outline-none focus:border-[#92400e] transition-all text-center"
+                  className="w-20 px-3 py-2 rounded-xl border-2 border-border-subtle bg-bg-surface font-black text-lg text-accent outline-none focus:border-accent transition-all text-center dark:bg-bg-elevated"
                   min="0"
                   max="4"
                   step="0.01"
@@ -94,7 +94,7 @@ export function CGPAManager({
             <button
               onClick={handleSaveTarget}
               disabled={isSavingTarget}
-              className="p-3.5 rounded-2xl bg-[#92400e] text-white hover:bg-[#78350f] transition-all active:scale-95 shadow-lg shadow-[#92400e]/20 disabled:opacity-50 shrink-0"
+              className="p-3.5 rounded-2xl bg-accent text-white hover:bg-[#78350f] transition-all active:scale-95 shadow-lg shadow-accent/20 disabled:opacity-50 shrink-0"
               title="Save target"
             >
               <Save className="w-5 h-5" />

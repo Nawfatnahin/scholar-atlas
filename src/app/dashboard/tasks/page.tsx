@@ -29,18 +29,18 @@ export default async function TasksPage() {
     .order("name");
 
   return (
-    <div className="min-h-screen bg-bg flex flex-col font-body">
-      <header className="bg-white border-b border-border-strong py-6 sticky top-0 z-50 shadow-sm">
+    <div className="min-h-screen bg-bg-base flex flex-col font-body text-text-primary">
+      <header className="bg-bg-base/95 backdrop-blur-xl border-b border-border-subtle py-6 sticky top-0 z-50 shadow-sm">
         <div className="max-w-[1600px] mx-auto px-8 flex justify-between items-center">
           <div className="flex items-center gap-6">
-            <Link href="/dashboard" className="p-3 rounded-2xl bg-bg text-ink-2 hover:bg-stone-100 transition-all border border-border-strong">
+            <Link href="/dashboard" className="p-3 rounded-2xl bg-bg-surface text-text-secondary hover:bg-bg-elevated transition-all border border-border-strong dark:bg-bg-elevated dark:hover:bg-bg-surface">
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-700 dark:bg-blue-900/20 dark:text-blue-500">
                 <LayoutList className="w-5 h-5" />
               </div>
-              <h1 className="text-xl font-black text-ink tracking-tight uppercase tracking-[0.1em]">Task Tracker</h1>
+              <h1 className="text-xl font-black text-text-primary tracking-tight uppercase tracking-[0.1em]">Task Tracker</h1>
             </div>
           </div>
           
@@ -54,7 +54,7 @@ export default async function TasksPage() {
                 { title: "Track Progress", description: "Toggle task status as you work to keep your backlog clean and visually see your progress." }
               ]}
             />
-            <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-ink-2 hover:bg-stone-50 transition-all">
+            <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong transition-all dark:hover:bg-bg-elevated">
               <Home className="w-4 h-4" />
               <span>Dashboard</span>
             </Link>

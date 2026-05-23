@@ -83,19 +83,19 @@ export default async function CGPAPage() {
   }
 
   return (
-    <div className="min-h-screen bg-bg flex flex-col font-body">
-      <header className="bg-bg/95 backdrop-blur-xl border-b border-[#92400e]/10 py-6 sticky top-0 z-50 shadow-sm">
+    <div className="min-h-screen bg-bg-base flex flex-col font-body text-text-primary">
+      <header className="bg-bg-base/95 backdrop-blur-xl border-b border-border-subtle py-6 sticky top-0 z-50 shadow-sm">
         <div className="max-w-[1600px] mx-auto px-4 sm:px-8 flex justify-between items-center">
           <div className="flex items-center gap-4 sm:gap-6">
-            <Link href="/dashboard" className="p-3 rounded-2xl bg-white text-[#92400e] hover:scale-105 transition-all border border-border-strong shadow-sm">
+            <Link href="/dashboard" className="p-3 rounded-2xl bg-bg-elevated text-accent hover:scale-105 transition-all border border-border-strong shadow-sm dark:bg-bg-surface">
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-[#92400e]/10 flex items-center justify-center text-[#92400e]">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
                 <GraduationCap className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="text-lg sm:text-xl font-black text-[#92400e] tracking-tight uppercase tracking-[0.1em]">CGPA Manager</h1>
+                <h1 className="text-lg sm:text-xl font-black text-accent tracking-tight uppercase tracking-[0.1em]">CGPA Manager</h1>
               </div>
             </div>
           </div>
@@ -110,7 +110,7 @@ export default async function CGPAPage() {
                 { title: "Exam Prediction", description: "After entering your CT marks, assignment scores, and attendance, see exactly what percentage you need in your written exam." },
               ]}
             />
-            <Link href="/dashboard" className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-ink-2 hover:bg-white border border-transparent hover:border-border-strong shadow-sm transition-all">
+            <Link href="/dashboard" className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">
               <Home className="w-4 h-4" />
               <span>Dashboard</span>
             </Link>

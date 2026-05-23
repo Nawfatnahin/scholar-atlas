@@ -181,7 +181,7 @@ export default function SemesterProgressWidget() {
     .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime())
     .slice(0, 5);
 
-  const Skeleton = () => <div className="h-full w-full bg-stone-200 animate-pulse rounded-xl min-h-[100px]" />;
+  const Skeleton = () => <div className="h-full w-full bg-border-subtle animate-pulse rounded-xl min-h-[100px]" />;
 
   const semesterProgress = () => {
     if (!settings?.semester_start_date || !settings?.semester_total_weeks) return null;
@@ -196,18 +196,18 @@ export default function SemesterProgressWidget() {
   const progress = semesterProgress();
 
   return (
-    <div className="w-full bg-white dark:bg-stone-900 border border-border-strong rounded-3xl p-6 mb-8 relative overflow-hidden">
+    <div className="w-full bg-bg-surface border border-border-strong rounded-3xl p-6 mb-8 relative overflow-hidden dark:bg-bg-elevated">
       {/* Decorative Brand Accent */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 blur-3xl rounded-full -mr-16 -mt-16 pointer-events-none" />
 
       {/* Header */}
       <div className="flex justify-between items-start mb-6">
         <div>
-          <h2 className="text-2xl font-black text-ink">
+          <h2 className="text-2xl font-black text-text-primary">
             {getGreeting()}, <span className="text-accent">{userName}</span>
           </h2>
         </div>
-        <div className="text-sm font-bold text-ink-2">
+        <div className="text-sm font-bold text-text-secondary">
           {format(new Date(), "EEEE, d MMMM")}
         </div>
       </div>
@@ -215,21 +215,21 @@ export default function SemesterProgressWidget() {
       {/* Semester Progress Bar */}
       <div className="mb-8">
         {loadingSettings ? (
-          <div className="h-8 w-full bg-stone-100 animate-pulse rounded-lg" />
+          <div className="h-8 w-full bg-border-subtle animate-pulse rounded-lg" />
         ) : errorSettings || !progress ? (
-          <div className="flex items-center gap-2 text-sm font-medium text-ink-3">
+          <div className="flex items-center gap-2 text-sm font-medium text-text-tertiary">
             <span>Configure your semester in Settings to see progress</span>
             <Link href="/dashboard/settings" className="text-accent font-bold hover:underline">Settings</Link>
           </div>
         ) : (
           <div className="space-y-2">
-            <div className="flex justify-between text-xs font-bold text-ink-2 uppercase tracking-wider">
+            <div className="flex justify-between text-xs font-bold text-text-secondary uppercase tracking-wider">
               <span>Week {progress.currentWeek} of {progress.totalWeeks}</span>
               <span>{progress.percent}% complete</span>
             </div>
-            <div className="h-2 w-full bg-stone-100 rounded-full overflow-hidden">
+            <div className="h-2 w-full bg-border-subtle rounded-full overflow-hidden">
               <div 
-                className="h-full bg-gradient-to-r from-accent/70 to-accent rounded-full transition-none"
+                className="h-full bg-gradient-to-r from-accent/70 to-accent rounded-full transition-none dark:opacity-85"
                 style={{ width: `${progress.percent}%` }}
               />
             </div>
@@ -238,90 +238,90 @@ export default function SemesterProgressWidget() {
       </div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone-100 dark:bg-stone-800 relative">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-border-subtle relative">
         {/* Pseudo-borders for grid dividers */}
-        <div className="bg-white dark:bg-stone-900 p-4 md:pr-6 md:pb-6 relative overflow-hidden group">
-          <p className="text-[11px] font-bold text-ink-3 uppercase tracking-[0.08em] mb-4">Quick Stats</p>
+        <div className="bg-bg-surface p-4 md:pr-6 md:pb-6 relative overflow-hidden group dark:bg-bg-elevated">
+          <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em] mb-4">Quick Stats</p>
           <div className="grid grid-cols-2 gap-3">
             {/* Chip 1: CGPA */}
-            <div className="bg-white dark:bg-stone-800 border border-border-strong p-3 rounded-xl">
-              <p className="text-[10px] text-ink-3 mb-1">Current CGPA</p>
-              <p className="text-[22px] font-black text-ink">
+            <div className="bg-bg-base border border-border-strong p-3 rounded-xl dark:bg-bg-surface">
+              <p className="text-[10px] text-text-tertiary mb-1">Current CGPA</p>
+              <p className="text-[22px] font-black text-text-primary">
                 {loadingCGPA ? "..." : errorCGPA || latestCGPA === null ? "—" : latestCGPA.toFixed(2)}
               </p>
             </div>
             {/* Chip 2: Attendance */}
-            <div className="bg-white dark:bg-stone-800 border border-border-strong p-3 rounded-xl">
-              <p className="text-[10px] text-ink-3 mb-1">Avg Attendance</p>
-              <p className={`text-[22px] font-black ${avgAttendance !== null ? attendanceColor(avgAttendance) : "text-ink"}`}>
+            <div className="bg-bg-base border border-border-strong p-3 rounded-xl dark:bg-bg-surface">
+              <p className="text-[10px] text-text-tertiary mb-1">Avg Attendance</p>
+              <p className={`text-[22px] font-black ${avgAttendance !== null ? attendanceColor(avgAttendance) : "text-text-primary"}`}>
                 {loadingSubjects ? "..." : errorSubjects || avgAttendance === null ? "—" : `${Math.round(avgAttendance)}%`}
               </p>
             </div>
             {/* Chip 3: Due This Week */}
-            <div className="bg-white dark:bg-stone-800 border border-border-strong p-3 rounded-xl">
-              <p className="text-[10px] text-ink-3 mb-1">Due This Week</p>
-              <p className="text-[22px] font-black text-ink">
+            <div className="bg-bg-base border border-border-strong p-3 rounded-xl dark:bg-bg-surface">
+              <p className="text-[10px] text-text-tertiary mb-1">Due This Week</p>
+              <p className="text-[22px] font-black text-text-primary">
                 {loadingTasks ? "..." : errorTasks ? "—" : tasksDueThisWeekCount}
               </p>
               {!loadingTasks && overdueTasksCount > 0 && (
-                <p className="text-[10px] font-bold text-red-600 mt-0.5">{overdueTasksCount} overdue</p>
+                <p className="text-[10px] font-bold text-red-600 mt-0.5 dark:text-[#DC5050]">{overdueTasksCount} overdue</p>
               )}
             </div>
             {/* Chip 4: Subjects */}
-            <div className="bg-white dark:bg-stone-800 border border-border-strong p-3 rounded-xl">
-              <p className="text-[10px] text-ink-3 mb-1">Subjects</p>
-              <p className="text-[22px] font-black text-ink">
+            <div className="bg-bg-base border border-border-strong p-3 rounded-xl dark:bg-bg-surface">
+              <p className="text-[10px] text-text-tertiary mb-1">Subjects</p>
+              <p className="text-[22px] font-black text-text-primary">
                 {loadingSubjects ? "..." : errorSubjects ? "—" : subjects.length}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-stone-900 p-4 md:pl-6 md:pb-6">
-          <p className="text-[11px] font-bold text-ink-3 uppercase tracking-[0.08em] mb-4">Upcoming</p>
-          {loadingTasks ? <Skeleton /> : errorTasks ? <p className="text-sm text-ink-3">Could not load</p> : upcomingTasks.length === 0 ? (
-            <p className="text-sm text-ink-3 text-center py-8 italic">No deadlines this week</p>
+        <div className="bg-bg-surface p-4 md:pl-6 md:pb-6 dark:bg-bg-elevated">
+          <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em] mb-4">Upcoming</p>
+          {loadingTasks ? <Skeleton /> : errorTasks ? <p className="text-sm text-text-tertiary">Could not load</p> : upcomingTasks.length === 0 ? (
+            <p className="text-sm text-text-tertiary text-center py-8 italic">No deadlines this week</p>
           ) : (
             <div className="space-y-2">
               {upcomingTasks.map(task => (
                 <div key={task.id} className="flex items-center justify-between group/row">
                   <div className="flex items-center gap-3 border-l-[3px] pl-3" style={{ borderLeftColor: task.subject_id ? (COLOR_MAP[subjects.find(s => s.id === task.subject_id)?.color_tag || ''] || subjects.find(s => s.id === task.subject_id)?.color || '#e5e7eb') : '#e5e7eb' }}>
                     <div className="flex flex-col">
-                      <span className="text-sm font-bold text-ink truncate max-w-[150px] sm:max-w-[200px]">{task.title.substring(0, 36)}</span>
-                      <span className="text-[10px] font-medium text-ink-3 uppercase tracking-wider">{getDueDateLabel(task.due_date)}</span>
+                      <span className="text-sm font-bold text-text-primary truncate max-w-[150px] sm:max-w-[200px]">{task.title.substring(0, 36)}</span>
+                      <span className="text-[10px] font-medium text-text-tertiary uppercase tracking-wider">{getDueDateLabel(task.due_date)}</span>
                     </div>
                   </div>
                   <input 
                     type="checkbox" 
                     onChange={() => updateTaskStatus(task.id)}
-                    className="w-4 h-4 rounded border-stone-300 text-accent focus:ring-accent cursor-pointer" 
+                    className="w-4 h-4 rounded border-border-subtle text-accent focus:ring-accent cursor-pointer dark:bg-bg-surface" 
                   />
                 </div>
               ))}
             </div>
           )}
-          <div className="mt-4 pt-4 border-t border-stone-50">
+          <div className="mt-4 pt-4 border-t border-border-subtle">
             <Link href="/dashboard/tasks" className="text-[11px] font-black text-accent uppercase tracking-widest hover:underline flex items-center gap-1">
               View calendar →
             </Link>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-stone-900 p-4 md:pr-6 md:pt-6">
-          <p className="text-[11px] font-bold text-ink-3 uppercase tracking-[0.08em] mb-4">Subjects</p>
-          {loadingSubjects ? <Skeleton /> : errorSubjects ? <p className="text-sm text-ink-3">Could not load</p> : (
+        <div className="bg-bg-surface p-4 md:pr-6 md:pt-6 dark:bg-bg-elevated">
+          <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em] mb-4">Subjects</p>
+          {loadingSubjects ? <Skeleton /> : errorSubjects ? <p className="text-sm text-text-tertiary">Could not load</p> : (
             <div className="space-y-3">
               {sortedSubjects.map(s => {
                 const pct = (s.attended_classes / (s.total_classes || 1)) * 100;
                 return (
-                  <Link href="/dashboard/attendance" key={s.id} className={`flex items-center justify-between p-2 rounded-xl hover:bg-stone-50 transition-colors ${pct < 75 ? 'border-l-2 border-red-500' : ''}`}>
+                  <Link href="/dashboard/attendance" key={s.id} className={`flex items-center justify-between p-2 rounded-xl hover:bg-bg-base transition-colors ${pct < 75 ? 'border-l-2 border-red-500' : ''}`}>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 rounded-full" style={{ backgroundColor: COLOR_MAP[s.color_tag || ''] || s.color || '#92400e' }} />
-                      <span className="text-sm font-bold text-ink truncate max-w-[120px]">{s.name}</span>
+                      <span className="text-sm font-bold text-text-primary truncate max-w-[120px]">{s.name}</span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-[60px] h-1 bg-stone-100 rounded-full overflow-hidden">
-                        <div className={`h-full ${attendanceBg(pct)}`} style={{ width: `${pct}%` }} />
+                      <div className="w-[60px] h-1 bg-border-subtle rounded-full overflow-hidden">
+                        <div className={`h-full ${attendanceBg(pct)} dark:opacity-85`} style={{ width: `${pct}%` }} />
                       </div>
                       <span className={`text-xs font-black min-w-[30px] text-right ${attendanceColor(pct)}`}>
                         {Math.round(pct)}%
@@ -332,17 +332,17 @@ export default function SemesterProgressWidget() {
               })}
             </div>
           )}
-          <div className="mt-4 pt-4 border-t border-stone-50">
+          <div className="mt-4 pt-4 border-t border-border-subtle">
             <Link href="/dashboard/attendance" className="text-[11px] font-black text-accent uppercase tracking-widest hover:underline">
               View all →
             </Link>
           </div>
         </div>
 
-        <div className="bg-white dark:bg-stone-900 p-4 md:pl-6 md:pt-6">
-          <p className="text-[11px] font-bold text-ink-3 uppercase tracking-[0.08em] mb-4">Action Needed</p>
+        <div className="bg-bg-surface p-4 md:pl-6 md:pt-6 dark:bg-bg-elevated">
+          <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em] mb-4">Action Needed</p>
           {loadingSettings || loadingSubjects || loadingTasks || loadingCGPA ? <Skeleton /> : atRiskIssues.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-6 text-green-600/70">
+            <div className="flex flex-col items-center justify-center py-6 text-green-600/70 dark:text-green-400/70">
               <CheckCircle2 size={24} className="mb-2" />
               <p className="text-[11px] font-bold uppercase tracking-widest">All good — nothing urgent</p>
             </div>
@@ -350,8 +350,8 @@ export default function SemesterProgressWidget() {
             <ul className="space-y-2">
               {atRiskIssues.slice(0, 4).map((issue, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-ink-3 mt-1">•</span>
-                  <Link href={issue.link} className={`text-xs font-medium hover:underline ${issue.critical ? 'text-red-600' : 'text-ink-2'}`}>
+                  <span className="text-text-tertiary mt-1">•</span>
+                  <Link href={issue.link} className={`text-xs font-medium hover:underline ${issue.critical ? 'text-red-600 dark:text-[#DC5050]' : 'text-text-secondary'}`}>
                     {issue.label}
                   </Link>
                 </li>
@@ -370,7 +370,7 @@ export default function SemesterProgressWidget() {
             top: 1.5rem;
             bottom: 1.5rem;
             width: 0.5px;
-            background: rgba(0,0,0,0.08);
+            background: var(--border-subtle);
           }
           .grid > div:nth-child(1)::before {
             content: '';
@@ -379,7 +379,7 @@ export default function SemesterProgressWidget() {
             right: 1.5rem;
             bottom: 0;
             height: 0.5px;
-            background: rgba(0,0,0,0.08);
+            background: var(--border-subtle);
           }
           .grid > div:nth-child(2)::after {
             content: '';
@@ -388,7 +388,7 @@ export default function SemesterProgressWidget() {
             right: 1.5rem;
             bottom: 0;
             height: 0.5px;
-            background: rgba(0,0,0,0.08);
+            background: var(--border-subtle);
           }
           .grid > div:nth-child(3)::after {
             content: '';
@@ -397,12 +397,12 @@ export default function SemesterProgressWidget() {
             top: 1.5rem;
             bottom: 1.5rem;
             width: 0.5px;
-            background: rgba(0,0,0,0.08);
+            background: var(--border-subtle);
           }
         }
         @media (max-width: 767px) {
           .grid > div:not(:last-child) {
-            border-bottom: 0.5px solid rgba(0,0,0,0.08);
+            border-bottom: 0.5px solid var(--border-subtle);
           }
         }
       `}</style>

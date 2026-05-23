@@ -2,9 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-base:        #FFFFFF;
+  --bg-surface:     #F8F9FA;
+  --bg-elevated:    #FFFFFF;
+  --border-subtle:  rgba(0, 0, 0, 0.08);
+  --border-default: rgba(0, 0, 0, 0.14);
+  --text-primary:   #0F1117;
+  --text-secondary: #5C6070;
+  --text-tertiary:  #9DA3B0;
+}
+
+.dark {
+  --bg-base:        #0D0F14;
+  --bg-surface:     #151820;
+  --bg-elevated:    #1E2130;
+  --border-subtle:  rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.13);
+  --text-primary:   #E8EAF0;
+  --text-secondary: #8B90A0;
+  --text-tertiary:  #555B6E;
+}
+
+/* Smooth transition when toggling — applied to everything */
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+              color 0.15s ease;
+}
+
+/* Suppress transition on page load to prevent flash */
+.no-transition, .no-transition * {
+  transition: none !important;
+}
+
 @layer base {
   body {
-    @apply bg-bg text-ink font-body antialiased selection:bg-accent/10 selection:text-accent;
+    @apply bg-bg-base text-text-primary font-body antialiased selection:bg-accent/10 selection:text-accent;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -13,12 +46,12 @@
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-white/70 backdrop-blur-xl border border-border-strong shadow-sm;
+  .card-glass {
+    @apply bg-bg-surface/70 backdrop-blur-xl border border-border-strong shadow-sm dark:bg-bg-elevated/70;
   }
-  
+
   .nav-glass {
-    @apply bg-bg/95 md:bg-bg/80 backdrop-blur-md border-b border-border-strong;
+    @apply bg-bg-base backdrop-blur-md border-b border-border-strong;
   }
 
   .btn-primary {
@@ -27,7 +60,7 @@
   }
 
   .btn-secondary {
-    @apply bg-white text-ink border border-border-strong px-6 py-3 rounded-xl font-bold shadow-sm hover:bg-stone-50 transition-all active:scale-[0.98] disabled:opacity-50;
+    @apply bg-bg-surface text-text-primary border border-border-strong px-6 py-3 rounded-xl font-bold shadow-sm hover:bg-bg-base transition-all active:scale-[0.98] disabled:opacity-50 dark:bg-bg-elevated dark:hover:bg-bg-surface;
     @apply touch-manipulation;
   }
 

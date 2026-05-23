@@ -35,6 +35,24 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${lora.variable} ${spaceGrotesk.variable} h-full antialiased overflow-x-hidden`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              var stored = localStorage.getItem('backlogger-theme');
+              var prefersDark = window.matchMedia(
+                '(prefers-color-scheme: dark)').matches;
+              if (stored === 'dark' || (!stored && prefersDark)) {
+                document.documentElement.classList.add('dark');
+              }
+              document.documentElement.classList.add('no-transition');
+              window.addEventListener('load', function() {
+                document.documentElement.classList.remove('no-transition');
+              });
+            } catch(e) {}
+          })();
+        `}} />
+      </head>
       <body className="min-h-full flex flex-col overflow-x-hidden">
         <SubscriptionProvider>
           <KeepAlive />
