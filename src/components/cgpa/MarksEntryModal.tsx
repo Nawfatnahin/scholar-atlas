@@ -47,15 +47,15 @@ export function MarksEntryModal({
       const ct = existing.find((c) => c.ct_number === i);
       forms.push({
         ct_number: i,
-        marks_obtained: ct ? ct.marks_obtained : '',
-        total_marks: ct ? ct.total_marks : '',
+        marks_obtained: ct && (ct.marks_obtained > 0 || ct.total_marks > 0) ? String(ct.marks_obtained) : '',
+        total_marks: ct && ct.total_marks > 0 ? String(ct.total_marks) : '',
       });
     }
     return forms;
   });
 
   const [assignmentObtained, setAssignmentObtained] = useState<string>(
-    course.assignment_obtained > 0 ? String(course.assignment_obtained) : ''
+    course.assignment_obtained > 0 || course.assignment_total_marks > 0 ? String(course.assignment_obtained) : ''
   );
   const [assignmentTotal, setAssignmentTotal] = useState<string>(
     course.assignment_total_marks > 0 ? String(course.assignment_total_marks) : ''
@@ -308,7 +308,7 @@ export function MarksEntryModal({
                               : 'border-stone-100 bg-white focus:border-blue-400'
                           }`}
                           min="0"
-                          placeholder="—"
+                          placeholder="0"
                         />
                         <input
                           type="number"
@@ -324,7 +324,7 @@ export function MarksEntryModal({
                               : 'border-stone-100 bg-white focus:border-blue-400'
                           }`}
                           min="0"
-                          placeholder="—"
+                          placeholder="0"
                         />
                         <span className={`text-sm font-bold text-right ${isCounted ? 'text-emerald-700' : 'text-ink-3'}`}>
                           {pct !== undefined ? `${pct.toFixed(1)}%` : '—'}
@@ -362,7 +362,7 @@ export function MarksEntryModal({
                       type="number"
                       value={assignmentObtained}
                       onChange={(e) => setAssignmentObtained(e.target.value)}
-                      placeholder="e.g. 18"
+                      placeholder="0"
                       className={`w-full px-4 py-3 rounded-xl border-2 text-sm font-bold outline-none transition-all ${
                         assignmentObtained === ''
                           ? 'border-amber-300 bg-amber-50 focus:border-[#92400e]'
@@ -377,7 +377,7 @@ export function MarksEntryModal({
                       type="number"
                       value={assignmentTotal}
                       onChange={(e) => setAssignmentTotal(e.target.value)}
-                      placeholder="e.g. 20"
+                      placeholder="0"
                       className={`w-full px-4 py-3 rounded-xl border-2 text-sm font-bold outline-none transition-all ${
                         assignmentTotal === ''
                           ? 'border-amber-300 bg-amber-50 focus:border-[#92400e]'
@@ -433,7 +433,7 @@ export function MarksEntryModal({
                       type="number"
                       value={manualAttendance}
                       onChange={(e) => setManualAttendance(e.target.value)}
-                      placeholder="e.g. 85"
+                      placeholder="0"
                       className={`w-full px-4 py-3 rounded-xl border-2 text-sm font-bold outline-none transition-all ${
                         manualAttendance === ''
                           ? 'border-amber-300 bg-amber-50 focus:border-[#92400e]'
@@ -517,7 +517,8 @@ export function MarksEntryModal({
                     <p className="text-base font-black text-[#78350f]">
                       You need{' '}
                       <span className="text-2xl text-[#92400e]">
-                        {breakdown?.requiredExamPercentage.toFixed(1)}%
+                        {breakdown?.requiredExamPercentage.toFixed(1)}% 
+                        <span className="text-base font-bold text-[#92400e]/80 ml-2">({((breakdown?.requiredExamPercentage / 100) * 100).toFixed(1)} / 100 absolute)</span>
                       </span>{' '}
                       in the Written Exam
                     </p>
