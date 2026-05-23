@@ -129,13 +129,13 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-8">
               <div className="relative p-1">
-                <div className="absolute -left-6 top-0 bottom-0 w-1.5 bg-gradient-to-b from-accent via-accent/40 to-transparent rounded-full opacity-60" />
-                <p className="text-xl text-ink-2 leading-relaxed font-medium">
-                  I&apos;ve always been driven by efficiency. I loathe redundant clicks and bloated interfaces that feel like they were designed in the early 2000s. As a student, I found myself constantly calculating &quot;skip budgets&quot; and &quot;minimum marks&quot; manually because no app treated academic life as a dynamic, evolving environment.
+                <div className="absolute -left-6 top-0 bottom-0 w-1.5 bg-accent/20 rounded-full" />
+                <p className="text-xl text-ink leading-relaxed font-medium pl-4">
+                  Most academic tools assume your semester is static. They log what happened; they don&apos;t tell you what&apos;s coming. I spent too many late nights reverse-engineering my own grade trajectories in a spreadsheet because nothing else did it right.
                 </p>
               </div>
-              <p className="text-lg text-ink-3 leading-relaxed font-medium opacity-90">
-                My approach to building Scholar Atlas reflects my own behavior: direct, goal-oriented, and slightly obsessed with visual harmony. I don&apos;t just want to track data; I want to see the future of my semester. I want to know exactly where I stand at 3:00 AM before a deadline.
+              <p className="text-lg text-ink leading-relaxed font-medium">
+                Scholar Atlas started as that spreadsheet. The goal was simple: show me, at any point in the semester, exactly what I need to score to finish where I want. No extra clicks, no buried menus. I cared as much about how the numbers were laid out as whether they were correct, because an interface that fights you at 3 AM is useless regardless of what&apos;s underneath.
               </p>
             </div>
 
