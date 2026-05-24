@@ -246,7 +246,7 @@ export default function SemesterProgressWidget() {
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
         {/* Quick Stats Card */}
-        <div className="bg-white dark:bg-bg-surface/40 border border-border-strong/50 backdrop-blur-md p-5 rounded-2xl relative overflow-hidden group/card shadow-[0_8px_20px_-6px_rgba(0,0,0,0.03)] dark:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.2)] hover:shadow-[0_16px_32px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_16px_32px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:border-border-strong/80 transition-all duration-300">
+        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out">
           <div className="flex items-center gap-2 mb-4">
             <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
               <BarChart3 size={14} className="stroke-[2.5]" />
@@ -305,7 +305,7 @@ export default function SemesterProgressWidget() {
         </div>
 
         {/* Upcoming Card */}
-        <div className="bg-white dark:bg-bg-surface/40 border border-border-strong/50 backdrop-blur-md p-5 rounded-2xl relative overflow-hidden group/card shadow-[0_8px_20px_-6px_rgba(0,0,0,0.03)] dark:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.2)] hover:shadow-[0_16px_32px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_16px_32px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:border-border-strong/80 transition-all duration-300 flex flex-col justify-between">
+        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
@@ -349,7 +349,7 @@ export default function SemesterProgressWidget() {
         </div>
 
         {/* Subjects Card */}
-        <div className="bg-white dark:bg-bg-surface/40 border border-border-strong/50 backdrop-blur-md p-5 rounded-2xl relative overflow-hidden group/card shadow-[0_8px_20px_-6px_rgba(0,0,0,0.03)] dark:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.2)] hover:shadow-[0_16px_32px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_16px_32px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:border-border-strong/80 transition-all duration-300 flex flex-col justify-between">
+        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
@@ -394,7 +394,7 @@ export default function SemesterProgressWidget() {
         </div>
 
         {/* Action Needed Card */}
-        <div className="bg-white dark:bg-bg-surface/40 border border-border-strong/50 backdrop-blur-md p-5 rounded-2xl relative overflow-hidden group/card shadow-[0_8px_20px_-6px_rgba(0,0,0,0.03)] dark:shadow-[0_8px_20px_-6px_rgba(0,0,0,0.2)] hover:shadow-[0_16px_32px_rgba(0,0,0,0.05)] dark:hover:shadow-[0_16px_32px_rgba(0,0,0,0.3)] hover:-translate-y-0.5 hover:border-border-strong/80 transition-all duration-300">
+        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out">
           <div className="flex items-center gap-2 mb-4">
             <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
               <Zap size={14} className="stroke-[2.5]" />
