@@ -132,7 +132,17 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
   };
 
   return (
-    <div className={`group relative bg-bg-surface/70 backdrop-blur-xl rounded-[32px] border-y border-r border-border-strong border-l-4 ${healthColors[stats.healthStatus]} shadow-[0_10px_30px_rgba(0,0,0,0.02)] overflow-hidden transition-all hover:shadow-[0_20px_50px_rgba(0,0,0,0.06)] h-fit dark:bg-bg-elevated/70`}>
+    <div className={`
+      group relative 
+      bg-white dark:bg-zinc-900 
+      rounded-[24px] 
+      border-2 border-zinc-200 dark:border-zinc-800 
+      border-l-[6px] ${healthColors[stats.healthStatus]}
+      shadow-[0_8px_0_0_rgba(0,0,0,0.05)] dark:shadow-[0_8px_0_0_rgba(0,0,0,0.2)]
+      hover:-translate-y-1 hover:shadow-[0_12px_0_0_rgba(0,0,0,0.08)] dark:hover:shadow-[0_12px_0_0_rgba(0,0,0,0.3)]
+      transition-all duration-300 ease-out
+      overflow-hidden h-fit
+    `}>
       <div className="p-6">
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-3">
