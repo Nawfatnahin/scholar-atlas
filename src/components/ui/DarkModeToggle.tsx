@@ -23,10 +23,10 @@ export default function DarkModeToggle() {
     // 2. Flip the class
     if (nextIsDark) {
       document.documentElement.classList.add("dark");
-      localStorage.setItem("backlogger-theme", "dark");
+      localStorage.setItem("scholar-atlas-theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
-      localStorage.setItem("backlogger-theme", "light");
+      localStorage.setItem("scholar-atlas-theme", "light");
     }
 
     // 3. Remove suppressor after 1 frame

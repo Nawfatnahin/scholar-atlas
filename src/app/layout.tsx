@@ -39,7 +39,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
-              var stored = localStorage.getItem('backlogger-theme');
+              var stored = localStorage.getItem('scholar-atlas-theme');
               var prefersDark = window.matchMedia(
                 '(prefers-color-scheme: dark)').matches;
               if (stored === 'dark' || (!stored && prefersDark)) {
