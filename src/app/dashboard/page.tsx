@@ -148,21 +148,21 @@ export default async function DashboardPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {/* PDF Tools */}
-            <Link href="/tools/pdf" className="group relative bg-white dark:bg-bg-elevated/70 p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] border border-border-strong/60 shadow-[0_8px_30px_rgba(0,0,0,0.02),inset_0_-2px_4px_rgba(0,0,0,0.01),inset_0_2px_0_rgba(255,255,255,0.95)] hover:shadow-[0_30px_60px_rgba(146,64,14,0.06)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+            <Link href="/tools/pdf" className="group relative glass-card p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] overflow-hidden flex flex-col">
               <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-amber-500/5 blur-[30px] sm:blur-[40px] rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16 group-hover:bg-amber-500/10 transition-colors" />
               <div className="w-12 sm:w-16 h-12 sm:h-16 rounded-[18px] sm:rounded-[24px] bg-amber-100 flex items-center justify-center mb-6 sm:mb-8 shadow-inner shadow-amber-900/5 group-hover:scale-110 transition-transform dark:bg-amber-900/20">
                 <FileText className="w-6 sm:w-8 h-6 sm:h-8 text-amber-700 dark:text-amber-500" />
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-text-primary mb-2 sm:mb-3 tracking-tight">PDF Toolkit</h3>
-              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium">Professional grade tools to merge, split and convert your lecture materials.</p>
-              <div className="flex items-center gap-3 text-amber-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-amber-500">
+              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium flex-1">Professional grade tools to merge, split and convert your lecture materials.</p>
+              <div className="flex items-center gap-3 text-amber-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-amber-500 mt-auto">
                 <span>Launch Tools</span>
                 <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </Link>
 
             {/* Attendance */}
-            <Link href={user ? "/dashboard/attendance" : "/login"} className="group relative bg-white dark:bg-bg-elevated/70 p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] border border-border-strong/60 shadow-[0_8px_30px_rgba(0,0,0,0.02),inset_0_-2px_4px_rgba(0,0,0,0.01),inset_0_2px_0_rgba(255,255,255,0.95)] hover:shadow-[0_30px_60px_rgba(22,163,74,0.06)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+            <Link href={user ? "/dashboard/attendance" : "/login"} className="group relative glass-card p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] overflow-hidden flex flex-col">
               <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-green-500/5 blur-[30px] sm:blur-[40px] rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16 group-hover:bg-green-500/10 transition-colors" />
               {!user && (
                 <div className="absolute inset-0 bg-bg-base/40 backdrop-blur-[2px] z-10 flex items-center justify-center">
@@ -173,15 +173,15 @@ export default async function DashboardPage() {
                 <CalendarCheck className="w-6 sm:w-8 h-6 sm:h-8 text-green-700 dark:text-green-500" />
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-text-primary mb-2 sm:mb-3 tracking-tight">Attendance</h3>
-              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium">Smart monitoring system for your classes with real time target forecasting.</p>
-              <div className="flex items-center gap-3 text-green-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-green-500">
+              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium flex-1">Smart monitoring system for your classes with real time target forecasting.</p>
+              <div className="flex items-center gap-3 text-green-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-green-500 mt-auto">
                 <span>{user ? "View Stats" : "Login to View"}</span>
                 <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </Link>
 
             {/* Task Tracker */}
-            <Link href={user ? "/dashboard/tasks" : "/login"} className="group relative bg-white dark:bg-bg-elevated/70 p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] border border-border-strong/60 shadow-[0_8px_30px_rgba(0,0,0,0.02),inset_0_-2px_4px_rgba(0,0,0,0.01),inset_0_2px_0_rgba(255,255,255,0.95)] hover:shadow-[0_30px_60px_rgba(37,99,235,0.06)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+            <Link href={user ? "/dashboard/tasks" : "/login"} className="group relative glass-card p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] overflow-hidden flex flex-col">
               <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-blue-500/5 blur-[30px] sm:blur-[40px] rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16 group-hover:bg-blue-500/10 transition-colors" />
               {!user && (
                 <div className="absolute inset-0 bg-bg-base/40 backdrop-blur-[2px] z-10 flex items-center justify-center">
@@ -192,15 +192,15 @@ export default async function DashboardPage() {
                 <LayoutList className="w-6 sm:w-8 h-6 sm:h-8 text-blue-700 dark:text-blue-500" />
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-text-primary mb-2 sm:mb-3 tracking-tight">Task Board</h3>
-              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium">High performance Kanban board to organize and crush your academic goals.</p>
-              <div className="flex items-center gap-3 text-blue-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-blue-500">
+              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium flex-1">High performance Kanban board to organize and crush your academic goals.</p>
+              <div className="flex items-center gap-3 text-blue-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-blue-500 mt-auto">
                 <span>{user ? "Manage Workflow" : "Login to Manage"}</span>
                 <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </Link>
 
             {/* CGPA Manager */}
-            <Link href={user ? "/dashboard/cgpa" : "/login"} className="group relative bg-white dark:bg-bg-elevated/70 p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] border border-border-strong/60 shadow-[0_8px_30px_rgba(0,0,0,0.02),inset_0_-2px_4px_rgba(0,0,0,0.01),inset_0_2px_0_rgba(255,255,255,0.95)] hover:shadow-[0_30px_60px_rgba(124,58,237,0.06)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+            <Link href={user ? "/dashboard/cgpa" : "/login"} className="group relative glass-card p-6 sm:p-10 rounded-[30px] sm:rounded-[50px] overflow-hidden flex flex-col">
               <div className="absolute top-0 right-0 w-24 sm:w-32 h-24 sm:h-32 bg-violet-500/5 blur-[30px] sm:blur-[40px] rounded-full -mr-12 sm:-mr-16 -mt-12 sm:-mt-16 group-hover:bg-violet-500/10 transition-colors" />
               {!user && (
                 <div className="absolute inset-0 bg-bg-base/40 backdrop-blur-[2px] z-10 flex items-center justify-center">
@@ -211,8 +211,8 @@ export default async function DashboardPage() {
                 <GraduationCap className="w-6 sm:w-8 h-6 sm:h-8 text-violet-700 dark:text-violet-500" />
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-text-primary mb-2 sm:mb-3 tracking-tight">CGPA Manager</h3>
-              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium">Dual engine CGPA calculator with assessment prediction and exam score forecasting.</p>
-              <div className="flex items-center gap-3 text-violet-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-violet-500">
+              <p className="text-text-secondary text-sm sm:text-base leading-relaxed mb-6 sm:mb-10 font-medium flex-1">Dual engine CGPA calculator with assessment prediction and exam score forecasting.</p>
+              <div className="flex items-center gap-3 text-violet-700 font-black text-[12px] sm:text-sm uppercase tracking-widest dark:text-violet-500 mt-auto">
                 <span>{user ? "Track CGPA" : "Login to Track"}</span>
                 <ArrowRight className="w-4 sm:w-5 h-4 sm:h-5 group-hover:translate-x-2 transition-transform" />
               </div>
