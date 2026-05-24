@@ -14,6 +14,15 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "1.0.3",
+    date: "2026-05-24",
+    summary: "Cloudflare deployment compatibility fix",
+    changes: [
+      { type: "FIXED", description: "Resolved OpenNext deployment failure by removing incompatible 'edge' runtime configuration from all routes and pages" },
+      { type: "IMPROVED", description: "Standardized server-side rendering mode for seamless integration with Cloudflare Workers environment" },
+    ],
+  },
+  {
     version: "1.0.2",
     date: "2026-05-24",
     summary: "Dashboard visual overhaul, theme contrast restoration, and deployment fixes",

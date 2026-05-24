@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { createClient } from "@/lib/supabase/server";
 import { CGPAManager } from "@/components/cgpa/CGPAManager";
 import Link from "next/link";

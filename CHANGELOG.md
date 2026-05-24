@@ -4,6 +4,17 @@ Format: [version] — YYYY-MM-DD
 
 ---
 
+## [1.0.3] — 2026-05-24
+
+### Fixed
+- Resolved OpenNext deployment failure by removing incompatible 'edge' runtime configuration from all routes and pages.
+- Generated and configured `wrangler.jsonc` and `open-next.config.ts` for standardized Cloudflare Workers deployment.
+
+### Improved
+- Standardized server-side rendering mode for seamless integration with Cloudflare Workers environment.
+
+---
+
 ## [1.0.2] — 2026-05-24
 
 ### Improved

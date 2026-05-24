@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { updatePassword } from "../actions";
 
 export default async function ResetPasswordPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
