@@ -161,6 +161,11 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
       const currentUser = session?.user || null;
       
       setUser(prevUser => {
+        // If it's a USER_UPDATED event, always return the new user object to ensure metadata changes trigger a re-render
+        if (event === 'USER_UPDATED') {
+          return currentUser;
+        }
+        
         if (prevUser?.id === currentUser?.id && prevUser?.email === currentUser?.email) {
           return prevUser;
         }

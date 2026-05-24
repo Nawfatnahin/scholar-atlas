@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X } from "lucide-react";
+import { Check, X, Pencil } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
@@ -57,10 +57,17 @@ export default function DashboardGreeting({ initialName }: { initialName: string
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex items-center gap-4 sm:gap-6 group">
             <h2 className="text-3xl sm:text-5xl md:text-7xl font-black text-ink tracking-tighter leading-tight">
               Hey, <span className="text-[#92400e]">{name}</span>
             </h2>
+            <button 
+              onClick={() => setIsEditing(true)}
+              className="p-2 sm:p-3 rounded-2xl bg-amber-100/50 text-[#92400e] opacity-0 group-hover:opacity-100 transition-all hover:bg-amber-100 shadow-sm hover:shadow-md active:scale-95 border border-[#92400e]/10"
+              title="Edit name"
+            >
+              <Pencil className="w-5 h-5 sm:w-6 h-6" />
+            </button>
           </div>
         )}
       </div>

@@ -4,9 +4,11 @@ import { Crown, Shield, User as UserIcon } from "lucide-react";
 import { useSubscription } from "@/components/SubscriptionProvider";
 
 export default function UserBadge({ email }: { email: string }) {
-  const { isPro, isAdmin } = useSubscription();
+  const { isPro, isAdmin, user } = useSubscription();
 
-  if (!email) return null;
+  if (!email && !user) return null;
+
+  const displayName = user?.user_metadata?.display_name || email.split('@')[0] || "User";
 
   return (
     <div className="relative group flex items-center hidden md:flex">
@@ -18,7 +20,7 @@ export default function UserBadge({ email }: { email: string }) {
           <span className={`text-[8px] font-black uppercase tracking-widest ${isAdmin ? 'text-purple-600' : (isPro ? 'text-amber-600' : 'text-stone-500')}`}>
             {isAdmin ? "Super Admin" : (isPro ? "Premium Access" : "Standard Tier")}
           </span>
-          <span className="text-xs font-bold text-ink truncate max-w-[120px] lg:max-w-[180px]">{email}</span>
+          <span className="text-xs font-bold text-ink truncate max-w-[120px] lg:max-w-[180px]">{displayName}</span>
         </div>
         <div className="absolute top-1.5 right-1.5">
           <span className="flex h-2 w-2">
