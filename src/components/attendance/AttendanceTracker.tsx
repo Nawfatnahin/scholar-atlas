@@ -9,30 +9,62 @@ import {
   AlertCircle,
   Hash,
   Info,
-  X,
-  Layers
+  X
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
-import { calculateStats, SubjectAttendanceStats } from '@/lib/attendance/calculator';
+import { calculateStats } from '@/lib/attendance/calculator';
 import { SubjectCard } from './SubjectCard';
 import { TodaySchedule } from './TodaySchedule';
 import { HolidayModal } from './HolidayModal';
-import { BatchMarkFooter } from './BatchMarkFooter';
-import { addSubject, updateSubject, bulkMarkAttendance } from '@/app/dashboard/attendance/actions';
+import { addSubject, updateSubject } from '@/app/dashboard/attendance/actions';
 
 interface AttendanceTrackerProps {
   initialSubjects: any[];
   initialHolidays: any[];
 }
 
+function getClassesCountBetween(startDateStr: string, endDate: Date, classDays: string[]): number {
+  if (!startDateStr || classDays.length === 0) return 0;
+  const start = new Date(startDateStr);
+  if (start >= endDate) return 0;
+  
+  let count = 0;
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  
+  let current = new Date(start.getTime());
+  while (current < endDate) {
+    const dayName = dayNames[current.getDay()];
+    if (classDays.includes(dayName)) {
+      count++;
+    }
+    current.setDate(current.getDate() + 1);
+  }
+  return count;
+}
+
+function getPastClassDates(startDateStr: string, endDate: Date, classDays: string[]): string[] {
+  if (!startDateStr || classDays.length === 0) return [];
+  const start = new Date(startDateStr);
+  const dates: string[] = [];
+  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  
+  let current = new Date(start.getTime());
+  while (current < endDate) {
+    const dayName = dayNames[current.getDay()];
+    if (classDays.includes(dayName)) {
+      dates.push(current.toISOString().split('T')[0]);
+    }
+    current.setDate(current.getDate() + 1);
+  }
+  return dates;
+}
+
 export function AttendanceTracker({ initialSubjects, initialHolidays }: AttendanceTrackerProps) {
   const [isAdding, setIsAdding] = useState(false);
   const [editingSubject, setEditingSubject] = useState<any | null>(null);
-  const [isBatchMode, setIsBatchMode] = useState(false);
   const [isHolidayModalOpen, setIsHolidayModalOpen] = useState(false);
   const [isPending, setIsPending] = useState(false);
-  const [batchChanges, setBatchChanges] = useState<Record<string, any>>({});
 
   // Form State
   const [formData, setFormData] = useState({
@@ -43,6 +75,7 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
     semesterStartDate: format(new Date(), 'yyyy-MM-dd'),
     totalWeeks: 15,
   });
+  const [attendedPastClasses, setAttendedPastClasses] = useState<number>(0);
 
   const subjectsWithStats = useMemo(() => {
     return initialSubjects.map(subject => {
@@ -67,6 +100,10 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
     s => s.stats.healthStatus === 'unreachable'
   ).length;
 
+  const pastClassesCount = useMemo(() => {
+    return getClassesCountBetween(formData.semesterStartDate, new Date(), formData.classDays);
+  }, [formData.semesterStartDate, formData.classDays]);
+
   const handleAddSubject = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || formData.classDays.length === 0) {
@@ -75,32 +112,80 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
     }
     setIsPending(true);
     try {
-      console.log('[JARVIS]: Dispatching subject configuration to server...');
-      const res = await addSubject({
-        name: formData.name,
-        courseCode: formData.courseCode,
-        requiredThreshold: Number(formData.personalTarget),
-        personalTarget: Number(formData.personalTarget),
-        classDays: formData.classDays,
-        semesterStartDate: formData.semesterStartDate,
-        totalWeeks: Number(formData.totalWeeks)
-      });
-
-      if (res.success) {
-        setIsAdding(false);
-        setEditingSubject(null);
-        setFormData({
-          name: '',
-          courseCode: '',
-          personalTarget: 75,
-          classDays: [],
-          semesterStartDate: format(new Date(), 'yyyy-MM-dd'),
-          totalWeeks: 15,
+      if (editingSubject) {
+        console.log('[JARVIS]: Dispatching subject update to server...');
+        const res = await updateSubject(editingSubject.id, {
+          name: formData.name,
+          course_code: formData.courseCode ? String(formData.courseCode).trim() : null,
+          required_threshold: Number(formData.personalTarget),
+          personal_target: Number(formData.personalTarget),
+          schedule_days: formData.classDays,
+          semester_start_date: formData.semesterStartDate,
+          total_classes_planned: Number(formData.totalWeeks) * formData.classDays.length
         });
-        toast.success("Academic track initialized with absolute precision, Sir.");
+
+        if (res.success) {
+          setIsAdding(false);
+          setEditingSubject(null);
+          setFormData({
+            name: '',
+            courseCode: '',
+            personalTarget: 75,
+            classDays: [],
+            semesterStartDate: format(new Date(), 'yyyy-MM-dd'),
+            totalWeeks: 15,
+          });
+          setAttendedPastClasses(0);
+          toast.success("Subject settings updated with precision, Sir.");
+        } else {
+          toast.error(`Update Failed: ${res.error}`);
+        }
       } else {
-        console.error('[JARVIS]: Server Action reported failure:', res.error);
-        toast.error(`Configuration Failed: ${res.error}`);
+        console.log('[JARVIS]: Dispatching subject configuration to server...');
+        
+        // Generate past records if starting in the past
+        let pastRecords: Array<{ classDate: string; absenceType: 'present' | 'unexcused' }> = [];
+        const pastClassDates = getPastClassDates(formData.semesterStartDate, new Date(), formData.classDays);
+        if (pastClassDates.length > 0) {
+          // Sort chronologically
+          pastClassDates.sort();
+          // First N are present, remaining are unexcused
+          for (let i = 0; i < pastClassDates.length; i++) {
+            pastRecords.push({
+              classDate: pastClassDates[i],
+              absenceType: i < attendedPastClasses ? 'present' : 'unexcused'
+            });
+          }
+        }
+
+        const res = await addSubject({
+          name: formData.name,
+          courseCode: formData.courseCode,
+          requiredThreshold: Number(formData.personalTarget),
+          personalTarget: Number(formData.personalTarget),
+          classDays: formData.classDays,
+          semesterStartDate: formData.semesterStartDate,
+          totalWeeks: Number(formData.totalWeeks),
+          pastRecords
+        });
+
+        if (res.success) {
+          setIsAdding(false);
+          setEditingSubject(null);
+          setFormData({
+            name: '',
+            courseCode: '',
+            personalTarget: 75,
+            classDays: [],
+            semesterStartDate: format(new Date(), 'yyyy-MM-dd'),
+            totalWeeks: 15,
+          });
+          setAttendedPastClasses(0);
+          toast.success("Academic track initialized with absolute precision, Sir.");
+        } else {
+          console.error('[JARVIS]: Server Action reported failure:', res.error);
+          toast.error(`Configuration Failed: ${res.error}`);
+        }
       }
     } catch (error: any) {
       console.error('[JARVIS]: Unexpected network or runtime exception:', error);
@@ -110,34 +195,17 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
     }
   };
 
-  const handleSaveBatch = async () => {
-    setIsPending(true);
-    try {
-      const records = Object.entries(batchChanges).map(([key, value]) => {
-        const [subjectId, classDate] = key.split('|');
-        return { subjectId, classDate, absenceType: value };
-      });
-      await bulkMarkAttendance({ records });
-      setBatchChanges({});
-      setIsBatchMode(false);
-      toast.success("Batch updates finalized, Sir.");
-    } catch (error: any) {
-      toast.error(error.message);
-    } finally {
-      setIsPending(false);
-    }
-  };
-
-  const handleBatchToggle = (subjectId: string, date: string, currentType: string) => {
-    const key = `${subjectId}|${date}`;
-    const types = ['present', 'unexcused', 'medical', 'excused', 'cancelled'];
-    const currentIndex = types.indexOf(currentType || 'none');
-    const nextType = types[(currentIndex + 1) % types.length];
-    
-    setBatchChanges(prev => ({
-      ...prev,
-      [key]: nextType
-    }));
+  const handleEditSubject = (subject: any) => {
+    setEditingSubject(subject);
+    setFormData({
+      name: subject.name,
+      courseCode: subject.course_code || '',
+      personalTarget: subject.personal_target ?? subject.required_threshold,
+      classDays: subject.schedule_days || [],
+      semesterStartDate: subject.semester_start_date || format(new Date(), 'yyyy-MM-dd'),
+      totalWeeks: Math.round((subject.total_classes_planned || 0) / (subject.schedule_days?.length || 1)) || 15,
+    });
+    setAttendedPastClasses(0);
   };
 
   return (
@@ -185,17 +253,6 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
         </div>
         <div className="flex flex-wrap gap-3">
           <button
-            onClick={() => setIsBatchMode(!isBatchMode)}
-            className={`flex items-center gap-3 px-6 py-4 rounded-[20px] font-black uppercase tracking-widest transition-all active:scale-95 ${
-              isBatchMode 
-                ? 'bg-accent text-white shadow-lg shadow-accent/20' 
-                : 'bg-bg-surface border border-border-strong text-text-tertiary hover:text-text-primary dark:bg-bg-elevated'
-            }`}
-          >
-            <Layers className="w-5 h-5" />
-            Batch Mark
-          </button>
-          <button
             onClick={() => setIsHolidayModalOpen(true)}
             className="flex items-center gap-3 bg-accent/10 text-accent px-6 py-4 rounded-[20px] font-black uppercase tracking-widest hover:bg-accent/20 transition-all active:scale-95"
           >
@@ -218,10 +275,8 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
           <SubjectCard 
             key={subject.id} 
             subject={subject} 
-            stats={stats} 
-            isBatchMode={isBatchMode}
-            batchChanges={batchChanges}
-            onBatchToggle={(date, currentType) => handleBatchToggle(subject.id, date, currentType)}
+            stats={stats}
+            onEdit={handleEditSubject}
           />
         ))}
       </div>
@@ -246,17 +301,6 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
         subjects={initialSubjects}
       />
 
-      <BatchMarkFooter 
-        isVisible={isBatchMode}
-        changeCount={Object.keys(batchChanges).length}
-        onSave={handleSaveBatch}
-        onCancel={() => {
-          setBatchChanges({});
-          setIsBatchMode(false);
-        }}
-        isPending={isPending}
-      />
-
       {/* Add/Edit Subject Modal */}
       {(isAdding || editingSubject) && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in">
@@ -267,7 +311,7 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
                   <Layout className="w-6 h-6" />
                 </div>
                 <h3 className="text-2xl font-black text-text-primary">
-                  {editingSubject ? "Module Configuration" : "New Monitoring Track"}
+                  {editingSubject ? "Rename & Edit Course" : "New Monitoring Track"}
                 </h3>
               </div>
               <button type="button" onClick={() => { setIsAdding(false); setEditingSubject(null); }} className="p-2 hover:bg-bg-surface rounded-xl transition-colors dark:hover:bg-bg-elevated">
@@ -320,6 +364,33 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
                   <input type="number" value={formData.totalWeeks} onChange={(e) => setFormData({...formData, totalWeeks: parseInt(e.target.value)})} className="w-full px-4 py-3.5 rounded-xl border-2 border-border-strong bg-bg-base font-bold text-text-primary outline-none focus:border-accent transition-all dark:bg-bg-elevated" required />
                 </div>
               </div>
+
+              {/* Historical Class Input */}
+              {!editingSubject && pastClassesCount > 0 && (
+                <div className="p-6 rounded-3xl bg-amber-50 border border-amber-200 dark:bg-amber-950/10 dark:border-amber-900/20 space-y-4 animate-in slide-in-from-top-4 duration-300">
+                  <div className="flex gap-3">
+                    <AlertCircle className="w-5 h-5 text-amber-600 dark:text-[#C9831A] shrink-0 mt-0.5" />
+                    <div>
+                      <h4 className="font-bold text-amber-800 dark:text-amber-300 text-sm">Course Already In Progress</h4>
+                      <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
+                        Based on your start date of <span className="font-black">{formData.semesterStartDate}</span>, 
+                        approximately <span className="font-black">{pastClassesCount}</span> class sessions should have occurred so far.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="space-y-2 max-w-xs">
+                    <label className="text-[10px] font-black text-amber-800 dark:text-amber-300 uppercase tracking-widest">How many did you attend?</label>
+                    <input 
+                      type="number" 
+                      min={0} 
+                      max={pastClassesCount} 
+                      value={attendedPastClasses} 
+                      onChange={(e) => setAttendedPastClasses(Math.min(pastClassesCount, Math.max(0, parseInt(e.target.value) || 0)))}
+                      className="w-full px-4 py-3.5 rounded-xl border-2 border-amber-300 bg-white font-bold text-text-primary outline-none focus:border-accent transition-all dark:bg-zinc-900 dark:border-zinc-800" 
+                    />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="px-10 py-8 bg-bg-surface/50 border-t border-border-strong flex justify-end gap-4 dark:bg-bg-elevated/50">

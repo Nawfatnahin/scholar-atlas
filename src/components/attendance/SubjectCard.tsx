@@ -2,12 +2,10 @@
 
 import React, { useState } from 'react';
 import { 
-  MoreVertical, 
-  Plus, 
   Trash2, 
   ChevronDown, 
   ChevronUp,
-  Flame,
+  Edit2,
   AlertCircle
 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -16,62 +14,25 @@ import { SubjectAttendanceStats } from '@/lib/attendance/calculator';
 import { markAttendance, deleteSubject } from '@/app/dashboard/attendance/actions';
 import { AlertModal } from './AlertModal';
 import { AttendanceTrendChart } from './AttendanceTrendChart';
-import { WhatIfSimulator } from './WhatIfSimulator';
 import { toast } from 'sonner';
 
 interface SubjectCardProps {
   subject: any;
   stats: SubjectAttendanceStats;
-  isBatchMode?: boolean;
-  batchChanges?: Record<string, any>;
-  onBatchToggle?: (date: string, currentType: string) => void;
+  onEdit?: (subject: any) => void;
 }
 
 export const SubjectCard: React.FC<SubjectCardProps> = ({ 
   subject, 
   stats,
-  isBatchMode,
-  batchChanges,
-  onBatchToggle
+  onEdit
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
   const [alertConfig, setAlertConfig] = useState<{
     isOpen: boolean;
     level: 'warning' | 'critical' | 'fatal';
     pendingData?: any;
   }>({ isOpen: false, level: 'warning' });
-
-  const last7Days = React.useMemo(() => {
-    return Array.from({ length: 7 }).map((_, i) => {
-      const d = new Date();
-      d.setDate(d.getDate() - i);
-      return format(d, 'yyyy-MM-dd');
-    }).reverse();
-  }, []);
-
-  const getAttendanceForDate = (date: string) => {
-    const batchType = batchChanges?.[`${subject.id}|${date}`];
-    if (batchType) return batchType;
-    return subject.attendance_records?.find((r: any) => r.class_date === date)?.absence_type;
-  };
-
-  const typeLabels: Record<string, string> = {
-    present: 'P',
-    unexcused: 'A',
-    medical: 'M',
-    excused: 'E',
-    cancelled: 'C',
-  };
-
-  const typeColors: Record<string, string> = {
-    present: 'bg-green-500 text-white',
-    unexcused: 'bg-red-500 text-white',
-    medical: 'bg-amber-500 text-white',
-    excused: 'bg-blue-500 text-white',
-    cancelled: 'bg-zinc-400 text-white',
-    none: 'bg-bg-surface dark:bg-bg-elevated text-text-tertiary',
-  };
 
   const healthColors = {
     safe: 'border-l-green-500',
@@ -162,11 +123,11 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
               {statusBadge[stats.healthStatus].label}
             </span>
             <button 
-              onClick={() => setIsSimulatorOpen(true)}
+              onClick={() => onEdit?.(subject)}
               className="p-2 hover:bg-bg-base rounded-xl text-text-tertiary hover:text-accent transition-all dark:hover:bg-bg-surface"
-              title="Simulate"
+              title="Edit Subject"
             >
-              <Flame className="w-5 h-5" />
+              <Edit2 className="w-5 h-5" />
             </button>
             <button 
               onClick={handleDelete}
@@ -217,28 +178,6 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
           </div>
         </div>
 
-        {/* Batch Mark Row */}
-        {isBatchMode && (
-          <div className="mb-6">
-            <p className="text-[10px] font-black text-text-tertiary uppercase tracking-widest mb-3">Recent 7 Days</p>
-            <div className="flex justify-between gap-1">
-              {last7Days.map(date => {
-                const type = getAttendanceForDate(date);
-                return (
-                  <button
-                    key={date}
-                    onClick={() => onBatchToggle?.(date, type)}
-                    className={`flex-1 aspect-square rounded-lg flex items-center justify-center text-[10px] font-black transition-all ${typeColors[type || 'none']}`}
-                    title={date}
-                  >
-                    {typeLabels[type] || '—'}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
         {/* Live Stats Rows */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="p-3 rounded-2xl bg-bg-base border border-border-strong dark:bg-bg-surface">
@@ -276,8 +215,6 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
             </div>
           </div>
         )}
-
-
 
         <button 
           onClick={() => setIsExpanded(!isExpanded)}
@@ -329,13 +266,6 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
         threshold={stats.requiredThreshold}
         onConfirm={() => handleMark(alertConfig.pendingData?.type, true)}
         onCancel={() => setAlertConfig({ ...alertConfig, isOpen: false })}
-      />
-
-      <WhatIfSimulator 
-        isOpen={isSimulatorOpen}
-        onClose={() => setIsSimulatorOpen(false)}
-        subject={subject}
-        records={subject.attendance_records || []}
       />
     </div>
   );

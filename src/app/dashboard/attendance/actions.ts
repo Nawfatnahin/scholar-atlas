@@ -9,7 +9,7 @@ import { calculateStats, AttendanceRecord, Subject } from "@/lib/attendance/calc
 
 const MarkAttendanceSchema = z.object({
   subjectId: z.string().uuid(),
-  absenceType: z.enum(['present', 'unexcused', 'medical', 'excused']),
+  absenceType: z.enum(['present', 'unexcused', 'medical', 'excused', 'cancelled']),
   classDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   note: z.string().max(200).optional(),
   confirmed: z.boolean().optional(),
@@ -54,6 +54,7 @@ export async function addSubject(data: {
   classDays: string[];
   semesterStartDate: string;
   totalWeeks: number;
+  pastRecords?: Array<{ classDate: string; absenceType: 'present' | 'unexcused' }>;
 }) {
   try {
     const supabase = await createClient();
@@ -82,6 +83,25 @@ export async function addSubject(data: {
     if (error) {
       console.error('[JARVIS]: Supabase Database Anomaly:', error);
       return { success: false, error: `DATABASE_ERROR: ${error.message} (${error.code})` };
+    }
+
+    // Insert past records if provided
+    if (data.pastRecords && data.pastRecords.length > 0) {
+      const recordsToInsert = data.pastRecords.map(r => ({
+        subject_id: subject.id,
+        user_id: user.id,
+        class_date: r.classDate,
+        absence_type: r.absenceType,
+        note: 'Initialized historical attendance'
+      }));
+
+      const { error: recordsError } = await supabase
+        .from('attendance_records')
+        .insert(recordsToInsert);
+
+      if (recordsError) {
+        console.error('[JARVIS]: Failed to insert past records:', recordsError);
+      }
     }
 
     revalidatePath('/dashboard/attendance');

@@ -51,11 +51,17 @@ export function calculateStats(
   const threshold = subject.personal_target ?? subject.required_threshold
   const targetPct = threshold / 100
 
+  // Recalculate based on cancelled classes: subtract cancelled class count from planned total classes
+  const cancelledCount = records.filter(r => r.absence_type === 'cancelled').length
+  const adjustedTotalPlanned = subject.total_classes_planned 
+    ? Math.max(0, subject.total_classes_planned - cancelledCount)
+    : null
+
   let safeSkipsLeft: number | null = null;
-  if (subject.total_classes_planned && subject.total_classes_planned > 0) {
-    // If we know the total classes for the semester, calculate the true skip allowance
-    const requiredAttendance = Math.ceil(targetPct * subject.total_classes_planned);
-    const maxAllowedAbsences = subject.total_classes_planned - requiredAttendance;
+  if (adjustedTotalPlanned && adjustedTotalPlanned > 0) {
+    // If we know the total classes for the semester, calculate the true skip allowance using adjusted total planned classes
+    const requiredAttendance = Math.ceil(targetPct * adjustedTotalPlanned);
+    const maxAllowedAbsences = adjustedTotalPlanned - requiredAttendance;
     safeSkipsLeft = Math.max(0, maxAllowedAbsences - absent);
   } else {
     // Immediate safe skips: (attended) / (totalClasses + x) >= targetPct
@@ -73,8 +79,8 @@ export function calculateStats(
     classesNeededToRecover = 0
   }
 
-  const remainingClasses = subject.total_classes_planned 
-    ? Math.max(0, subject.total_classes_planned - totalClasses)
+  const remainingClasses = adjustedTotalPlanned 
+    ? Math.max(0, adjustedTotalPlanned - totalClasses)
     : null
 
   let isGoalUnreachable = false
@@ -82,12 +88,12 @@ export function calculateStats(
   if (remainingClasses !== null) {
     const maxPossibleAttended = attended + remainingClasses
     const totalPlanned = totalClasses + remainingClasses
-    const maxPossiblePct = (maxPossibleAttended / totalPlanned) * 100
+    const maxPossiblePct = totalPlanned > 0 ? (maxPossibleAttended / totalPlanned) * 100 : 100
     isGoalUnreachable = maxPossiblePct < subject.required_threshold
 
     // Projected: (attended + remainingClasses * currentRate) / totalPlanned
     const currentRate = totalClasses > 0 ? attended / totalClasses : 1
-    projectedFinalPercentage = ((attended + remainingClasses * currentRate) / totalPlanned) * 100
+    projectedFinalPercentage = totalPlanned > 0 ? ((attended + remainingClasses * currentRate) / totalPlanned) * 100 : 100
   }
 
   const isInDangerZone = currentPercentage < (threshold + 5)

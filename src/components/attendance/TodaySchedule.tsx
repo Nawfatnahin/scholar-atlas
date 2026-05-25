@@ -18,7 +18,7 @@ export const TodaySchedule: React.FC<TodayScheduleProps> = ({ subjects }) => {
     s.schedule_days?.includes(dayName)
   );
 
-  const handleQuickMark = async (subjectId: string, type: 'present' | 'unexcused') => {
+  const handleQuickMark = async (subjectId: string, type: 'present' | 'unexcused' | 'cancelled') => {
     try {
       const res = await markAttendance({
         subjectId,
@@ -51,7 +51,7 @@ export const TodaySchedule: React.FC<TodayScheduleProps> = ({ subjects }) => {
             {todaysSubjects.map(subject => (
               <div 
                 key={subject.id}
-                className="bg-white border border-border-strong rounded-3xl p-6 flex flex-col gap-4 min-w-[240px] shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white border border-border-strong rounded-3xl p-6 flex flex-col gap-4 min-w-[260px] shadow-sm hover:shadow-md transition-shadow dark:bg-zinc-900"
               >
                 <div>
                   <h4 className="font-bold text-ink mb-1">{subject.name}</h4>
@@ -60,20 +60,34 @@ export const TodaySchedule: React.FC<TodayScheduleProps> = ({ subjects }) => {
                   </p>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="grid grid-cols-2 gap-2 w-full">
                   <button 
                     onClick={() => handleQuickMark(subject.id, 'present')}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 bg-green-100 text-green-700 rounded-xl hover:bg-green-600 hover:text-white transition-all font-bold"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-green-50 text-green-700 border border-green-200 dark:bg-green-950/20 dark:text-green-400 dark:border-green-800/30 rounded-xl hover:bg-green-600 hover:text-white transition-all font-black text-[10px] uppercase tracking-wider"
                   >
-                    <Check className="w-4 h-4" />
-                    <span className="text-xs uppercase">Present</span>
+                    <Check className="w-3.5 h-3.5" />
+                    <span>Present</span>
                   </button>
                   <button 
                     onClick={() => handleQuickMark(subject.id, 'unexcused')}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 bg-stone-100 text-ink-3 rounded-xl hover:bg-red-600 hover:text-white transition-all font-bold"
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-red-50 text-red-700 border border-red-200 dark:bg-red-950/20 dark:text-red-400 dark:border-red-800/30 rounded-xl hover:bg-red-600 hover:text-white transition-all font-black text-[10px] uppercase tracking-wider"
                   >
-                    <X className="w-4 h-4" />
-                    <span className="text-xs uppercase">Absent</span>
+                    <X className="w-3.5 h-3.5" />
+                    <span>Absent</span>
+                  </button>
+                  <button 
+                    onClick={() => handleQuickMark(subject.id, 'cancelled')}
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/20 dark:text-amber-400 dark:border-amber-800/30 rounded-xl hover:bg-amber-600 hover:text-white transition-all font-black text-[10px] uppercase tracking-wider"
+                  >
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Cancelled</span>
+                  </button>
+                  <button 
+                    onClick={() => handleQuickMark(subject.id, 'cancelled')}
+                    className="flex items-center justify-center gap-1.5 py-2 px-3 bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/20 dark:text-blue-400 dark:border-blue-800/30 rounded-xl hover:bg-blue-600 hover:text-white transition-all font-black text-[10px] uppercase tracking-wider"
+                  >
+                    <Clock className="w-3.5 h-3.5" />
+                    <span>Holiday</span>
                   </button>
                 </div>
               </div>
