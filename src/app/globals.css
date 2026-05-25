@@ -14,20 +14,20 @@
 }
 
 .dark {
-  --bg-base:        #0D0F14;
-  --bg-surface:     #151820;
-  --bg-elevated:    #1E2130;
-  --border-subtle:  rgba(255, 255, 255, 0.07);
-  --border-default: rgba(255, 255, 255, 0.13);
-  --text-primary:   #E8EAF0;
-  --text-secondary: #8B90A0;
-  --text-tertiary:  #555B6E;
+  --bg-base:        #0a0a0a;
+  --bg-surface:     #111111;
+  --bg-elevated:    #1a1a1a;
+  --border-subtle:  rgba(255, 255, 255, 0.04);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --text-primary:   #FFFFFF;
+  --text-secondary: #a8a8a8;
+  --text-tertiary:  #6b6b6b;
 }
 
 /* Smooth transition when toggling — applied to everything */
 *, *::before, *::after {
-  transition: background-color 0.2s ease, border-color 0.2s ease,
-              color 0.15s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+              color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Suppress transition on page load to prevent flash */
@@ -66,6 +66,269 @@
   .btn-secondary {
     @apply bg-bg-surface text-text-primary border border-border-strong px-6 py-3 rounded-xl font-bold shadow-sm hover:bg-bg-base transition-all active:scale-[0.98] disabled:opacity-50 dark:bg-bg-elevated dark:hover:bg-bg-surface;
     @apply touch-manipulation;
+  }
+
+  /* Instagram-Inspired Dark Mode Aesthetics */
+  .dark h1, 
+  .dark h2, 
+  .dark h3, 
+  .dark h4, 
+  .dark h5, 
+  .dark h6, 
+  .dark .text-ink {
+    color: #FFFFFF !important;
+  }
+
+  .dark .text-ink-2 {
+    color: #a8a8a8 !important;
+  }
+
+  .dark .text-ink-3 {
+    color: #6b6b6b !important;
+  }
+
+  /* Text gradient for accent elements */
+  .dark .text-accent,
+  .dark .italic.text-accent,
+  .dark .text-accent-premium {
+    background: linear-gradient(135deg, #833AB4 10%, #FD1D1D 50%, #F77737 90%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    display: inline-block;
+  }
+
+  /* Core 3D Glassmorphism Cards in Dark Mode */
+  .dark .glass-card,
+  .dark .backdrop-blur-xl {
+    background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
+                linear-gradient(135deg, rgba(131, 58, 180, 0.15), rgba(253, 29, 29, 0.15), rgba(247, 119, 55, 0.15)) border-box !important;
+    border: 1px solid transparent !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .dark .glass-card:hover,
+  .dark .backdrop-blur-xl:hover {
+    transform: translateY(-4px) !important;
+    background: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)) padding-box,
+                linear-gradient(135deg, rgba(131, 58, 180, 0.4), rgba(253, 29, 29, 0.4), rgba(247, 119, 55, 0.4)) border-box !important;
+    box-shadow: 0 20px 40px rgba(131, 58, 180, 0.15), 
+                0 0 30px rgba(253, 29, 29, 0.1), 
+                0 0 20px rgba(247, 119, 55, 0.05) !important;
+  }
+
+  /* Primary CTA Buttons */
+  .dark .btn-primary, 
+  .dark .bg-accent.text-white {
+    background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) !important;
+    color: #FFFFFF !important;
+    border-radius: 9999px !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(253, 29, 29, 0.3) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .dark .btn-primary:hover, 
+  .dark .bg-accent.text-white:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 25px rgba(253, 29, 29, 0.5), 0 0 15px rgba(131, 58, 180, 0.4) !important;
+  }
+
+  /* Secondary Buttons */
+  .dark .btn-secondary, 
+  .dark a[href="#features"], 
+  .dark a[href="/login"],
+  .dark a[href="#pricing"] {
+    background: transparent !important;
+    color: #FFFFFF !important;
+    border: 1px solid transparent !important;
+    background-image: linear-gradient(#0a0a0a, #0a0a0a) padding-box,
+                      linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) border-box !important;
+    border-radius: 9999px !important;
+    box-shadow: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  }
+
+  .dark .btn-secondary:hover, 
+  .dark a[href="#features"]:hover, 
+  .dark a[href="/login"]:hover,
+  .dark a[href="#pricing"]:hover {
+    transform: translateY(-2px) !important;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
+                      linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) border-box !important;
+    box-shadow: 0 4px 15px rgba(253, 29, 29, 0.2) !important;
+  }
+
+  /* Frosted Glass Navbar */
+  .dark nav {
+    transition: background-color 0.3s, backdrop-filter 0.3s, border-color 0.3s !important;
+  }
+
+  .dark nav.nav-glass {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid transparent !important;
+    border-image: linear-gradient(to right, rgba(131, 58, 180, 0.3), rgba(253, 29, 29, 0.3), rgba(247, 119, 55, 0.3)) 1 !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  /* Logo Gradient Text & SVG Accent mapping */
+  .dark span.text-xl.font-bold.text-\[\#8B4513\],
+  .dark span.text-xl.font-bold.text-accent,
+  .dark span.text-ink {
+    color: #FFFFFF !important;
+  }
+
+  .dark a.group[href="/"] span.text-accent,
+  .dark a.group[href="/"] span.text-\[\#8B4513\] {
+    background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+  }
+
+  .dark a.group[href="/"] svg,
+  .dark a.group[href="/"] svg path {
+    stroke: url(#insta-gradient) !important;
+  }
+
+  /* Hero Background Bloom */
+  .dark section.pt-32::before {
+    content: "";
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(131, 58, 180, 0.12) 0%, rgba(253, 29, 29, 0.06) 45%, transparent 75%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+    filter: blur(90px);
+  }
+
+  /* Subject list items inside Stats Card tab */
+  .dark .bg-white\/40.backdrop-blur-xl.border.border-white\/60.p-4.rounded-2xl {
+    background: linear-gradient(rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)) padding-box,
+                linear-gradient(135deg, rgba(131, 58, 180, 0.1), rgba(253, 29, 29, 0.1), rgba(247, 119, 55, 0.1)) border-box !important;
+    border: 1px solid transparent !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .dark .bg-white\/40.backdrop-blur-xl.border.border-white\/60.p-4.rounded-2xl:hover {
+    background: linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05)) padding-box,
+                linear-gradient(135deg, rgba(131, 58, 180, 0.3), rgba(253, 29, 29, 0.3), rgba(247, 119, 55, 0.3)) border-box !important;
+    transform: translateY(-2px) !important;
+  }
+
+  /* Gradient Progress Bars */
+  .dark .h-full.bg-gradient-to-r {
+    background-image: linear-gradient(to right, #833AB4, #FD1D1D, #F77737) !important;
+  }
+
+  /* Step Numbers and Icon Fills */
+  .dark .w-14.h-14.rounded-full {
+    background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) !important;
+    box-shadow: 0 4px 15px rgba(253, 29, 29, 0.4) !important;
+    color: #FFFFFF !important;
+    ring-color: rgba(253, 29, 29, 0.1) !important;
+  }
+
+  .dark .w-16.h-16.rounded-\[24px\] {
+    background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) !important;
+    box-shadow: 0 4px 15px rgba(253, 29, 29, 0.3) !important;
+  }
+
+  .dark .w-16.h-16.rounded-\[24px\] svg {
+    stroke: #FFFFFF !important;
+  }
+
+  /* Attendance Stats Badge Card */
+  .dark .bg-white.border.border-border-strong.rounded-2xl.p-3.sm:p-4 {
+    background: #1e1e1e !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .dark .bg-white.border.border-border-strong.rounded-2xl.p-3.sm:p-4 p {
+    color: #FFFFFF !important;
+  }
+
+  .dark .bg-white.border.border-border-strong.rounded-2xl.p-3.sm:p-4 p.text-ink-3 {
+    color: #a8a8a8 !important;
+  }
+
+  /* Free Pricing card dark mode matching Pro styling but with border */
+  .dark .bg-white.border-2.border-accent-premium {
+    background: #111111 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+  }
+
+  .dark .bg-white.border-2.border-accent-premium li {
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .dark .bg-white.border-2.border-accent-premium a {
+    background: #1e1e1e !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+  }
+
+  .dark .bg-white.border-2.border-accent-premium a:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-color: #FD1D1D !important;
+  }
+
+  /* Pro Card matching */
+  .dark .bg-ink.border {
+    background: #161616 !important;
+    border-color: rgba(253, 29, 29, 0.3) !important;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6) !important;
+  }
+
+  /* Tab group container backgrounds */
+  .dark .bg-stone-200\/40 {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .dark .bg-stone-200\/40 button {
+    color: #a8a8a8 !important;
+  }
+
+  .dark .bg-stone-200\/40 button:hover {
+    color: #FFFFFF !important;
+  }
+
+  .dark .bg-stone-200\/40 button.bg-white {
+    background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: 0 4px 10px rgba(253, 29, 29, 0.2) !important;
+  }
+
+  /* Footer Redesign */
+  .dark footer {
+    background-color: #0a0a0a !important;
+    border-top: 1px solid transparent !important;
+    border-image: linear-gradient(to right, rgba(131, 58, 180, 0.3), rgba(253, 29, 29, 0.3), rgba(247, 119, 55, 0.3)) 1 !important;
+  }
+
+  .dark footer a {
+    color: #6b6b6b !important;
+    transition: color 0.3s ease, text-shadow 0.3s ease !important;
+  }
+
+  .dark footer a:hover {
+    color: #FD1D1D !important;
+    text-shadow: 0 0 8px rgba(253, 29, 29, 0.5) !important;
   }
 
   /* Jarvis Theme Scoped Classes */

@@ -54,6 +54,15 @@ export default function RootLayout({
         `}} />
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden">
+        <svg width="0" height="0" style={{ position: 'absolute', pointerEvents: 'none' }} aria-hidden="true">
+          <defs>
+            <linearGradient id="insta-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#833AB4" />
+              <stop offset="50%" stopColor="#FD1D1D" />
+              <stop offset="100%" stopColor="#F77737" />
+            </linearGradient>
+          </defs>
+        </svg>
         <SubscriptionProvider>
           <KeepAlive />
           {children}

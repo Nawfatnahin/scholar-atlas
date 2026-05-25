@@ -9,7 +9,7 @@ export default function HowItWorks() {
         </div>
         
         <h2 className="font-display text-[32px] sm:text-[40px] lg:text-[56px] font-extrabold leading-[1.1] tracking-tight text-ink text-center mb-6">
-          Up and running in minutes.
+          Up and running in <span className="text-accent">minutes</span>.
         </h2>
         
         <p className="text-[18px] text-ink-2 text-center max-w-[520px] mx-auto mb-14 leading-[1.65]">

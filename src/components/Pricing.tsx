@@ -60,7 +60,15 @@ export default function Pricing() {
         </div>
         
         <h2 className="font-display text-[32px] sm:text-[40px] lg:text-[56px] font-extrabold leading-[1.1] tracking-tight text-ink text-center mb-6">
-          {isPro ? (isAdmin ? "You're the boss." : "You're a legend.") : "Simple pricing for students."}
+          {isPro ? (
+            isAdmin ? (
+              <>You&apos;re the <span className="text-accent">boss</span>.</>
+            ) : (
+              <>You&apos;re a <span className="text-accent">legend</span>.</>
+            )
+          ) : (
+            <>Simple pricing for <span className="text-accent">students</span>.</>
+          )}
         </h2>
         
         <p className="text-[18px] text-ink-2 text-center max-w-[520px] mx-auto mb-14 leading-[1.65]">
