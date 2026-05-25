@@ -25,7 +25,7 @@ export const CHANGELOG: VersionEntry[] = [
   },
   {
     version: "1.0.2",
-    date: "2026-05-24",
+    date: "2026-05-22",
     summary: "Dashboard visual overhaul, theme contrast restoration, and deployment fixes",
     changes: [
       { type: "IMPROVED", description: "Redesigned Semester Progress Widget with modern 3D depth details, floating cards, and pulsing radial halo alerts" },
@@ -48,7 +48,7 @@ export const CHANGELOG: VersionEntry[] = [
   },
   {
     version: "1.0.0",
-    date: "2026-05-24",
+    date: "2026-05-03",
     summary: "Initial public release of Scholar Atlas",
     changes: [
       { type: "NEW", description: "Attendance Tracker with threshold warnings" },
