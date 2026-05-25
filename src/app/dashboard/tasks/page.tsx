@@ -50,7 +50,7 @@ export default async function TasksPage() {
               options={[
                 { title: "Task Lifecycle Creation", description: "Add new tasks, homework assignments, or projects with descriptive titles. Assign priority weights (Low, Medium, High) and register explicit due dates." },
                 { title: "Subject-Linked Deadlines", description: "Link your tasks directly to active subjects from your Attendance Tracker. This integrates your tasks and coursework directly to academic trackers for visual clarity." },
-                { title: "Dynamic Kanban Pipeline", description: "Keep track of active work by moving tasks between 'To Do', 'In Progress', and 'Completed' pipelines. JARVIS tracks your progress stats to maintain a clean backlog." },
+                { title: "Dynamic Kanban Pipeline", description: "Keep track of active work by moving tasks between 'To Do', 'In Progress', and 'Completed' pipelines. The system tracks your progress stats to maintain a clean backlog." },
                 { title: "Priority Sorting & Audits", description: "Sort your upcoming deadlines by urgency or importance. High-priority tasks and nearest deadlines automatically float to the top of your list." }
               ]}
             />

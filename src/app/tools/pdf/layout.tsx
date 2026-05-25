@@ -2,6 +2,7 @@ import Link from "next/link";
 import Footer from "@/components/Footer";
 import { ActionHistorySidebar } from "@/components/pdf/ActionHistorySidebar";
 import { ArrowLeft, Home, FileText } from "lucide-react";
+import { InstructionButton } from "@/components/InstructionButton";
 
 export const metadata = {
   title: "PDF Tools - Scholar Atlas",
@@ -29,10 +30,23 @@ export default function PdfToolsLayout({
             </div>
           </div>
           
-          <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">
-            <Home className="w-4 h-4" />
-            <span>Dashboard</span>
-          </Link>
+          <div className="flex items-center gap-4">
+            <InstructionButton 
+              title="PDF Toolkit"
+              description="Transform, split, and merge your academic documents. All processing runs 100% securely inside your local browser sandbox—zero data ever uploads to any external server."
+              options={[
+                { title: "Seamless PDF Merger", description: "Upload multiple PDF materials, research papers, or syllabus documents. Reorder the uploaded files effortlessly using drag-and-drop actions, and merge them into a single continuous PDF in milliseconds." },
+                { title: "Precision Page Splitter", description: "Extract individual chapters or specific page subsets from heavy textbooks. Define your custom target ranges, split them instantly into isolated PDF files, and download only the content you need." },
+                { title: "High-Resolution PDF to Images", description: "Convert complete PDF documents or specific page selections into high-quality JPG or PNG images. Excellent for slide extraction, study graphics, or visual presentations." },
+                { title: "Images to PDF Compiler", description: "Upload digital notes, sketches, or photos (JPG, PNG, WebP) and compile them into a single, beautifully-aligned PDF document. Adjust ordering and orientation effortlessly before exporting." },
+                { title: "100% Client-Side Privacy", description: "All PDF and image manipulation processes execute natively inside your web browser. Your private academic materials, grades, and records are completely safe and stay on your device." }
+              ]}
+            />
+            <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">
+              <Home className="w-4 h-4" />
+              <span>Dashboard</span>
+            </Link>
+          </div>
         </div>
       </header>
 

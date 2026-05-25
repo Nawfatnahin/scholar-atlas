@@ -104,10 +104,10 @@ export default async function CGPAPage() {
               title="CGPA Manager"
               description="Forecast your semester outcomes, manage institutional grading systems, and simulate exam targets."
               options={[
-                { title: "Predictive Assessment Tracker (Auto Counter)", description: "Configure your active course syllabus structure by assigning percentage weights to Class Tests, Assignments, Attendance, and Exams. Enter your actual obtained marks to let JARVIS compute your continuous scores in real-time." },
-                { title: "Target Grade & Exam Score Forecast", description: "Declare your target grade point (e.g., 4.00 for A). Based on your continuous marks, JARVIS simulates exactly what percentage you need in your final written exam to achieve that grade point, signaling if it is achievable." },
+                { title: "Predictive Assessment Tracker (Auto Counter)", description: "Configure your active course syllabus structure by assigning percentage weights to Class Tests, Assignments, Attendance, and Exams. Enter your actual obtained marks to let the system compute your continuous scores in real-time." },
+                { title: "Target Grade & Exam Score Forecast", description: "Declare your target grade point (e.g., 4.00 for A). Based on your continuous marks, the system simulates exactly what percentage you need in your final written exam to achieve that grade point, signaling if it is achievable." },
                 { title: "Dynamic Grade Scale Customizer", description: "Every institution has a unique system. Create custom grade scale mappings (e.g., 80%+ = A/4.00, 75%+ = A-/3.75). Setting a scale as global automatically applies it to all of your course calculations." },
-                { title: "Synchronized Attendance linking", description: "Link your predictive course card directly to a subject from your Attendance Tracker. JARVIS automatically imports your real-time attendance percentage to compute your attendance weight points dynamically." }
+                { title: "Synchronized Attendance linking", description: "Link your predictive course card directly to a subject from your Attendance Tracker. The system automatically imports your real-time attendance percentage to compute your attendance weight points dynamically." }
               ]}
             />
             <Link href="/dashboard" className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">
