@@ -44,11 +44,11 @@ export default async function AttendancePage() {
               <ArrowLeft className="w-5 h-5" />
             </Link>
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent">
+              <div className="w-10 h-10 rounded-xl bg-accent/10 dark:bg-[#FD1D1D]/15 flex items-center justify-center text-[#92400e] dark:text-[#FD1D1D] shrink-0">
                 <CalendarCheck className="w-5 h-5" />
               </div>
-              <div>
-                <h1 className="text-xl font-black text-accent tracking-tight uppercase tracking-[0.1em]">Attendance Tracker</h1>
+              <div className="flex items-center">
+                <h1 className="text-xl font-black text-accent tracking-tight uppercase tracking-[0.1em] leading-none">Attendance Tracker</h1>
               </div>
             </div>
           </div>
@@ -56,12 +56,13 @@ export default async function AttendancePage() {
           <div className="flex items-center gap-4">
             <InstructionButton 
               title="Attendance Tracker"
-              description="Keep track of your classes, manage your attendance percentage, and plan for upcoming holidays."
+              description="Monitor your overall semester health with precision, log class statuses in real-time, and run advanced skip-simulations."
               options={[
-                { title: "Mark Present/Absent", description: "Click on any subject to log your daily attendance easily. Your overall percentage will update instantly." },
-                { title: "Holiday Manager", description: "Add global holidays or subject-specific cancellations to automatically adjust your required attendance." },
-                { title: "What-If Simulator", description: "Simulate future attendance to see how skipping or attending classes affects your overall percentage." },
-                { title: "Attendance Trends", description: "View a visual representation of your attendance history over time to spot patterns." }
+                { title: "Automated Semester Health Tracking", description: "JARVIS tracks your overall attendance percentage automatically. If it falls below your required threshold, subjects are flagged as 'Attention' or 'Critical' immediately, helping you stay ahead of policy drops." },
+                { title: "Instant Log & Status Control", description: "Within the active course section, click 'Present', 'Absent', or 'Cancelled' on any day. JARVIS logs the timestamped session and updates your cumulative tracker in real-time with absolute precision." },
+                { title: "Holiday & Cancellation Manager", description: "Easily register scheduled university holidays or specific class cancellations. These logged adjustments reduce total planned class counts, ensuring that your health score isn't unfairly lowered by missed days." },
+                { title: "What-If Simulation Engine", description: "Curious if skipping a lecture tomorrow will drop you below your threshold? Open the simulator, select the target course, input the number of future sessions to skip or attend, and forecast the precise impact beforehand." },
+                { title: "Precision Attendance Trend Chart", description: "View a high-fidelity visual history of your course attendance progress over time. Spot attendance patterns, audit historical metrics, and check exactly where critical dips occurred." }
               ]}
             />
             <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">

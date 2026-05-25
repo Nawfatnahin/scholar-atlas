@@ -18,7 +18,7 @@ export const InstructionButton: React.FC<InstructionButtonProps> = ({ title, des
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md shadow-blue-500/30 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5 transition-all active:scale-[0.98] ${className || ''}`}
+        className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md shadow-blue-500/30 hover:shadow-lg hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 dark:bg-none dark:bg-[#0ea5e9]/10 dark:text-[#0ea5e9] dark:border dark:border-[#0ea5e9]/50 dark:shadow-[0_0_15px_rgba(14,165,233,0.35)] dark:hover:shadow-[0_0_25px_rgba(14,165,233,0.7)] dark:hover:bg-[#0ea5e9]/25 dark:hover:text-white dark:hover:border-cyan-300 ${className || ''}`}
       >
         <Info className="w-4 h-4" />
         <span>Instructions</span>

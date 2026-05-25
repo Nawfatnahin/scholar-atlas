@@ -87,8 +87,8 @@
     color: #6b6b6b !important;
   }
 
-  /* Text gradient for accent elements, EXCLUDING buttons or SVGs */
-  .dark .text-accent:not(button):not(a):not(span.text-white):not(svg):not(path),
+  /* Text gradient for accent elements, EXCLUDING buttons, SVGs, or flex containers */
+  .dark .text-accent:not(button):not(a):not(span.text-white):not(svg):not(path):not(.flex),
   .dark .italic.text-accent,
   .dark .text-accent-premium {
     background: linear-gradient(135deg, #833AB4 10%, #FD1D1D 50%, #F77737 90%) !important;
@@ -97,6 +97,26 @@
     background-clip: text !important;
     color: transparent !important;
     display: inline-block;
+  }
+
+  /* CGPA Status cards overrides in Dark Mode */
+  .dark .bg-emerald-50 {
+    background-color: rgba(16, 185, 129, 0.12) !important;
+    border-color: rgba(16, 185, 129, 0.25) !important;
+  }
+  .dark .bg-amber-50 {
+    background-color: rgba(245, 158, 11, 0.12) !important;
+    border-color: rgba(245, 158, 11, 0.25) !important;
+  }
+  .dark .bg-emerald-50 .text-emerald-600,
+  .dark .bg-emerald-50 svg {
+    color: #10B981 !important;
+    stroke: #10B981 !important;
+  }
+  .dark .bg-amber-50 .text-amber-600,
+  .dark .bg-amber-50 svg {
+    color: #F59E0B !important;
+    stroke: #F59E0B !important;
   }
 
   /* SVG Logo & Icon Safety overrides in Dark Mode */

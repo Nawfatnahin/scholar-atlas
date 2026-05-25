@@ -38,14 +38,14 @@ export function ActionHistorySidebar() {
   };
 
   if (!isLoaded) return (
-    <div className="bg-white rounded-3xl p-6 shadow-sm border border-stone-200 animate-pulse h-64"></div>
+    <div className="bg-white dark:bg-bg-elevated/70 dark:border-border-default rounded-3xl p-6 shadow-sm border border-stone-200 animate-pulse h-64"></div>
   );
 
   return (
     <div className="flex flex-col gap-6 sticky top-28">
       
       {/* History Card */}
-      <div className="bg-white rounded-3xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-stone-200 flex-1 flex flex-col max-h-[500px]">
+      <div className="bg-white dark:bg-bg-elevated/70 dark:backdrop-blur-xl dark:border-border-default rounded-3xl p-6 shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-stone-200 flex-1 flex flex-col max-h-[500px]">
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-display font-semibold text-lg text-ink flex items-center gap-2">
             <Clock className="w-5 h-5 text-stone-400" />
@@ -70,8 +70,8 @@ export function ActionHistorySidebar() {
             </div>
           ) : (
             actions.map((action) => (
-              <div key={action.id} className="group p-3 rounded-2xl bg-stone-50 hover:bg-amber-50/50 border border-stone-100 hover:border-amber-200/50 transition-all flex items-start gap-3">
-                <div className="mt-1 shrink-0 bg-white p-1.5 rounded-lg shadow-sm border border-stone-100">
+              <div key={action.id} className="group p-3 rounded-2xl bg-stone-50 hover:bg-amber-50/50 dark:bg-bg-surface/50 dark:hover:bg-bg-elevated/50 border border-stone-100 hover:border-amber-200/50 dark:border-border-subtle/50 dark:hover:border-border-default/50 transition-all flex items-start gap-3">
+                <div className="mt-1 shrink-0 bg-white dark:bg-bg-elevated p-1.5 rounded-lg shadow-sm border border-stone-100 dark:border-border-subtle">
                   {getIcon(action.type)}
                 </div>
                 <div className="min-w-0 flex-1">
@@ -87,8 +87,8 @@ export function ActionHistorySidebar() {
           )}
         </div>
         
-        <div className="mt-4 pt-4 border-t border-stone-100">
-           <Link href="/tools/pdf" className="text-sm text-amber-700 font-medium hover:text-amber-800 transition-colors w-full text-center block">
+        <div className="mt-4 pt-4 border-t border-stone-100 dark:border-border-subtle">
+           <Link href="/tools/pdf" className="text-sm text-amber-700 dark:text-accent-amber dark:hover:text-[#FD1D1D] font-medium hover:text-amber-800 transition-colors w-full text-center block">
              ← Back to all tools
            </Link>
         </div>

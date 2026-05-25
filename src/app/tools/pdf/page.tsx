@@ -47,15 +47,15 @@ export default function PdfToolsPage() {
           </p>
         </div>
         <InstructionButton 
-          title="PDF Tools"
-          description="A suite of powerful, client-side tools to manage your PDF files securely."
+          title="PDF Toolkit"
+          description="Transform, split, and merge your academic documents. All processing runs 100% securely inside your local browser sandbox—zero data ever uploads to any external server."
           options={[
-            { title: "Merge PDFs", description: "Select multiple PDF files, reorder them as needed, and combine them into a single continuous document." },
-            { title: "Split PDF", description: "Upload a PDF and select specific page ranges to extract into separate files." },
-            { title: "PDF to Images", description: "Convert each page of your PDF document into high-resolution JPG or PNG images." },
-            { title: "Images to PDF", description: "Upload images, arrange their order, and compile them into a formatted PDF document." }
+            { title: "Seamless PDF Merger", description: "Upload multiple PDF materials, research papers, or syllabus documents. Reorder the uploaded files effortlessly using drag-and-drop actions, and merge them into a single continuous PDF in milliseconds." },
+            { title: "Precision Page Splitter", description: "Extract individual chapters or specific page subsets from heavy textbooks. Define your custom target ranges, split them instantly into isolated PDF files, and download only the content you need." },
+            { title: "High-Resolution PDF to Images", description: "Convert complete PDF documents or specific page selections into high-quality JPG or PNG images. Excellent for slide extraction, study graphics, or visual presentations." },
+            { title: "Images to PDF Compiler", description: "Upload digital notes, sketches, or photos (JPG, PNG, WebP) and compile them into a single, beautifully-aligned PDF document. Adjust ordering and orientation effortlessly before exporting." },
+            { title: "100% Client-Side Privacy", description: "All PDF and image manipulation processes execute natively inside your web browser. Your private academic materials, grades, and records are completely safe and stay on your device." }
           ]}
-          className="bg-white"
         />
       </div>
 

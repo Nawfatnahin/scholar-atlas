@@ -46,11 +46,12 @@ export default async function TasksPage() {
           <div className="flex items-center gap-4">
             <InstructionButton 
               title="Task Tracker"
-              description="Manage your assignments, projects, and deadlines in one central place."
+              description="Organize your workload, assign course linkages, and manage your pipeline with efficiency."
               options={[
-                { title: "Add Tasks", description: "Create new tasks with specific deadlines, priority levels, and link them to your subjects." },
-                { title: "Organize & Prioritize", description: "Filter tasks by status (To Do, In Progress, Done) and sort them by priority or deadline." },
-                { title: "Track Progress", description: "Toggle task status as you work to keep your backlog clean and visually see your progress." }
+                { title: "Task Lifecycle Creation", description: "Add new tasks, homework assignments, or projects with descriptive titles. Assign priority weights (Low, Medium, High) and register explicit due dates." },
+                { title: "Subject-Linked Deadlines", description: "Link your tasks directly to active subjects from your Attendance Tracker. This integrates your tasks and coursework directly to academic trackers for visual clarity." },
+                { title: "Dynamic Kanban Pipeline", description: "Keep track of active work by moving tasks between 'To Do', 'In Progress', and 'Completed' pipelines. JARVIS tracks your progress stats to maintain a clean backlog." },
+                { title: "Priority Sorting & Audits", description: "Sort your upcoming deadlines by urgency or importance. High-priority tasks and nearest deadlines automatically float to the top of your list." }
               ]}
             />
             <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong transition-all dark:hover:bg-bg-elevated">
