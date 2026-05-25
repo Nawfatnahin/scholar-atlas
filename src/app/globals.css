@@ -88,7 +88,7 @@
   }
 
   /* Text gradient for accent elements, EXCLUDING buttons or SVGs */
-  .dark .text-accent:not(button):not(a):not(span.text-white),
+  .dark .text-accent:not(button):not(a):not(span.text-white):not(svg):not(path),
   .dark .italic.text-accent,
   .dark .text-accent-premium {
     background: linear-gradient(135deg, #833AB4 10%, #FD1D1D 50%, #F77737 90%) !important;
@@ -97,6 +97,110 @@
     background-clip: text !important;
     color: transparent !important;
     display: inline-block;
+  }
+
+  /* SVG Logo & Icon Safety overrides in Dark Mode */
+  .dark svg.text-accent,
+  .dark svg.text-accent path,
+  .dark svg.text-accent-premium,
+  .dark svg.text-accent-premium path,
+  .dark .text-accent svg,
+  .dark .text-accent svg path,
+  .dark .text-accent-premium svg,
+  .dark .text-accent-premium svg path {
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: #FD1D1D !important;
+    color: #FD1D1D !important;
+    stroke: #FD1D1D !important;
+  }
+
+  /* Explicitly target stats pedestal icons inside Interactive3DBox & other card icons to glow with pink-red */
+  .dark .perspective-2000 .w-12.h-12 svg,
+  .dark .perspective-2000 .w-12.h-12 svg path,
+  .dark .w-16.h-16.rounded-\[24px\] svg,
+  .dark .w-16.h-16.rounded-\[24px\] svg path,
+  .dark .w-20.h-20.rounded-\[32px\] svg,
+  .dark .w-20.h-20.rounded-\[32px\] svg path {
+    stroke: #FD1D1D !important;
+    color: #FD1D1D !important;
+    background: none !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: #FD1D1D !important;
+  }
+
+  /* Floating White Boxes Redesign (Hero top-right badge & Admin pulse badge) */
+  .dark .absolute.-top-4.-right-2,
+  .dark .absolute.-top-6.sm\:-top-6.-right-6,
+  .dark .absolute.-top-6.right-12 .bg-white {
+    background: rgba(30, 30, 30, 0.75) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+    color: #FFFFFF !important;
+  }
+
+  .dark .absolute.-top-4.-right-2 p,
+  .dark .absolute.-top-6.right-12 .bg-white span,
+  .dark .absolute.-top-4.-right-2 span {
+    color: #FFFFFF !important;
+  }
+
+  /* GradeScaleEditor and generic Inputs/Dropdowns dark redesign */
+  .dark input[type="text"],
+  .dark input[type="number"],
+  .dark input[type="email"],
+  .dark select {
+    background-color: #161616 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .dark input[type="text"]:focus,
+  .dark input[type="number"]:focus,
+  .dark input[type="email"]:focus,
+  .dark select:focus {
+    border-color: rgba(131, 58, 180, 0.6) !important;
+    box-shadow: 0 0 12px rgba(131, 58, 180, 0.25), inset 0 2px 4px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .dark .bg-stone-50,
+  .dark .bg-stone-50\/50,
+  .dark .hover\:bg-stone-50\/50:hover,
+  .dark .grid.grid-cols-\[1fr_1fr_48px\].bg-stone-50 {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+  }
+
+  .dark .border-stone-100 {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .dark .border-stone-50 {
+    border-color: rgba(255, 255, 255, 0.04) !important;
+  }
+
+  .dark button.bg-violet-50,
+  .dark button.bg-violet-100 {
+    background: rgba(139, 92, 246, 0.15) !important;
+    color: #a78bfa !important;
+  }
+
+  .dark button.bg-violet-50:hover,
+  .dark button.bg-violet-100:hover {
+    background: rgba(139, 92, 246, 0.25) !important;
+  }
+
+  .dark button.bg-\[\#92400e\]\/10 {
+    background: rgba(253, 29, 29, 0.15) !important;
+    color: #FD1D1D !important;
+  }
+
+  .dark button.bg-\[\#92400e\]\/10:hover {
+    background: rgba(253, 29, 29, 0.25) !important;
   }
 
   /* Gmail / User Profile and Sign In boxes */
