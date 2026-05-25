@@ -65,10 +65,6 @@ export default async function AttendancePage() {
                 { title: "Precision Attendance Trend Chart", description: "View a high-fidelity visual history of your course attendance progress over time. Spot attendance patterns, audit historical metrics, and check exactly where critical dips occurred." }
               ]}
             />
-            <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">
-              <Home className="w-4 h-4" />
-              <span>Dashboard</span>
-            </Link>
           </div>
         </div>
       </header>

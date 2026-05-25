@@ -110,10 +110,6 @@ export default async function CGPAPage() {
                 { title: "Synchronized Attendance linking", description: "Link your predictive course card directly to a subject from your Attendance Tracker. The system automatically imports your real-time attendance percentage to compute your attendance weight points dynamically." }
               ]}
             />
-            <Link href="/dashboard" className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">
-              <Home className="w-4 h-4" />
-              <span>Dashboard</span>
-            </Link>
           </div>
         </div>
       </header>

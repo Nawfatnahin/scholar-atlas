@@ -42,10 +42,6 @@ export default function PdfToolsLayout({
                 { title: "100% Client-Side Privacy", description: "All PDF and image manipulation processes execute natively inside your web browser. Your private academic materials, grades, and records are completely safe and stay on your device." }
               ]}
             />
-            <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong shadow-sm transition-all dark:hover:bg-bg-elevated">
-              <Home className="w-4 h-4" />
-              <span>Dashboard</span>
-            </Link>
           </div>
         </div>
       </header>

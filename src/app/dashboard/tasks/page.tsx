@@ -54,10 +54,6 @@ export default async function TasksPage() {
                 { title: "Priority Sorting & Audits", description: "Sort your upcoming deadlines by urgency or importance. High-priority tasks and nearest deadlines automatically float to the top of your list." }
               ]}
             />
-            <Link href="/dashboard" className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-text-secondary hover:bg-bg-surface border border-transparent hover:border-border-strong transition-all dark:hover:bg-bg-elevated">
-              <Home className="w-4 h-4" />
-              <span>Dashboard</span>
-            </Link>
           </div>
         </div>
       </header>
