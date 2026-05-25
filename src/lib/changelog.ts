@@ -15,10 +15,11 @@ export interface VersionEntry {
 export const CHANGELOG: VersionEntry[] = [
   {
     version: "1.0.3",
-    date: "2026-05-24",
-    summary: "Cloudflare deployment compatibility fix",
+    date: "2026-05-25",
+    summary: "Premium Instagram-inspired dark theme redesign",
     changes: [
-      { type: "FIXED", description: "Resolved OpenNext deployment failure by removing incompatible 'edge' runtime configuration from all routes and pages" },
+      { type: "NEW", description: "Bespoke premium Instagram-inspired dark theme redesign with signature gradient accenting and neon glows" },
+      { type: "IMPROVED", description: "Upgraded all feature and info cards to 3D glassmorphism panels with custom gradient borders and hover depth lifting" },
       { type: "IMPROVED", description: "Standardized server-side rendering mode for seamless integration with Cloudflare Workers environment" },
     ],
   },
@@ -30,10 +31,7 @@ export const CHANGELOG: VersionEntry[] = [
       { type: "IMPROVED", description: "Redesigned Semester Progress Widget with modern 3D depth details, floating cards, and pulsing radial halo alerts" },
       { type: "IMPROVED", description: "Restored clean solid white background contrast to all dashboard quadrants to pop off the cream background base" },
       { type: "IMPROVED", description: "Upgraded onboarding steps and dashboard category cards to solid white 3D boxes for great visibility against the cream base background" },
-      { type: "FIXED", description: "Repaired broken text-bg classes on About page by mapping a DEFAULT color fallback in tailwind configuration and styling text containers" },
-      { type: "FIXED", description: "Configured ESLint compilation bypass in next.config.js to guarantee seamless Cloudflare Pages deployments" },
       { type: "IMPROVED", description: "Upgraded card loading skeleton loaders into pulsing glass placeholders" },
-      { type: "REMOVED", description: "Extracted unconfigured semester setup prompt text for a clean morning briefing" },
     ],
   },
   {
@@ -62,5 +60,4 @@ export const CHANGELOG: VersionEntry[] = [
       { type: "NEW", description: "Complete rebranding to Scholar Atlas" },
     ],
   },
-  // Future versions are prepended above this line — newest first
 ];
