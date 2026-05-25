@@ -87,8 +87,8 @@
     color: #6b6b6b !important;
   }
 
-  /* Text gradient for accent elements */
-  .dark .text-accent,
+  /* Text gradient for accent elements, EXCLUDING buttons or SVGs */
+  .dark .text-accent:not(button):not(a):not(span.text-white),
   .dark .italic.text-accent,
   .dark .text-accent-premium {
     background: linear-gradient(135deg, #833AB4 10%, #FD1D1D 50%, #F77737 90%) !important;
@@ -97,6 +97,201 @@
     background-clip: text !important;
     color: transparent !important;
     display: inline-block;
+  }
+
+  /* Gmail / User Profile and Sign In boxes */
+  .dark .bg-white\/50.border.border-border-strong {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+  }
+  .dark .bg-white\/50.border.border-border-strong span.text-ink {
+    color: #FFFFFF !important;
+  }
+  .dark .bg-white\/50.border.border-border-strong svg {
+    stroke: #a8a8a8 !important;
+  }
+
+  /* active button tab label visibility */
+  .dark button.bg-white span,
+  .dark button.bg-white svg,
+  .dark button.bg-white {
+    -webkit-text-fill-color: #FFFFFF !important;
+    color: #FFFFFF !important;
+    background: none !important;
+    background-clip: border-box !important;
+  }
+
+  /* Green-100 attendance check badge */
+  .dark .bg-green-100 {
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #10B981 !important;
+  }
+  .dark .text-green-600 {
+    color: #10B981 !important;
+  }
+
+  /* Pricing Cards details visibility */
+  .dark .bg-white.border-2.border-accent-premium span,
+  .dark .bg-white.border-2.border-accent-premium div,
+  .dark .bg-white.border-2.border-accent-premium li {
+    color: #FFFFFF !important;
+  }
+  .dark .bg-white.border-2.border-accent-premium .text-ink-3 {
+    color: #a8a8a8 !important;
+  }
+  .dark .perspective-1000 .bg-white {
+    background: #121212 !important;
+    border: 1px solid rgba(245, 158, 11, 0.25) !important;
+    box-shadow: 0 15px 40px rgba(245, 158, 11, 0.1) !important;
+  }
+  .dark .perspective-1000 .bg-white h3,
+  .dark .perspective-1000 .bg-white p {
+    color: #FFFFFF !important;
+  }
+  .dark .perspective-1000 .bg-white p.text-ink-2 {
+    color: #a8a8a8 !important;
+  }
+
+  /* About Section White Boxes Redesign */
+  .dark .bg-white\/40, 
+  .dark .bg-white\/60,
+  .dark .bg-gradient-to-br.from-\[\#fff7ed\].to-\[\#ffedd5\] {
+    background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
+                linear-gradient(135deg, rgba(131, 58, 180, 0.2), rgba(253, 29, 29, 0.2), rgba(247, 119, 55, 0.2)) border-box !important;
+    border: 1px solid transparent !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .dark .bg-gradient-to-br.from-\[\#fff7ed\].to-\[\#ffedd5\] li {
+    color: #a8a8a8 !important;
+  }
+  .dark .bg-gradient-to-br.from-\[\#fff7ed\].to-\[\#ffedd5\] h4 {
+    color: #FFFFFF !important;
+  }
+
+  /* Centered Section Headings Glow */
+  .dark h2.text-\[12px\].font-black.text-ink-4.uppercase,
+  .dark h2.text-\[11px\].font-black.text-ink-4.uppercase {
+    background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    color: transparent !important;
+    display: inline-block;
+  }
+
+  /* Tools back buttons visibility */
+  .dark header a[href="/dashboard"],
+  .dark header button {
+    background: #1e1e1e !important;
+    color: #FFFFFF !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+  }
+
+  .dark header a[href="/dashboard"]:hover,
+  .dark header button:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #FD1D1D !important;
+    border-color: #FD1D1D !important;
+  }
+
+  /* Super Admin box badge redesigned */
+  .dark .inline-flex.items-center.rounded-full.bg-amber-50 {
+    background: rgba(253, 29, 29, 0.1) !important;
+    border-color: rgba(253, 29, 29, 0.3) !important;
+    color: #FD1D1D !important;
+  }
+
+  /* Admin Panel Boxes Redesign */
+  .dark .perspective-2000 .bg-white,
+  .dark .bg-white.border.border-border-strong.rounded-\[40px\],
+  .dark .bg-white.border.border-border-strong.rounded-3xl {
+    background: linear-gradient(rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.04)) padding-box,
+                linear-gradient(135deg, rgba(131, 58, 180, 0.2), rgba(253, 29, 29, 0.2), rgba(247, 119, 55, 0.2)) border-box !important;
+    border: 1px solid transparent !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  .dark .perspective-2000 .bg-white:hover {
+    background: linear-gradient(rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.06)) padding-box,
+                linear-gradient(135deg, rgba(131, 58, 180, 0.4), rgba(253, 29, 29, 0.4), rgba(247, 119, 55, 0.4)) border-box !important;
+    box-shadow: 0 20px 40px rgba(131, 58, 180, 0.15), 
+                0 0 30px rgba(253, 29, 29, 0.1) !important;
+  }
+
+  .dark .perspective-2000 p,
+  .dark .perspective-2000 span,
+  .dark .perspective-2000 h4,
+  .dark .perspective-2000 div,
+  .dark .perspective-2000 td {
+    color: #FFFFFF !important;
+  }
+
+  .dark .perspective-2000 .text-ink-3,
+  .dark .perspective-2000 span.text-ink-3 {
+    color: #a8a8a8 !important;
+  }
+
+  .dark table thead tr.bg-bg {
+    background: rgba(255, 255, 255, 0.02) !important;
+  }
+
+  .dark table thead tr th {
+    color: #FFFFFF !important;
+  }
+
+  .dark table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02) !important;
+  }
+
+  .dark table tbody tr td {
+    border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .dark .px-10.py-8.bg-bg.border-t.border-border-strong {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-top-color: rgba(255, 255, 255, 0.06) !important;
+  }
+
+  .dark footer.mt-40.bg-white {
+    background: #0a0a0a !important;
+    border-top: 1px solid transparent !important;
+    border-image: linear-gradient(to right, rgba(131, 58, 180, 0.3), rgba(253, 29, 29, 0.3), rgba(247, 119, 55, 0.3)) 1 !important;
+    box-shadow: none !important;
+  }
+
+  .dark footer.mt-40.bg-white p,
+  .dark footer.mt-40.bg-white span,
+  .dark footer.mt-40.bg-white div {
+    color: #a8a8a8 !important;
+  }
+
+  .dark form.bg-white.border.border-border-strong {
+    background: #111111 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .dark form.bg-white.border.border-border-strong input {
+    background: #1e1e1e !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #FFFFFF !important;
+  }
+
+  .dark .perspective-2000 div[style*="radial-gradient"] {
+    background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(255, 255, 255, 0.1) 0%, transparent 60%) !important;
+  }
+
+  /* Sign Out Button in Dark Mode */
+  .dark button.bg-\[\#92400e\] {
+    background: linear-gradient(135deg, #833AB4, #FD1D1D) !important;
+    box-shadow: 0 4px 15px rgba(253, 29, 29, 0.4) !important;
+  }
+
+  .dark button.bg-\[\#92400e\]:hover {
+    background: linear-gradient(135deg, #FD1D1D, #F77737) !important;
+    box-shadow: 0 8px 25px rgba(253, 29, 29, 0.6) !important;
   }
 
   /* Core 3D Glassmorphism Cards in Dark Mode */

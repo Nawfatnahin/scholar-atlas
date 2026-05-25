@@ -173,7 +173,11 @@ export default function AboutPage() {
 
         {/* Section 3: Features */}
         <section className="mb-32">
-          <h2 className="text-[12px] font-black text-ink-4 uppercase tracking-[0.4em] mb-16 text-center">System Capabilities</h2>
+          <div className="flex items-center gap-4 mb-16">
+            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
+            <h2 className="text-[12px] font-black text-ink-4 uppercase tracking-[0.4em] px-4 whitespace-nowrap">System Capabilities</h2>
+            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {features.map((f, i) => (
               <div key={i} className="bg-white/40 backdrop-blur-xl p-10 rounded-[40px] border border-border-strong hover:border-accent/40 hover:shadow-xl hover:-translate-y-2 transition-all duration-500 group">
@@ -189,7 +193,11 @@ export default function AboutPage() {
 
         {/* Section 4: Changelog */}
         <section className="mb-32">
-          <h2 className="text-[12px] font-black text-ink-4 uppercase tracking-[0.4em] mb-16">The Roadmap</h2>
+          <div className="flex items-center gap-4 mb-16">
+            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
+            <h2 className="text-[12px] font-black text-ink-4 uppercase tracking-[0.4em] px-4 whitespace-nowrap">The Roadmap</h2>
+            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
+          </div>
           <div className="bg-white/60 backdrop-blur-2xl p-10 sm:p-16 rounded-[64px] border border-border-strong shadow-sm relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl -mr-32 -mt-32 group-hover:bg-accent/10 transition-all duration-1000" />
             
@@ -230,7 +238,11 @@ export default function AboutPage() {
 
         {/* Section 5: Stack */}
         <section className="mb-32 text-center">
-          <h2 className="text-[11px] font-black text-ink-4 uppercase tracking-[0.5em] mb-16">Core Architecture</h2>
+          <div className="flex items-center gap-4 mb-16">
+            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
+            <h2 className="text-[11px] font-black text-ink-4 uppercase tracking-[0.5em] px-4 whitespace-nowrap">Core Architecture</h2>
+            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
+          </div>
           <div className="flex flex-wrap gap-8 justify-center px-4">
             {[
               { name: "Next.js 15", color: "from-blue-400 to-blue-600", shadow: "shadow-blue-500/20" },
