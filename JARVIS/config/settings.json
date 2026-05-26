@@ -1,0 +1,29 @@
+{
+    "validation_delay_ms": 150,
+    "wake_cooldown_sec": 4.0,
+    "mic_device_index": 1,
+    "vosk_model_path": "core/models/vosk-model-small-en-us-0.15",
+    "vosk_confidence_threshold": 0.7,
+    "tts_voice": "en-GB-RyanNeural",
+    "tts_rate": "+3%",
+    "tts_volume": "+150%",
+    "subtitle_font": "Segoe UI",
+    "subtitle_font_size": 28,
+    "subtitle_dismiss_sec": 1.5,
+    "log_level": "NOMINAL",
+    "wake_phonemes": [
+        "jarvis", "jaris", "garbage", "drivers", "travis", "java", "service",
+        "charge", "charles", "jobs", "jails", "justice", "jarrod", "drives",
+        "darvis", "starvis", "jervis", "darwish", "davis", "doris", "jared",
+        "jerrys", "various", "douglas", "jarvis jarvis jar"
+    ],
+    "paths": {
+        "runtime_log": "logs/runtime.log",
+        "listener_debug_log": "logs/listener_debug.log",
+        "trigger_bus_file": "bridge/trigger_bus.json",
+        "task_queue_file": "memory/task_queue.json",
+        "errors_file": "memory/errors.json",
+        "vault_file": "vault/vault.enc",
+        "session_logs_dir": "logs/"
+    }
+}

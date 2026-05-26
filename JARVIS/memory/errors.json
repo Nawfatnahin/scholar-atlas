@@ -1,0 +1,55 @@
+{
+  "errors": [
+    {
+      "id": "ERR-001",
+      "timestamp": "2026-05-19T13:08:43.445407+00:00",
+      "category": "PROTOCOL",
+      "description": "Violation of Textual Minimalism",
+      "cause": "Root logger was configured with StreamHandler(sys.stdout), causing logs to leak into the terminal.",
+      "remediation": "Removed StreamHandler from main.py and reduced verbosity in sync_speak.py.",
+      "impact": "High",
+      "resolved": true
+    },
+    {
+      "id": "ERR-002",
+      "timestamp": "2026-05-19T17:49:00.000000+00:00",
+      "category": "BRIDGE",
+      "description": "Wake Injection Failure on Layout Mismatch",
+      "cause": "PyAutoGUI could not reliably simulate backtick (`) key on non-US or custom layouts when all VS Code terminals were closed, causing wake-word calls to be silently swallowed.",
+      "remediation": "Switched injection protocol to the Command Palette (ctrl+shift+p) to explicitly create/focus terminals, and replaced pyautogui.typewrite with clipboard-based pyperclip injection.",
+      "impact": "High",
+      "resolved": true
+    },
+    {
+      "id": "ERR-003",
+      "timestamp": "2026-05-19T17:49:30.000000+00:00",
+      "category": "ACOUSTIC",
+      "description": "Self-Referential Audio Feedback Loop",
+      "cause": "Vocal TTS playback ('Activating, Sir') and chime sounds were picked up by the always-on microphone, triggering an infinite feedback loop of wake matches.",
+      "remediation": "Implemented a thread-isolated self-muting system using self._mute_listener during chime/TTS play, and offloaded wake-word callbacks to a separate daemon thread.",
+      "impact": "Critical",
+      "resolved": true
+    },
+    {
+      "id": "ERR-004",
+      "timestamp": "2026-05-20T06:16:31.118544+00:00",
+      "category": "SYSTEM",
+      "description": "VS Code active tab overflow memory leak",
+      "cause": "Too many open files accumulating in workspace memory.",
+      "remediation": "Updated settings.json to enforce max active tab limit of 5.",
+      "impact": "Medium",
+      "resolved": true
+    },
+    {
+      "id": "ERR-005",
+      "timestamp": "2026-05-20T06:16:57.303464+00:00",
+      "category": "SYSTEM",
+      "description": "UnicodeEncodeError on Windows stdout print of Unicode characters",
+      "cause": "Console using cp1252 encoding crashes when printing the star/diamond character",
+      "remediation": "Implemented safe_print to intercept encoding exceptions and fallback to safe console streams",
+      "impact": "Medium",
+      "resolved": true
+    }
+  ],
+  "next_id": 6
+}

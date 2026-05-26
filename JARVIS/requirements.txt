@@ -1,0 +1,16 @@
+vosk
+edge-tts
+pygame
+pyaudio
+speechrecognition
+psutil
+cryptography
+pygetwindow
+pyautogui
+requests
+watchdog
+pyperclip
+schedule
+pyttsx3
+pycaw
+comtypes

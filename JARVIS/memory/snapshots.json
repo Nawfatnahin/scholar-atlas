@@ -1,0 +1,17 @@
+{
+  "ARCHIVE_INIT": {
+    "archive": "C:\\Users\\ASUS\\Desktop\\Vs code file\\JARVIS\\memory\\backups\\snapshot_ARCHIVE_INIT_20260519_191106.zip",
+    "timestamp": "2026-05-19T13:11:09.362205+00:00",
+    "summary": "Initial ARCHIVE_PROTOCOL implementation"
+  },
+  "V2.0.1": {
+    "archive": "C:\\Users\\ASUS\\Desktop\\Vs code file\\JARVIS\\memory\\backups\\snapshot_v2.0.1_20260519_235536.zip",
+    "timestamp": "2026-05-19T17:55:40.233929+00:00",
+    "summary": "JARVIS v2.0.1 with fully synchronized standalone listener background service, physical feedback loop prevention using thread-isolated listener mute flag, and silent active Gemini CLI terminal focusing."
+  },
+  "V2.0.2": {
+    "archive": "C:\\Users\\ASUS\\Desktop\\Vs code file\\JARVIS\\memory\\backups\\snapshot_v2.0.2_20260520_120022.zip",
+    "timestamp": "2026-05-20T06:00:25.997721+00:00",
+    "summary": "Workspace consolidation, cleanup of legacy scripts, and modularization of version manifests."
+  }
+}
