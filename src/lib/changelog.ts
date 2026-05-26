@@ -14,6 +14,16 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "1.1.0",
+    date: "2026-05-27",
+    summary: "Extra Classes logging in Attendance and popup aligned improvements",
+    changes: [
+      { type: "NEW", description: "Added capability to log and delete extra class sessions in the Attendance Tracker, automatically recalculating all stats dynamically" },
+      { type: "FIXED", description: "Corrected theme defaults so that shared links or new visits always open in light mode by default, respecting manual toggles" },
+      { type: "FIXED", description: "Aligned the instruction popups in the Attendance and Task pages to present only features currently fully operational in the tool" },
+    ],
+  },
+  {
     version: "1.0.3",
     date: "2026-05-25",
     summary: "Premium Instagram-inspired dark theme redesign",

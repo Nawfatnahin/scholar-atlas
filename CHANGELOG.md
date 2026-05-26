@@ -4,6 +4,17 @@ Format: [version] — YYYY-MM-DD
 
 ---
 
+## [1.1.0] — 2026-05-27
+
+### Added
+- Dedicated **Extra Classes** logging engine in the Attendance Tracker, supporting real-time manual tracking, historical listings, and direct deletion with instant health score updates.
+
+### Fixed
+- Standardized theme defaults so that shared links or new visitors always open in light mode by default, preventing accidental flashing or dark-mode overrides unless manually enabled.
+- Refined the Instruction Button popups in the Attendance and Task pages to present only features currently fully operational in the tool, removing simulator and sorting placeholders.
+
+---
+
 ## [1.0.3] — 2026-05-24
 
 ### Fixed

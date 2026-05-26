@@ -335,6 +335,29 @@ export async function updateSubject(id: string, data: any) {
   revalidatePath('/dashboard/attendance');
 }
 
+export async function deleteAttendanceRecord(recordId: string) {
+  try {
+    const supabase = await createClient();
+    const user = await getAuthenticatedUser(supabase);
+
+    const { error } = await supabase
+      .from('attendance_records')
+      .delete()
+      .eq('id', recordId)
+      .eq('user_id', user.id);
+
+    if (error) {
+      return { success: false, error: `DATABASE_ERROR: ${error.message}` };
+    }
+    
+    revalidatePath('/dashboard/attendance');
+    revalidatePath('/dashboard');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Internal server error' };
+  }
+}
+
 export async function getTodaysSessions() {
   try {
     const supabase = await createClient();
