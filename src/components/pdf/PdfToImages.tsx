@@ -6,8 +6,8 @@ import { File, X, Plus, Loader2, Images } from "lucide-react";
 import { toast } from "sonner";
 import JSZip from "jszip";
 import { usePdfSessionLimit } from "@/hooks/usePdfSessionLimit";
-
 import { useSubscription } from "@/components/SubscriptionProvider";
+import { LimitModal } from "./LimitModal";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
@@ -18,14 +18,14 @@ export function PdfToImages() {
   const [format, setFormat] = useState<"image/png" | "image/jpeg">("image/png");
   
   const { isPro } = useSubscription();
-  const { canPerformAction, addAction } = usePdfSessionLimit(isPro);
+  const { canPerformAction, addAction, showLimitModal, setShowLimitModal, triggerLimitModal } = usePdfSessionLimit(isPro);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
     maxFiles: 1,
     onDrop: async (acceptedFiles, rejectedFiles) => {
       if (!canPerformAction) {
-        toast.error("Session limit reached.");
+        triggerLimitModal();
         return;
       }
       if (rejectedFiles.length > 0) {
@@ -60,7 +60,7 @@ export function PdfToImages() {
   const handleConvert = async () => {
     if (!pdfFile) return;
     if (!canPerformAction) {
-      toast.error("Session limit reached.");
+      triggerLimitModal();
       return;
     }
 
@@ -175,7 +175,7 @@ export function PdfToImages() {
              
              <button
                onClick={handleConvert}
-               disabled={isProcessing || !canPerformAction}
+               disabled={isProcessing}
                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:bg-stone-300 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
              >
                {isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> : <Images className="w-5 h-5" />}
@@ -184,6 +184,9 @@ export function PdfToImages() {
           </div>
         </div>
       )}
+      
+      <LimitModal isOpen={showLimitModal} onClose={() => setShowLimitModal(false)} />
     </div>
   );
 }
+

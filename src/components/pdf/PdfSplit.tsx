@@ -7,8 +7,8 @@ import { toast } from "sonner";
 import { PDFDocument } from "pdf-lib";
 import JSZip from "jszip";
 import { usePdfSessionLimit } from "@/hooks/usePdfSessionLimit";
-
 import { useSubscription } from "@/components/SubscriptionProvider";
+import { LimitModal } from "./LimitModal";
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
@@ -19,14 +19,14 @@ export function PdfSplit() {
   const [isLoadingPdf, setIsLoadingPdf] = useState(false);
   
   const { isPro } = useSubscription();
-  const { canPerformAction, addAction } = usePdfSessionLimit(isPro);
+  const { canPerformAction, addAction, showLimitModal, setShowLimitModal, triggerLimitModal } = usePdfSessionLimit(isPro);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
     maxFiles: 1,
     onDrop: async (acceptedFiles, rejectedFiles) => {
       if (!canPerformAction) {
-        toast.error("Session limit reached.");
+        triggerLimitModal();
         return;
       }
       if (rejectedFiles.length > 0) {
@@ -83,7 +83,7 @@ export function PdfSplit() {
       return;
     }
     if (!canPerformAction) {
-      toast.error("Session limit reached.");
+      triggerLimitModal();
       return;
     }
 
@@ -203,7 +203,7 @@ export function PdfSplit() {
           <div className="mt-2 flex justify-end">
              <button
                onClick={handleSplit}
-               disabled={isProcessing || !canPerformAction || !ranges.trim()}
+               disabled={isProcessing || !ranges.trim()}
                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-stone-300 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
              >
                {isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> : <SplitSquareHorizontal className="w-5 h-5" />}
@@ -212,6 +212,9 @@ export function PdfSplit() {
           </div>
         </div>
       )}
+      
+      <LimitModal isOpen={showLimitModal} onClose={() => setShowLimitModal(false)} />
     </div>
   );
 }
+

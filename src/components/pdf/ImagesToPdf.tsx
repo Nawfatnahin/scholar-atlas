@@ -24,8 +24,8 @@ import { X, GripVertical, Plus, Loader2, Download } from "lucide-react";
 import { toast } from "sonner";
 import { PDFDocument } from "pdf-lib";
 import { usePdfSessionLimit } from "@/hooks/usePdfSessionLimit";
-
 import { useSubscription } from "@/components/SubscriptionProvider";
+import { LimitModal } from "./LimitModal";
 
 const MAX_TOTAL_SIZE = 50 * 1024 * 1024; // 50MB
 
@@ -87,7 +87,7 @@ export function ImagesToPdf() {
   const [outputName, setOutputName] = useState("images.pdf");
   
   const { isPro } = useSubscription();
-  const { canPerformAction, addAction } = usePdfSessionLimit(isPro);
+  const { canPerformAction, addAction, showLimitModal, setShowLimitModal, triggerLimitModal } = usePdfSessionLimit(isPro);
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -98,7 +98,7 @@ export function ImagesToPdf() {
     accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] },
     onDrop: (acceptedFiles, rejectedFiles) => {
       if (!canPerformAction) {
-        toast.error("Session limit reached. Cannot perform more actions.");
+        triggerLimitModal();
         return;
       }
       if (rejectedFiles.length > 0) {
@@ -147,7 +147,7 @@ export function ImagesToPdf() {
       return;
     }
     if (!canPerformAction) {
-      toast.error("Session limit reached.");
+      triggerLimitModal();
       return;
     }
 
@@ -264,7 +264,7 @@ export function ImagesToPdf() {
              
              <button
                onClick={handleConvert}
-               disabled={images.length === 0 || isProcessing || !canPerformAction}
+               disabled={images.length === 0 || isProcessing}
                className="w-full sm:w-auto flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 disabled:bg-stone-300 text-white px-6 py-2.5 rounded-xl font-medium transition-colors shadow-sm"
              >
                {isProcessing ? <Loader2 className="w-5 h-5 animate-spin" /> : <Download className="w-5 h-5" />}
@@ -273,6 +273,9 @@ export function ImagesToPdf() {
           </div>
         </div>
       )}
+      
+      <LimitModal isOpen={showLimitModal} onClose={() => setShowLimitModal(false)} />
     </div>
   );
 }
+

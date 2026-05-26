@@ -14,7 +14,10 @@ export function usePdfSessionLimit(isPro: boolean = false) {
   const [actions, setActions] = useState<PdfAction[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  const [showLimitModal, setShowLimitModal] = useState(false);
+
   const MAX_ACTIONS = isPro ? Infinity : 5;
+
 
   useEffect(() => {
     try {
@@ -49,9 +52,23 @@ export function usePdfSessionLimit(isPro: boolean = false) {
     setIsLoaded(true);
   }, []);
 
+  // Helper to count actions performed today (same calendar date)
+  const getActionsCountToday = (actionList: PdfAction[]) => {
+    const todayStr = new Date().toDateString();
+    return actionList.filter(action => {
+      if (!action.timestamp) return false;
+      return new Date(action.timestamp).toDateString() === todayStr;
+    }).length;
+  };
+
+  const todayCount = getActionsCountToday(actions);
+  const canPerformAction = isPro || todayCount < MAX_ACTIONS;
+  const actionsRemaining = Math.max(0, MAX_ACTIONS - todayCount);
+
   const addAction = (action: Omit<PdfAction, 'id' | 'timestamp'>) => {
-    if (!isPro && actions.length >= 5) {
-      throw new Error(`Limit reached: Free users can only perform 5 actions. Upgrade to Pro for unlimited!`);
+    if (!isPro && todayCount >= MAX_ACTIONS) {
+      setShowLimitModal(true);
+      throw new Error(`Limit reached: Free users can only perform 20 actions per day.`);
     }
 
     const newAction: PdfAction = {
@@ -75,8 +92,9 @@ export function usePdfSessionLimit(isPro: boolean = false) {
     localStorage.removeItem('pdf-actions');
   };
 
-  const canPerformAction = actions.length < MAX_ACTIONS;
-  const actionsRemaining = Math.max(0, MAX_ACTIONS - actions.length);
+  const triggerLimitModal = () => {
+    setShowLimitModal(true);
+  };
 
   return {
     actions,
@@ -85,6 +103,10 @@ export function usePdfSessionLimit(isPro: boolean = false) {
     canPerformAction,
     actionsRemaining,
     maxActions: MAX_ACTIONS,
-    isLoaded
+    isLoaded,
+    showLimitModal,
+    setShowLimitModal,
+    triggerLimitModal
   };
 }
+
