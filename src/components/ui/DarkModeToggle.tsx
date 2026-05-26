@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { Sun, Moon } from "lucide-react";
+import { useSubscription } from "@/components/SubscriptionProvider";
 
 export default function DarkModeToggle() {
   const [isDark, setIsDark] = useState(false);
   const [mounted, setHydrated] = useState(false);
+  const { user, supabase } = useSubscription();
 
   useEffect(() => {
     // Sync with the actual state applied by the no-flash script
@@ -13,7 +15,7 @@ export default function DarkModeToggle() {
     setHydrated(true);
   }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = async () => {
     const nextIsDark = !isDark;
     setIsDark(nextIsDark);
 
@@ -29,7 +31,18 @@ export default function DarkModeToggle() {
       localStorage.setItem("scholar-atlas-theme", "light");
     }
 
-    // 3. Remove suppressor after 1 frame
+    // 3. Sync theme preference to Cloud database if authenticated
+    if (user && supabase) {
+      try {
+        await supabase.auth.updateUser({
+          data: { theme: nextIsDark ? "dark" : "light" }
+        });
+      } catch (err) {
+        console.error("Failed to persist theme preference:", err);
+      }
+    }
+
+    // 4. Remove suppressor after 1 frame
     requestAnimationFrame(() => {
       document.documentElement.classList.remove("no-transition");
     });

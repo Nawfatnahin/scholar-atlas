@@ -123,6 +123,22 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
       }
     }, 1500);
 
+    const applyUserTheme = (theme: string | undefined) => {
+      if (theme === 'dark' || theme === 'light') {
+        document.documentElement.classList.add("no-transition");
+        if (theme === 'dark') {
+          document.documentElement.classList.add("dark");
+          localStorage.setItem("scholar-atlas-theme", "dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+          localStorage.setItem("scholar-atlas-theme", "light");
+        }
+        requestAnimationFrame(() => {
+          document.documentElement.classList.remove("no-transition");
+        });
+      }
+    };
+
     const initSession = async () => {
       try {
         const { data: { session }, error } = await supabase.auth.getSession();
@@ -138,6 +154,7 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
         if (mounted.current) {
           setUser(currentUser);
           if (currentUser) {
+            applyUserTheme(currentUser.user_metadata?.theme);
             await fetchSubscription(currentUser, mounted);
           } else {
             setLoading(false);
@@ -173,6 +190,9 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
       });
       
       if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+        if (currentUser) {
+          applyUserTheme(currentUser.user_metadata?.theme);
+        }
         await fetchSubscription(currentUser, mounted);
       } else if (event === 'SIGNED_OUT') {
         setUser(null);

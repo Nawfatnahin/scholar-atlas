@@ -23,8 +23,10 @@ import {
 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import { useSubscription } from "@/components/SubscriptionProvider";
 
 export default function AboutPage() {
+  const { user, loading } = useSubscription();
   const currentRelease = CHANGELOG[0];
 
   const features = [
@@ -288,10 +290,15 @@ export default function AboutPage() {
                </p>
 
                <div className="flex flex-col items-center gap-8 pt-4">
-                 <Link href="/signup" className="group/btn relative px-16 py-6 rounded-[32px] bg-ink text-white font-black uppercase tracking-[0.3em] text-sm overflow-hidden shadow-2xl hover:scale-105 active:scale-95 transition-all duration-500">
-                   <div className="absolute inset-0 bg-gradient-to-r from-accent to-orange-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
-                   <span className="relative z-10">Initialize Atlas</span>
-                 </Link>
+                  <Link 
+                    href={loading ? "#" : (user ? "/dashboard" : "/signup")} 
+                    className="group/btn relative px-16 py-6 rounded-[32px] bg-ink text-white font-black uppercase tracking-[0.3em] text-sm overflow-hidden shadow-2xl hover:scale-105 active:scale-95 transition-all duration-500"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-accent to-orange-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-500" />
+                    <span className="relative z-10">
+                      {loading ? "Checking Status..." : (user ? "Go to Dashboard" : "Initialize Atlas")}
+                    </span>
+                  </Link>
                  
                  <Link href="/" className="group/base flex items-center gap-3 text-[12px] font-black text-ink-4 uppercase tracking-[0.4em] hover:text-accent transition-all">
                    <ArrowLeft size={16} className="group-hover/base:-translate-x-2 transition-transform" />
