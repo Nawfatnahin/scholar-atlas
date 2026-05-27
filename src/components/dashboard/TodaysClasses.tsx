@@ -74,6 +74,12 @@ function ClassCard({ session }: { session: Session }) {
   const router = useRouter();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
+  // Disable 3D tilt on touch devices to prevent layout jank
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  React.useEffect(() => {
+    setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches);
+  }, []);
 
   const config = statusConfig[session.status] ?? statusConfig.upcoming;
   const StatusIcon = config.icon;
@@ -98,13 +104,20 @@ function ClassCard({ session }: { session: Session }) {
     router.push('/dashboard/attendance');
   };
 
+  // Compute transform — disabled on touch devices
+  const cardTransform = isTouchDevice
+    ? `scale(${isPressed ? '0.97' : '1'})`
+    : `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${isHovered ? 'scale(1.02)' : 'scale(1)'}`;
+
   return (
     <div
       className="cursor-pointer select-none"
-      style={{ perspective: '800px' }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
+      style={{ perspective: isTouchDevice ? 'none' : '800px' }}
+      onMouseMove={!isTouchDevice ? handleMouseMove : undefined}
+      onMouseEnter={!isTouchDevice ? () => setIsHovered(true) : undefined}
+      onMouseLeave={!isTouchDevice ? handleMouseLeave : undefined}
+      onTouchStart={() => setIsPressed(true)}
+      onTouchEnd={() => setIsPressed(false)}
       onClick={handleClick}
     >
       <div
@@ -116,8 +129,8 @@ function ClassCard({ session }: { session: Session }) {
           p-5 sm:p-6 flex flex-col gap-4
         `}
         style={{
-          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) ${isHovered ? 'scale(1.02)' : 'scale(1)'}`,
-          transition: isHovered
+          transform: cardTransform,
+          transition: isHovered || isPressed
             ? 'transform 0.1s ease-out, shadow 0.3s'
             : 'transform 0.4s ease-out, shadow 0.3s',
           transformStyle: 'preserve-3d',

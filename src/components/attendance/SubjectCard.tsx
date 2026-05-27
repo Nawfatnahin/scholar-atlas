@@ -180,14 +180,14 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
             </span>
             <button 
               onClick={() => onEdit?.(subject)}
-              className="p-2 hover:bg-bg-base rounded-xl text-text-tertiary hover:text-accent transition-all dark:hover:bg-bg-surface"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-bg-base rounded-xl text-text-tertiary hover:text-accent transition-all dark:hover:bg-bg-surface touch-manipulation"
               title="Edit Subject"
             >
               <Edit2 className="w-5 h-5" />
             </button>
             <button 
               onClick={handleDelete}
-              className="p-2 hover:bg-red-50 rounded-xl text-text-tertiary hover:text-red-500 transition-all opacity-0 group-hover:opacity-100 dark:hover:bg-red-900/20"
+              className="p-2 min-h-[44px] min-w-[44px] flex items-center justify-center hover:bg-red-50 rounded-xl text-text-tertiary hover:text-red-500 transition-all md:opacity-0 group-hover:opacity-100 dark:hover:bg-red-900/20 touch-manipulation"
               title="Delete"
             >
               <Trash2 className="w-5 h-5" />
@@ -274,7 +274,7 @@ export const SubjectCard: React.FC<SubjectCardProps> = ({
 
         <button 
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full flex items-center justify-center gap-2 text-xs font-black text-text-tertiary uppercase tracking-widest hover:text-text-primary transition-colors"
+          className="w-full flex items-center justify-center gap-2 text-xs font-black text-text-tertiary uppercase tracking-widest hover:text-text-primary transition-colors min-h-[44px] touch-manipulation"
         >
           {isExpanded ? (
             <>Hide Analytics <ChevronUp className="w-4 h-4" /></>

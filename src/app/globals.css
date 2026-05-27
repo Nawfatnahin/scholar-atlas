@@ -30,6 +30,23 @@
               color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Eliminate 300ms tap delay on Android Chrome & old iOS */
+button, a, input, select, textarea, [role="button"], [tabindex] {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth momentum scrolling on iOS for all overflow containers */
+.overflow-y-auto, .overflow-x-auto, .overflow-auto, .overflow-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Viewport-safe body — accounts for browser chrome on mobile */
+html, body {
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
 /* Suppress transition on page load to prevent flash */
 .no-transition, .no-transition * {
   transition: none !important;
@@ -685,8 +702,42 @@
     padding-bottom: env(safe-area-inset-bottom);
   }
 
+  .safe-area-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
   .no-tap-highlight {
     -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Horizontal snap scroll for Kanban on mobile */
+  .kanban-scroll {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 1rem;
+    padding-bottom: 1rem;
+  }
+  .kanban-scroll::-webkit-scrollbar { display: none; }
+  .kanban-col {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    width: calc(85vw);
+    max-width: 360px;
+  }
+  @media (min-width: 768px) {
+    .kanban-scroll {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      overflow-x: visible;
+      scroll-snap-type: none;
+    }
+    .kanban-col {
+      width: auto;
+      max-width: none;
+    }
   }
 
   @keyframes shine {

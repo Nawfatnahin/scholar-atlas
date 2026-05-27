@@ -482,28 +482,28 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
             {/* Chip 1: CGPA */}
             <div className="bg-bg-surface/90 dark:bg-bg-elevated/40 border border-border-strong/40 p-3.5 rounded-xl shadow-[inset_0_-2px_4px_rgba(0,0,0,0.02),0_2px_4px_rgba(0,0,0,0.01)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02),0_4px_12px_rgba(0,0,0,0.2)] hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between min-h-[95px] relative overflow-hidden group/tile border-l-4 border-l-amber-500">
               <div className="flex justify-between items-start">
-                <p className="text-[10px] text-text-tertiary">Current CGPA</p>
-                <Award size={14} className="text-amber-500 opacity-60 group-hover/tile:opacity-100 transition-opacity" />
+                <p className="text-[10px] text-text-tertiary truncate">Current CGPA</p>
+                <Award size={14} className="text-amber-500 opacity-60 group-hover/tile:opacity-100 transition-opacity flex-shrink-0" />
               </div>
-              <p className="text-[22px] font-black text-text-primary mt-2">
+              <p className="text-[22px] font-black text-text-primary mt-2 truncate">
                 {loadingCGPA ? "..." : errorCGPA || latestCGPA === null ? "—" : latestCGPA.toFixed(2)}
               </p>
             </div>
             {/* Chip 2: Attendance */}
             <div className={`bg-bg-surface/90 dark:bg-bg-elevated/40 border border-border-strong/40 p-3.5 rounded-xl shadow-[inset_0_-2px_4px_rgba(0,0,0,0.02),0_2px_4px_rgba(0,0,0,0.01)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02),0_4px_12px_rgba(0,0,0,0.2)] hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between min-h-[95px] relative overflow-hidden group/tile border-l-4 ${avgAttendance !== null ? (avgAttendance >= 75 ? 'border-l-green-500' : avgAttendance >= 60 ? 'border-l-amber-500' : 'border-l-red-500') : 'border-l-text-tertiary'}`}>
               <div className="flex justify-between items-start">
-                <p className="text-[10px] text-text-tertiary">Avg Attendance</p>
-                <TrendingUp size={14} className={`${avgAttendance !== null ? (avgAttendance >= 75 ? 'text-green-500' : avgAttendance >= 60 ? 'text-amber-500' : 'text-red-500') : 'text-text-tertiary'} opacity-60 group-hover/tile:opacity-100 transition-opacity`} />
+                <p className="text-[10px] text-text-tertiary truncate">Avg Attendance</p>
+                <TrendingUp size={14} className={`flex-shrink-0 ${avgAttendance !== null ? (avgAttendance >= 75 ? 'text-green-500' : avgAttendance >= 60 ? 'text-amber-500' : 'text-red-500') : 'text-text-tertiary'} opacity-60 group-hover/tile:opacity-100 transition-opacity`} />
               </div>
-              <p className={`text-[22px] font-black mt-2 ${avgAttendance !== null ? attendanceColor(avgAttendance) : "text-text-primary"}`}>
+              <p className={`text-[22px] font-black mt-2 truncate ${avgAttendance !== null ? attendanceColor(avgAttendance) : "text-text-primary"}`}>
                 {loadingSubjects ? "..." : errorSubjects || avgAttendance === null ? "—" : `${Math.round(avgAttendance)}%`}
               </p>
             </div>
             {/* Chip 3: Due This Week */}
             <div className="bg-bg-surface/90 dark:bg-bg-elevated/40 border border-border-strong/40 p-3.5 rounded-xl shadow-[inset_0_-2px_4px_rgba(0,0,0,0.02),0_2px_4px_rgba(0,0,0,0.01)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02),0_4px_12px_rgba(0,0,0,0.2)] hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between min-h-[95px] relative overflow-hidden group/tile border-l-4 border-l-red-500">
               <div className="flex justify-between items-start">
-                <p className="text-[10px] text-text-tertiary">Due This Week</p>
-                <Clock size={14} className="text-red-500 opacity-60 group-hover/tile:opacity-100 transition-opacity" />
+                <p className="text-[10px] text-text-tertiary truncate">Due This Week</p>
+                <Clock size={14} className="text-red-500 opacity-60 group-hover/tile:opacity-100 transition-opacity flex-shrink-0" />
               </div>
               <div className="mt-2 flex items-baseline gap-2">
                 <p className="text-[22px] font-black text-text-primary">
@@ -519,8 +519,8 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
             {/* Chip 4: Subjects */}
             <div className="bg-bg-surface/90 dark:bg-bg-elevated/40 border border-border-strong/40 p-3.5 rounded-xl shadow-[inset_0_-2px_4px_rgba(0,0,0,0.02),0_2px_4px_rgba(0,0,0,0.01)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02),0_4px_12px_rgba(0,0,0,0.2)] hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between min-h-[95px] relative overflow-hidden group/tile border-l-4 border-l-blue-500">
               <div className="flex justify-between items-start">
-                <p className="text-[10px] text-text-tertiary">Subjects</p>
-                <BookOpen size={14} className="text-blue-500 opacity-60 group-hover/tile:opacity-100 transition-opacity" />
+                <p className="text-[10px] text-text-tertiary truncate">Subjects</p>
+                <BookOpen size={14} className="text-blue-500 opacity-60 group-hover/tile:opacity-100 transition-opacity flex-shrink-0" />
               </div>
               <p className="text-[22px] font-black text-text-primary mt-2">
                 {loadingSubjects ? "..." : errorSubjects ? "—" : subjects.length}

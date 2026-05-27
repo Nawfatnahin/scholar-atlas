@@ -246,12 +246,12 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
       <TodaySchedule subjects={initialSubjects} />
 
       {/* Main Controls */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="text-3xl font-black text-text-primary tracking-tight">Your Courses</h2>
-          <p className="text-text-tertiary font-medium">Monitoring {initialSubjects.length} active academic tracks.</p>
+          <h2 className="text-2xl sm:text-3xl font-black text-text-primary tracking-tight">Your Courses</h2>
+          <p className="text-text-tertiary font-medium text-sm sm:text-base">Monitoring {initialSubjects.length} active academic tracks.</p>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 w-full sm:w-auto">
           <button
             onClick={() => setIsHolidayModalOpen(true)}
             className="flex items-center gap-3 bg-accent/10 text-accent px-6 py-4 rounded-[20px] font-black uppercase tracking-widest hover:bg-accent/20 transition-all active:scale-95"
@@ -304,8 +304,8 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
       {/* Add/Edit Subject Modal */}
       {(isAdding || editingSubject) && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-in fade-in">
-          <form onSubmit={handleAddSubject} className="relative w-full max-w-2xl bg-bg-base rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col max-h-[90vh] border-b-8 border-accent/10 dark:bg-bg-surface">
-            <div className="px-10 py-8 border-b border-border-strong flex justify-between items-center bg-bg-surface/50 dark:bg-bg-elevated/50">
+          <form onSubmit={handleAddSubject} className="relative w-full max-w-2xl bg-bg-base rounded-[40px] shadow-[0_20px_50px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col max-h-[85vh] border-b-8 border-accent/10 dark:bg-bg-surface">
+            <div className="px-5 sm:px-10 py-5 sm:py-8 border-b border-border-strong flex justify-between items-center bg-bg-surface/50 dark:bg-bg-elevated/50">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center text-white shadow-lg shadow-accent/20">
                   <Layout className="w-6 h-6" />
@@ -319,8 +319,8 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
               </button>
             </div>
 
-            <div className="p-10 space-y-8 overflow-y-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="p-5 sm:p-10 space-y-6 sm:space-y-8 overflow-y-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-8">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-text-tertiary uppercase tracking-widest flex items-center gap-2"><Info className="w-3 h-3" /> Subject Name</label>
                   <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. Data Structures" className="w-full px-6 py-4 rounded-2xl border-2 border-border-strong bg-bg-base font-bold text-text-primary outline-none focus:border-accent transition-all dark:bg-bg-elevated" required />
@@ -343,7 +343,7 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
                 <div className="space-y-2 col-span-2">
                   <label className="text-[10px] font-black text-text-tertiary uppercase tracking-widest flex items-center gap-2"><Layout className="w-3 h-3" /> Target Attendance %</label>
                   <input type="number" value={formData.personalTarget} onChange={(e) => setFormData({...formData, personalTarget: parseFloat(e.target.value)})} placeholder="75" className="w-full px-4 py-3.5 rounded-xl border-2 border-border-strong bg-bg-base font-bold text-text-primary outline-none focus:border-accent transition-all dark:bg-bg-elevated" required />
@@ -354,7 +354,7 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">Start Date</label>
                   <input type="date" value={formData.semesterStartDate} onChange={(e) => setFormData({...formData, semesterStartDate: e.target.value})} className="w-full px-4 py-3.5 rounded-xl border-2 border-border-strong bg-bg-base font-bold text-text-primary outline-none focus:border-accent transition-all dark:bg-bg-elevated" required />
@@ -393,7 +393,7 @@ export function AttendanceTracker({ initialSubjects, initialHolidays }: Attendan
               )}
             </div>
 
-            <div className="px-10 py-8 bg-bg-surface/50 border-t border-border-strong flex justify-end gap-4 dark:bg-bg-elevated/50">
+            <div className="px-5 sm:px-10 py-5 sm:py-8 bg-bg-surface/50 border-t border-border-strong flex justify-end gap-4 dark:bg-bg-elevated/50 safe-area-bottom">
               <button type="button" onClick={() => { setIsAdding(false); setEditingSubject(null); }} className="px-8 py-4 text-xs font-black text-text-tertiary hover:text-text-primary uppercase tracking-widest transition-colors">Cancel</button>
               <button type="submit" disabled={isPending} className="bg-accent text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:bg-[#78350f] transition-all disabled:opacity-50 shadow-xl shadow-accent/20 active:scale-95">{isPending ? "Configuring..." : (editingSubject ? "Update Track" : "Initialize Track")}</button>
             </div>

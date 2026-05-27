@@ -138,9 +138,9 @@ export function TaskTracker({ initialTasks, subjects }: { initialTasks: Task[], 
         </form>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
+      <div className="kanban-scroll items-start">
         {columns.map((col) => (
-          <div key={col.id} className="flex flex-col gap-5">
+          <div key={col.id} className="kanban-col flex flex-col gap-5">
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-3">
                 <div className={`p-2 rounded-xl ${col.id === 'done' ? 'bg-green-100 text-green-600 dark:bg-green-900/20 dark:text-green-400' : col.id === 'in-progress' ? 'bg-amber-100 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400' : 'bg-bg-surface text-text-tertiary dark:bg-bg-elevated'}`}>
@@ -162,13 +162,13 @@ export function TaskTracker({ initialTasks, subjects }: { initialTasks: Task[], 
                       <h4 className={`text-base font-bold text-text-primary leading-tight tracking-tight ${task.status === 'done' ? 'line-through' : ''}`}>
                         {task.title}
                       </h4>
-                      <div className="flex gap-1.5 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+                      <div className="flex gap-1.5 flex-shrink-0">
                          <button 
                            onClick={() => {
                              const nextStatus = task.status === 'todo' ? 'in-progress' : task.status === 'in-progress' ? 'done' : 'todo';
                              updateTaskStatus(task.id, nextStatus);
                            }}
-                           className={`p-2.5 rounded-xl transition-all active:scale-90 ${
+                           className={`p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl transition-all active:scale-90 touch-manipulation ${
                              task.status === 'todo' ? 'bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white dark:bg-blue-900/20 dark:text-blue-400' :
                              task.status === 'in-progress' ? 'bg-green-50 text-green-600 hover:bg-green-600 hover:text-white dark:bg-green-900/20 dark:text-green-400' :
                              'bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white dark:bg-amber-900/20 dark:text-amber-400'
@@ -182,7 +182,7 @@ export function TaskTracker({ initialTasks, subjects }: { initialTasks: Task[], 
                            onClick={() => {
                              if(confirm("Delete task?")) deleteTask(task.id);
                            }}
-                           className="p-2.5 bg-red-50 text-red-400 hover:text-white hover:bg-red-500 rounded-xl transition-all active:scale-90 dark:bg-red-900/20 dark:text-red-400"
+                           className="p-2.5 min-h-[44px] min-w-[44px] flex items-center justify-center bg-red-50 text-red-400 hover:text-white hover:bg-red-500 rounded-xl transition-all active:scale-90 dark:bg-red-900/20 dark:text-red-400 touch-manipulation"
                          >
                            <Trash2 className="w-4 h-4" />
                          </button>
