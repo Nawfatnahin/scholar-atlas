@@ -4,6 +4,26 @@ Format: [version] — YYYY-MM-DD
 
 ---
 
+## [2.0.0] — 2026-05-27
+
+### Added
+- **Multi-step Initialize Manager modal** with user-friendly 4-step wizard to setup degrees, current semesters, past semester GPAs, and target CGPA with beautiful Framer Motion animations.
+- **Horizontal SemesterTabs navigation** bar to view, manage, and toggle easily between individual semesters.
+- **DegreeProgressBar widget** showing current degree completion with elegant terracotta gradients.
+- **Dynamic CGPASummaryCard panel** showcasing active CGPA, total degree credits, distance from target CGPA, and custom feedback alerts.
+- **SemesterSettingsPanel** to configure custom targets per semester or completely reset the CGPA tracker with safety confirmation dialogs.
+- Context-aware **InstructionsButton** on the CGPA page highlighting specific setup guides vs. active semester tracker tips.
+
+### Improved
+- **Reworked AutoCGPACounter logic** to support fully isolated per-semester courses, cumulative CGPA calculation, and graceful read-only views for un-tracked past semesters.
+- Full high-fidelity **Dark Mode and Light Mode synchronization** across all CGPA components for an exceptionally premium look and feel.
+
+### Technical
+- Added the PostgreSQL table `public.cgpa_semester_setup` to store degree metadata, initialized states, and past GPA caches.
+- Updated `public.cgpa_courses_auto` schema with `semester_number` tracking, complete with indexes and RLS optimizations.
+
+---
+
 ## [1.1.0] — 2026-05-27
 
 ### Added

@@ -8,6 +8,7 @@ import type {
   AutoCourse,
   AttendanceSubject,
   CGPASettings,
+  SemesterSetup,
 } from '@/lib/cgpa/cgpa-types';
 import { saveGlobalTarget } from '@/app/dashboard/cgpa/actions';
 import { GradeScaleEditor } from './GradeScaleEditor';
@@ -19,6 +20,7 @@ interface CGPAManagerProps {
   initialManualCourses: any[];
   initialAutoCourses: AutoCourse[];
   attendanceSubjects: AttendanceSubject[];
+  initialSemesterSetup: SemesterSetup | null;
   isFreeTier?: boolean;
 }
 
@@ -27,6 +29,7 @@ export function CGPAManager({
   initialGradeScales,
   initialAutoCourses,
   attendanceSubjects,
+  initialSemesterSetup,
   isFreeTier,
 }: CGPAManagerProps) {
   const [targetCGPA, setTargetCGPA] = useState(initialSettings?.target_cgpa || 3.50);
@@ -34,6 +37,7 @@ export function CGPAManager({
   const [isSavingTarget, setIsSavingTarget] = useState(false);
   const [gradeScales, setGradeScales] = useState<GradeScale[]>(initialGradeScales);
   const [autoCourses, setAutoCourses] = useState<AutoCourse[]>(initialAutoCourses);
+  const [semesterSetup, setSemesterSetup] = useState<SemesterSetup | null>(initialSemesterSetup);
 
   const handleSaveTarget = async () => {
     const value = parseFloat(targetInput);
@@ -106,13 +110,15 @@ export function CGPAManager({
       {/* Grade Scale Editor */}
       <GradeScaleEditor scales={gradeScales} onScalesChange={setGradeScales} />
 
-      {/* Auto Counter — always visible */}
+      {/* Auto Counter — semester-aware */}
       <AutoCGPACounter
         courses={autoCourses}
         targetCGPA={targetCGPA}
         gradeScales={gradeScales}
         attendanceSubjects={attendanceSubjects}
         onCoursesChange={setAutoCourses}
+        semesterSetup={semesterSetup}
+        onSetupChange={setSemesterSetup}
         isFreeTier={isFreeTier}
       />
     </div>

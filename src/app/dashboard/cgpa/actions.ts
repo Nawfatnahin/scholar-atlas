@@ -6,6 +6,21 @@ import { z } from "zod";
 
 // --- SCHEMAS ---
 
+const SemesterSetupSchema = z.object({
+  total_semesters: z.number().int().min(1).max(20),
+  current_semester: z.number().int().min(1).max(20),
+  previous_gpas: z.record(z.string(), z.number().min(0).max(4.0)),
+  initialized: z.boolean(),
+});
+
+const UpdatePreviousGPASchema = z.object({
+  semester_number: z.number().int().min(1),
+  gpa: z.number().min(0).max(4.0).nullable(),
+});
+
+
+// --- COURSE SCHEMAS ---
+
 const GradeScaleMappingSchema = z.object({
   threshold: z.number().min(0).max(100),
   gradePoint: z.number().min(0).max(4.0),
@@ -45,6 +60,7 @@ const SaveAutoCourseSchema = z.object({
   attendance_threshold_percentage: z.number().min(0).max(100),
   attendance_weight: z.number().min(0).max(100),
   exam_weight: z.number().min(0).max(100),
+  semester_number: z.number().int().min(1).max(20).optional().default(1),
 });
 
 const ClassTestSchema = z.object({
@@ -247,6 +263,7 @@ export async function saveAutoCourse(input: z.infer<typeof SaveAutoCourseSchema>
       attendance_threshold_percentage: validated.attendance_threshold_percentage,
       attendance_weight: validated.attendance_weight,
       exam_weight: validated.exam_weight,
+      semester_number: validated.semester_number ?? 1,
       updated_at: new Date().toISOString(),
     };
 
@@ -413,5 +430,94 @@ export async function fetchAttendanceSubjects() {
   } catch (error: any) {
     console.error('[JARVIS]: Failed to fetch attendance subjects:', error);
     return [];
+  }
+}
+
+// --- SEMESTER SETUP ACTIONS ---
+
+export async function saveSemesterSetup(input: z.infer<typeof SemesterSetupSchema>) {
+  try {
+    const validated = SemesterSetupSchema.parse(input);
+    const supabase = await createClient();
+    const user = await getAuthenticatedUser(supabase);
+
+    const { error } = await supabase
+      .from('cgpa_semester_setup')
+      .upsert({
+        user_id: user.id,
+        total_semesters: validated.total_semesters,
+        current_semester: validated.current_semester,
+        previous_gpas: validated.previous_gpas,
+        initialized: validated.initialized,
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'user_id' });
+
+    if (error) {
+      console.error('[JARVIS]: Failed to save semester setup:', error);
+      return { success: false, error: error.message };
+    }
+
+    revalidatePath('/dashboard/cgpa');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function updatePreviousGPA(semesterNumber: number, gpa: number | null) {
+  try {
+    const validated = UpdatePreviousGPASchema.parse({ semester_number: semesterNumber, gpa });
+    const supabase = await createClient();
+    const user = await getAuthenticatedUser(supabase);
+
+    // Fetch current previous_gpas
+    const { data: existing } = await supabase
+      .from('cgpa_semester_setup')
+      .select('previous_gpas')
+      .eq('user_id', user.id)
+      .single();
+
+    const currentGPAs: Record<string, number> = (existing?.previous_gpas as Record<string, number>) || {};
+    const key = String(validated.semester_number);
+
+    if (validated.gpa === null) {
+      delete currentGPAs[key];
+    } else {
+      currentGPAs[key] = validated.gpa;
+    }
+
+    const { error } = await supabase
+      .from('cgpa_semester_setup')
+      .update({
+        previous_gpas: currentGPAs,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('user_id', user.id);
+
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath('/dashboard/cgpa');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
+  }
+}
+
+export async function resetSemesterSetup() {
+  try {
+    const supabase = await createClient();
+    const user = await getAuthenticatedUser(supabase);
+
+    const { error } = await supabase
+      .from('cgpa_semester_setup')
+      .delete()
+      .eq('user_id', user.id);
+
+    if (error) return { success: false, error: error.message };
+
+    revalidatePath('/dashboard/cgpa');
+    return { success: true };
+  } catch (error: any) {
+    return { success: false, error: error.message };
   }
 }

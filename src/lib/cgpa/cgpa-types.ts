@@ -1,5 +1,19 @@
 // /lib/cgpa/cgpa-types.ts — Shared types for CGPA Management
 
+// --- Semester Setup ---
+
+export interface SemesterSetup {
+  id: string;
+  user_id: string;
+  total_semesters: number;
+  current_semester: number;
+  /** Map of semester number (as string key) to GPA. e.g. { "1": 3.75, "2": 3.50 } */
+  previous_gpas: Record<string, number>;
+  initialized: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface GradeScaleMapping {
   threshold: number;   // Minimum mark threshold (e.g., 80)
   gradePoint: number;  // Corresponding grade point (e.g., 4.00)
@@ -64,6 +78,7 @@ export interface AutoCourse {
   attendance_threshold_percentage: number;
   attendance_weight: number;
   exam_weight: number;
+  semester_number: number;
   created_at?: string;
   updated_at?: string;
   // Nested data loaded from Supabase

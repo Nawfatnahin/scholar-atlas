@@ -14,6 +14,21 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "2.0.0",
+    date: "2026-05-27",
+    summary: "CGPA Manager Multi-Semester Redesign & Schema Upgrade",
+    changes: [
+      { type: "NEW", description: "Introduced high-fidelity, multi-step InitManagerModal wizard to initialize target CGPA and set current semester tracking" },
+      { type: "NEW", description: "Created horizontal SemesterTabs navigation bar to switch fluidly between academic semesters" },
+      { type: "NEW", description: "Designed clean, animated DegreeProgressBar featuring premium terracotta/amber gradients and numeric progress displays" },
+      { type: "NEW", description: "Developed dynamic CGPASummaryCard showing real-time CGPA, total credits, target difference, and encouraging target-based notifications" },
+      { type: "NEW", description: "Added SemesterSettingsPanel for custom target overrides and full CGPA resets with visual double-confirmation" },
+      { type: "NEW", description: "Reworked AutoCGPACounter to be fully semester-aware, supporting isolated semester courses and cumulative, multi-semester calculation" },
+      { type: "NEW", description: "Implemented new PostgreSQL table public.cgpa_semester_setup and updated public.cgpa_courses_auto schema with RLS and index optimizations" },
+      { type: "IMPROVED", description: "Optimized entire CGPA Manager with robust, professional dark mode and light mode color mapping for seamless theme toggling" },
+    ],
+  },
+  {
     version: "1.1.0",
     date: "2026-05-27",
     summary: "Extra Classes logging in Attendance and popup aligned improvements",
