@@ -44,9 +44,13 @@ interface CGPAEntry {
   cgpa: number;
 }
 
-export default function SemesterProgressWidget() {
+interface SemesterProgressWidgetProps {
+  initialUserName?: string;
+}
+
+export default function SemesterProgressWidget({ initialUserName }: SemesterProgressWidgetProps = {}) {
   const supabase = createClient();
-  const [userName, setUserName] = useState("Student");
+  const [userName, setUserName] = useState(initialUserName || "Student");
   
   const [loadingSettings, setLoadingSettings] = useState(true);
   const [loadingSubjects, setLoadingSubjects] = useState(true);
@@ -65,9 +69,12 @@ export default function SemesterProgressWidget() {
 
   useEffect(() => {
     async function fetchData() {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-        setUserName(user.user_metadata?.display_name || user.email?.split('@')[0] || "Student");
+      // Use the server-resolved user name if available to avoid auth race on mount
+      if (!initialUserName) {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          setUserName(user.user_metadata?.display_name || user.email?.split('@')[0] || "Student");
+        }
       }
 
       const today = startOfDay(new Date());
@@ -306,7 +313,30 @@ export default function SemesterProgressWidget() {
         });
     }
 
+    // Fire immediately — the server has already confirmed the session via cookies
     fetchData();
+
+    // Safety net: onAuthStateChange fires if the client-side session resolves
+    // after the initial mount (handles the first-navigation race condition)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+        fetchData();
+      }
+    });
+
+    // Hard timeout: if data still hasn't loaded after 8s, surface error state
+    // so users are never permanently stuck looking at skeleton loaders
+    const timeoutId = setTimeout(() => {
+      setLoadingSettings(prev => { if (prev) { setErrorSettings(true); } return false; });
+      setLoadingSubjects(prev => { if (prev) { setErrorSubjects(true); } return false; });
+      setLoadingTasks(prev => { if (prev) { setErrorTasks(true); } return false; });
+      setLoadingCGPA(prev => { if (prev) { setErrorCGPA(true); } return false; });
+    }, 8000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const getGreeting = () => {

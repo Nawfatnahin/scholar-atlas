@@ -125,7 +125,7 @@ export default async function DashboardPage() {
 
       <main className="flex-1 py-10 sm:py-20 px-4 sm:px-8">
         <div className="max-w-[1600px] mx-auto">
-          <SemesterProgressWidget />
+          <SemesterProgressWidget initialUserName={displayName} />
           <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-10 sm:gap-12 mb-12 sm:mb-20">
             <DashboardGreeting initialName={displayName} />
             
