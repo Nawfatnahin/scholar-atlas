@@ -14,6 +14,16 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "2.0.1",
+    date: "2026-05-27",
+    summary: "Restored Dashboard SemesterProgressWidget overview counts and progress bar",
+    changes: [
+      { type: "FIXED", description: "Repaired the SemesterProgressWidget database query and calculations, ensuring it pulls target CGPA from cgpa_settings and calculates attendance stats from attendance_records instead of a non-existent table" },
+      { type: "NEW", description: "Implemented dynamic semester start date and total weeks estimation based on earliest course start date" },
+      { type: "NEW", description: "Replicated high-fidelity cumulative CGPA forecasting calculation inside the dashboard widget to sync overall CGPA accurately with the CGPA Manager page" },
+    ],
+  },
+  {
     version: "2.0.0",
     date: "2026-05-27",
     summary: "CGPA Manager Multi-Semester Redesign & Schema Upgrade",

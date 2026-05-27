@@ -74,41 +74,236 @@ export default function SemesterProgressWidget() {
       const todayIso = format(today, "yyyy-MM-dd'T'HH:mm:ssxxx");
       const nextWeekIso = format(addDays(today, 7), "yyyy-MM-dd'T'HH:mm:ssxxx");
 
-      Promise.all([
-        // 1. User settings
-        supabase.from('user_settings').select('semester_start_date, semester_total_weeks, target_cgpa').single()
-          .then(({ data, error }) => {
-            if (error) setErrorSettings(true);
-            else setSettings(data);
-            setLoadingSettings(false);
-          }),
+      // 1. Fetch Target CGPA from cgpa_settings
+      const fetchSettings = Promise.resolve(supabase.from('cgpa_settings').select('target_cgpa').single())
+        .then(({ data, error }) => {
+          if (error && error.code !== 'PGRST116') {
+            console.error("Error fetching cgpa_settings:", error);
+          }
+          return data?.target_cgpa || 3.50;
+        })
+        .catch(() => 3.50);
 
-        // 2. Subjects list
-        supabase.from('subjects').select('id, name, color, color_tag, attended_classes, total_classes')
-          .then(({ data, error }) => {
-            if (error) setErrorSubjects(true);
-            else setSubjects(data || []);
-            setLoadingSubjects(false);
-          }),
+      // 2. Fetch subjects list with attendance_records
+      const fetchSubjects = Promise.resolve(supabase.from('subjects')
+        .select('id, name, color, color_tag, semester_start_date, total_classes_planned, schedule_days, attendance_records(absence_type)'))
+        .then(({ data, error }) => {
+          if (error) {
+            setErrorSubjects(true);
+            return [];
+          }
+          return data || [];
+        })
+        .catch(() => {
+          setErrorSubjects(true);
+          return [];
+        });
 
-        // 3. Tasks
-        supabase.from('tasks')
-          .select('id, title, due_date, status, subject_id')
-          .or(`due_date.lte.${nextWeekIso},and(status.neq.done,due_date.lt.${todayIso})`)
-          .then(({ data, error }) => {
-            if (error) setErrorTasks(true);
-            else setTasks(data || []);
-            setLoadingTasks(false);
-          }),
+      // 3. Fetch Tasks
+      const fetchTasks = Promise.resolve(supabase.from('tasks')
+        .select('id, title, due_date, status, subject_id')
+        .or(`due_date.lte.${nextWeekIso},and(status.neq.done,due_date.lt.${todayIso})`))
+        .then(({ data, error }) => {
+          if (error) {
+            setErrorTasks(true);
+            return [];
+          }
+          return data || [];
+        })
+        .catch(() => {
+          setErrorTasks(true);
+          return [];
+        });
 
-        // 4. Latest CGPA entry
-        supabase.from('cgpa_entries').select('cgpa').order('created_at', { ascending: false }).limit(1).single()
-          .then(({ data, error }) => {
-            if (error) setErrorCGPA(true);
-            else if (data) setLatestCGPA(data.cgpa);
-            setLoadingCGPA(false);
-          })
-      ]);
+      // 4. Fetch CGPA setup and auto courses in parallel
+      const fetchCGPADetails = Promise.all([
+        supabase.from('cgpa_semester_setup').select('*').single(),
+        supabase.from('cgpa_courses_auto').select('*, cgpa_class_tests(*)'),
+        supabase.from('cgpa_grade_scales').select('*')
+      ]).then(([setupRes, coursesRes, scalesRes]) => {
+        return {
+          setup: setupRes.data,
+          courses: coursesRes.data || [],
+          scales: scalesRes.data || []
+        };
+      }).catch(err => {
+        console.error("Error fetching CGPA details for widget:", err);
+        return null;
+      });
+
+      Promise.all([fetchSettings, fetchSubjects, fetchTasks, fetchCGPADetails])
+        .then(([targetCgpa, rawSubjects, rawTasks, cgpaDetails]) => {
+          // A. Process Settings and Semester Progress week info
+          let earliestStartDate: string | null = null;
+          let correspondingWeeks = 15;
+
+          rawSubjects.forEach((s: any) => {
+            if (s.semester_start_date) {
+              if (!earliestStartDate || isBefore(new Date(s.semester_start_date), new Date(earliestStartDate))) {
+                earliestStartDate = s.semester_start_date;
+                correspondingWeeks = Math.round((s.total_classes_planned || 0) / (s.schedule_days?.length || 1)) || 15;
+              }
+            }
+          });
+
+          setSettings({
+            semester_start_date: earliestStartDate || "",
+            semester_total_weeks: correspondingWeeks,
+            target_cgpa: targetCgpa
+          });
+          setLoadingSettings(false);
+
+          // B. Process Subjects list
+          const mappedSubjects: Subject[] = rawSubjects.map((s: any) => {
+            const records = s.attendance_records || [];
+            const activeRecords = records.filter((r: any) => r.absence_type !== 'cancelled');
+            const attended = activeRecords.filter((r: any) => r.absence_type === 'present').length;
+            return {
+              id: s.id,
+              name: s.name,
+              color: s.color,
+              color_tag: s.color_tag,
+              attended_classes: attended,
+              total_classes: activeRecords.length,
+            };
+          });
+          setSubjects(mappedSubjects);
+          setLoadingSubjects(false);
+
+          // C. Process Tasks
+          setTasks(rawTasks);
+          setLoadingTasks(false);
+
+          // D. Process CGPA
+          let overallCGPAVal = 0;
+          if (cgpaDetails && cgpaDetails.setup && cgpaDetails.setup.initialized) {
+            const { setup, courses: autoCourses, scales } = cgpaDetails;
+            const globalScale = scales.find((s: any) => s.is_global);
+            const scaleMappings = globalScale?.mappings || [];
+
+            const calculateCourseGPAPrediction = (course: any) => {
+              const cts = course.cgpa_class_tests || [];
+              const bestOf = course.ct_best_of || 0;
+              const ctWeight = Number(course.ct_weight) || 0;
+
+              let ctAvg = 0;
+              if (cts.length > 0) {
+                const pct = cts.map((ct: any) => {
+                  const tot = Number(ct.total_marks) || 0;
+                  const obt = Number(ct.marks_obtained) || 0;
+                  return tot > 0 ? (obt / tot) * 100 : 0;
+                });
+                pct.sort((a: number, b: number) => b - a);
+                const effectiveBestOf = Math.min(bestOf, pct.length);
+                const countedPct = pct.slice(0, effectiveBestOf);
+                ctAvg = countedPct.length > 0 ? countedPct.reduce((sum: number, p: number) => sum + p, 0) / countedPct.length : 0;
+              }
+              const ctContribution = (ctAvg * ctWeight) / 100;
+
+              const assignmentObtained = Number(course.assignment_obtained) || 0;
+              const assignmentTotal = Number(course.assignment_total_marks) || 0;
+              const assignmentWeight = Number(course.assignment_weight) || 0;
+              const assignmentScore = assignmentTotal > 0 ? (assignmentObtained / assignmentTotal) * assignmentWeight : 0;
+
+              let attendanceContribution = 0;
+              if (course.attendance_linked && course.attendance_course_id) {
+                const linkedSub = rawSubjects.find((s: any) => s.id === course.attendance_course_id);
+                if (linkedSub) {
+                  const subRecords = linkedSub.attendance_records || [];
+                  const activeRecords = subRecords.filter((r: any) => r.absence_type !== 'cancelled');
+                  const present = activeRecords.filter((r: any) => r.absence_type === 'present').length;
+                  const total = activeRecords.length;
+                  const attendancePercentage = total > 0 ? (present / total) * 100 : 0;
+
+                  const threshold = Number(course.attendance_threshold_percentage) || 75;
+                  const maxMarks = Number(course.attendance_total_marks) || 0;
+                  if (threshold > 0 && maxMarks > 0) {
+                    const ratio = attendancePercentage / threshold;
+                    const attendanceMarks = Math.min(ratio * maxMarks, maxMarks);
+                    attendanceContribution = (attendanceMarks / maxMarks) * (Number(course.attendance_weight) || 0);
+                  }
+                }
+              }
+
+              const currentWeightedScore = ctContribution + assignmentScore + attendanceContribution;
+              const examWeight = Number(course.exam_weight) || 0;
+              const targetGradePoint = Number(course.target_grade_point) || 4.0;
+
+              const targetMapping = [...scaleMappings].find((m: any) => m.gradePoint === targetGradePoint);
+              const targetTotalScore = targetMapping ? targetMapping.threshold : 0;
+
+              let requiredExamPercentage = 0;
+              if (examWeight > 0) {
+                requiredExamPercentage = ((targetTotalScore - currentWeightedScore) / examWeight) * 100;
+              }
+
+              const predictedExamScore = Math.max(0, Math.min(100, requiredExamPercentage));
+              const predictedTotalScore = currentWeightedScore + (predictedExamScore / 100) * examWeight;
+
+              let predictedGradePoint = 0;
+              const sorted = [...scaleMappings].sort((a: any, b: any) => b.threshold - a.threshold);
+              for (const mapping of sorted) {
+                if (predictedTotalScore >= mapping.threshold) {
+                  predictedGradePoint = mapping.gradePoint;
+                  break;
+                }
+              }
+              return predictedGradePoint;
+            };
+
+            const calculateSemesterGPA = (semNumber: number) => {
+              const semCourses = autoCourses.filter((c: any) => c.semester_number === semNumber);
+              if (semCourses.length === 0) return 0;
+              let totalWeighted = 0;
+              let totalCredits = 0;
+              semCourses.forEach((c: any) => {
+                const gp = calculateCourseGPAPrediction(c);
+                const ch = Number(c.credit_hours) || 3;
+                totalWeighted += gp * ch;
+                totalCredits += ch;
+              });
+              return totalCredits > 0 ? totalWeighted / totalCredits : 0;
+            };
+
+            const { total_semesters, current_semester, previous_gpas } = setup;
+            let gpasSum = 0;
+            let semesterCount = 0;
+
+            for (let sem = 1; sem < current_semester; sem++) {
+              const semCourses = autoCourses.filter((c: any) => c.semester_number === sem);
+              if (semCourses.length > 0) {
+                const semGPA = calculateSemesterGPA(sem);
+                gpasSum += semGPA;
+                semesterCount++;
+              } else {
+                const stored = previous_gpas[String(sem)];
+                if (stored !== undefined && stored !== null) {
+                  gpasSum += stored;
+                  semesterCount++;
+                }
+              }
+            }
+
+            const currentSemGPA = calculateSemesterGPA(current_semester);
+            if (currentSemGPA > 0) {
+              gpasSum += currentSemGPA;
+              semesterCount++;
+            }
+
+            overallCGPAVal = semesterCount > 0 ? gpasSum / semesterCount : 0;
+          }
+          if (overallCGPAVal > 0) {
+            setLatestCGPA(overallCGPAVal);
+          } else {
+            setLatestCGPA(null);
+          }
+          setLoadingCGPA(false);
+        })
+        .catch(err => {
+          console.error("Error populating widget data:", err);
+          setErrorCGPA(true);
+          setLoadingCGPA(false);
+        });
     }
 
     fetchData();

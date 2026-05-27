@@ -2,6 +2,15 @@
 All notable changes to Scholar Atlas are documented here.
 Format: [version] — YYYY-MM-DD
 
+## [2.0.1] — 2026-05-27
+
+### Added
+- **Dynamic semester progress mapping**: Estimating start date and total semester duration dynamically from the earliest active subject course schedule.
+- **Dynamic cumulative CGPA forecasting widget**: Client-side predictive CGPA tracking on the dashboard that is fully synchronized with active courses and previous semester GPA settings.
+
+### Fixed
+- **SemesterProgressWidget repair**: Solved critical widget crash caused by incorrect query attempts on non-existent `user_settings` and `subjects` columns. Retrieved target CGPA from `cgpa_settings` and calculated attendance statistics directly using the `attendance_records` relation.
+
 ---
 
 ## [2.0.0] — 2026-05-27
