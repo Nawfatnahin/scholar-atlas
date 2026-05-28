@@ -273,12 +273,12 @@ html, body {
   }
 
   /* Pricing Cards details visibility */
-  .dark .bg-white.border-2.border-accent-premium span,
-  .dark .bg-white.border-2.border-accent-premium div,
-  .dark .bg-white.border-2.border-accent-premium li {
+  .dark .glass-card.border-2.border-accent-premium span,
+  .dark .glass-card.border-2.border-accent-premium div,
+  .dark .glass-card.border-2.border-accent-premium li {
     color: #FFFFFF !important;
   }
-  .dark .bg-white.border-2.border-accent-premium .text-ink-3 {
+  .dark .glass-card.border-2.border-accent-premium .text-ink-3 {
     color: #a8a8a8 !important;
   }
   .dark .perspective-1000 .bg-white {
@@ -601,23 +601,23 @@ html, body {
   }
 
   /* Free Pricing card dark mode matching Pro styling but with border */
-  .dark .bg-white.border-2.border-accent-premium {
+  .dark .glass-card.border-2.border-accent-premium {
     background: #111111 !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
   }
 
-  .dark .bg-white.border-2.border-accent-premium li {
+  .dark .glass-card.border-2.border-accent-premium li {
     border-bottom-color: rgba(255, 255, 255, 0.06) !important;
   }
 
-  .dark .bg-white.border-2.border-accent-premium a {
+  .dark .glass-card.border-2.border-accent-premium a {
     background: #1e1e1e !important;
     border-color: rgba(255, 255, 255, 0.08) !important;
     color: #FFFFFF !important;
   }
 
-  .dark .bg-white.border-2.border-accent-premium a:hover {
+  .dark .glass-card.border-2.border-accent-premium a:hover {
     background: rgba(255, 255, 255, 0.04) !important;
     border-color: #FD1D1D !important;
   }
