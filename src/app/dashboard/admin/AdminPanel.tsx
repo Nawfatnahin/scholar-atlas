@@ -43,20 +43,20 @@ function cn(...inputs: ClassValue[]) {
 }
 
 const C = {
-  bg:         "#F2EFE6",
-  card:       "#fdf8f0",
-  panel:      "#FFFFFF",
-  panelAlt:   "#F5EFEB",
-  border:     "rgba(0, 0, 0, 0.08)",
-  borderBright:"rgba(0, 0, 0, 0.15)",
-  accent:     "#f97316",
-  accentSoft: "#f59e0b",
-  accentDeep: "#92400e",
-  accentGlow: "rgba(249, 115, 22, 0.18)",
-  accentLine: "rgba(146, 64, 14, 0.3)",
-  text:       "#0D0D0D",
-  textSub:    "#3D3D3D",
-  textDim:    "#7A7A7A",
+  bg:         "var(--bg-base)",
+  card:       "var(--bg-surface)",
+  panel:      "var(--bg-elevated)",
+  panelAlt:   "var(--panel-alt)",
+  border:     "var(--border-default)",
+  borderBright:"var(--border-default)",
+  accent:     "var(--accent-color)",
+  accentSoft: "var(--accent-soft)",
+  accentDeep: "var(--accent-deep)",
+  accentGlow: "var(--accent-glow)",
+  accentLine: "var(--accent-line)",
+  text:       "var(--text-primary)",
+  textSub:    "var(--text-secondary)",
+  textDim:    "var(--text-tertiary)",
   success:    "#10b981",
   successDim: "rgba(16, 185, 129, 0.15)",
   warning:    "#f59e0b",
@@ -550,7 +550,7 @@ export default function AdminPanel({
                    display:"flex", alignItems:"center", justifyContent:"space-between",
                    padding:"24px 32px",
                    borderBottom:`1px solid ${C.border}`,
-                   background: "linear-gradient(180deg, #FFFFFF 0%, transparent 100%)"
+                   background: "linear-gradient(180deg, var(--bg-elevated) 0%, transparent 100%)"
                  }} className="flex-col sm:flex-row gap-4">
                    <div style={{ display:"flex", alignItems:"center", gap:20 }}>
                      {/* abstract logo/orb */}
@@ -617,7 +617,7 @@ export default function AdminPanel({
                      padding:"28px 32px",
                      borderRight:`1px solid ${C.border}`,
                      display:"flex", flexDirection:"column", gap:28,
-                     background: "rgba(255,255,255,0.4)"
+                     background: "var(--bg-panel-left)"
                    }}>
                      <div style={{ 
                        fontSize:11, 

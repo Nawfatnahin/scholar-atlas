@@ -11,6 +11,13 @@
   --text-primary:   #0F1117;
   --text-secondary: #5C6070;
   --text-tertiary:  #9DA3B0;
+  --panel-alt:      #F5EFEB;
+  --accent-color:   #f97316;
+  --accent-soft:    #f59e0b;
+  --accent-deep:    #92400e;
+  --accent-glow:    rgba(249, 115, 22, 0.18);
+  --accent-line:    rgba(146, 64, 14, 0.3);
+  --bg-panel-left:  rgba(255, 255, 255, 0.4);
 }
 
 .dark {
@@ -22,6 +29,13 @@
   --text-primary:   #FFFFFF;
   --text-secondary: #a8a8a8;
   --text-tertiary:  #6b6b6b;
+  --panel-alt:      #1c1c1e;
+  --accent-color:   #FD1D1D;
+  --accent-soft:    #F77737;
+  --accent-deep:    #833AB4;
+  --accent-glow:    rgba(253, 29, 29, 0.18);
+  --accent-line:    rgba(253, 29, 29, 0.3);
+  --bg-panel-left:  rgba(0, 0, 0, 0.2);
 }
 
 /* Smooth transition when toggling — applied to everything */
