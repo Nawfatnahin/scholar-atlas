@@ -258,9 +258,10 @@ export default async function DashboardPage() {
               </h3>
               <ul className="space-y-4 sm:space-y-6">
                 {[
-                  "Consolidate lecture PDFs using the Merge tool to enable global keyword searching across all slides.",
-                  "Maintain a buffer of at least 5% above your attendance targets to account for unforeseen emergencies.",
-                  "Utilize priority tags on your Task Board to distinguish between minor homework and high stakes projects."
+                  "Combine your lecture PDFs into one file with our PDF Toolkit. It makes searching for keywords across all your slides much easier.",
+                  "Keep your attendance 5% higher than your goal. This gives you a safe buffer for unexpected emergencies or sickness.",
+                  "Use Priority Tags on your Task Board to highlight major tasks, so you always know what to work on first.",
+                  "Check the CGPA Predictor to see exactly what grades you need in exams to hit your dream GPA."
                 ].map((tip, i) => (
                   <li key={i} className="flex gap-3 sm:gap-4 p-3 sm:p-4 rounded-2xl sm:rounded-3xl hover:bg-bg-base transition-colors">
                     <span className="w-6 sm:w-8 h-6 sm:h-8 rounded-full bg-accent/10 text-accent flex items-center justify-center font-bold text-xs sm:text-sm shrink-0">{i+1}</span>

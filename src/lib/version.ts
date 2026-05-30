@@ -1,4 +1,4 @@
 export const APP_VERSION = {
-  current: "2.0.4",
-  releaseDate: "2026-05-30",
+  current: "2.0.5",
+  releaseDate: "2026-05-31",
 };

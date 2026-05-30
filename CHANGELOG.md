@@ -2,6 +2,16 @@
 All notable changes to Scholar Atlas are documented here.
 Format: [version] — YYYY-MM-DD
 
+## [2.0.5] — 2026-05-31
+
+### Added
+- **CGPA Prediction Tip**: Added an action-oriented tip to introduce students to the predictive grading features of the CGPA Manager.
+
+### Improved
+- **Simplified Optimization Tips**: Redesigned and rewrote the optimization tips list on the main dashboard to use simplified, action-oriented, student-friendly language. All four primary modules are now covered by highly readable instructions.
+
+---
+
 ## [2.0.4] — 2026-05-30
 
 ### Added

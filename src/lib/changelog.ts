@@ -14,6 +14,16 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "2.0.5",
+    date: "2026-05-31",
+    summary: "Simplified and improved dashboard Optimization Tips for enhanced user experience",
+    changes: [
+      { type: "IMPROVED", description: "Rewrote Optimization Tips on the dashboard in simplified, action-oriented, student-friendly language" },
+      { type: "NEW", description: "Introduced a new action-oriented tip highlighting CGPA prediction feature mapping to the CGPA Manager module" },
+      { type: "IMPROVED", description: "Broadened tips coverage to target all four primary modules: PDF Toolkit, Attendance Tracker, Task Board, and CGPA Manager" },
+    ],
+  },
+  {
     version: "2.0.4",
     date: "2026-05-30",
     summary: "Integrated premium Scholar Atlas themed LoggerOS admin dashboard upper section",
