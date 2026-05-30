@@ -14,6 +14,17 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "2.0.4",
+    date: "2026-05-30",
+    summary: "Integrated premium Scholar Atlas themed LoggerOS admin dashboard upper section",
+    changes: [
+      { type: "NEW", description: "Successfully migrated and integrated the newly designed LoggerOS control panel directly into the Next.js web application admin dashboard" },
+      { type: "IMPROVED", description: "Configured real-time, reactive circular MetricRings for Edge CPU computing, DB load, and network latency status tracking" },
+      { type: "IMPROVED", description: "Constructed dynamic command shell terminal output showing J.A.R.V.I.S. greeting responses synchronized with client typewriter rendering" },
+      { type: "IMPROVED", description: "Implemented structured type-colored log items in the Live API Stream terminal with automatic scrolling viewport tracking" },
+    ],
+  },
+  {
     version: "2.0.3",
     date: "2026-05-28",
     summary: "Removed PDF Tools link from mobile navigation menu",

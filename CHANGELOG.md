@@ -2,6 +2,18 @@
 All notable changes to Scholar Atlas are documented here.
 Format: [version] — YYYY-MM-DD
 
+## [2.0.4] — 2026-05-30
+
+### Added
+- **Integrated LoggerOS Admin Panel Section**: Seamlessly migrated and adapted the premium LoggerOS dashboard module directly into Next.js admin page `AdminPanel.tsx` in `scholar-atlas`.
+
+### Improved
+- **Reactive Circular Metric Indicators**: Implemented animated SVG MetricRings tracking CPU computational workload, PostgreSQL replica DB load, and network response latency.
+- **Dynamic J.A.R.V.I.S. Command Shell**: Reworked the terminal area to output reactive, time-of-day greeting responses from J.A.R.V.I.S. with beautiful typewriter animations.
+- **Type-Colored Live API Log Stream**: Upgraded logging output to support type-safe colored logs (success, warning, error, info) inside an auto-scrolling terminal box.
+
+---
+
 ## [2.0.3] — 2026-05-28
 
 ### Removed

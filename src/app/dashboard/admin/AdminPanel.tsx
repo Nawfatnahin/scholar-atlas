@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { 
   ShieldCheck, 
   Mail, 
@@ -40,6 +40,126 @@ import Interactive3DBox from "./Interactive3DBox";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
+}
+
+const C = {
+  bg:         "#F2EFE6",
+  card:       "#fdf8f0",
+  panel:      "#FFFFFF",
+  panelAlt:   "#F5EFEB",
+  border:     "rgba(0, 0, 0, 0.08)",
+  borderBright:"rgba(0, 0, 0, 0.15)",
+  accent:     "#f97316",
+  accentSoft: "#f59e0b",
+  accentDeep: "#92400e",
+  accentGlow: "rgba(249, 115, 22, 0.18)",
+  accentLine: "rgba(146, 64, 14, 0.3)",
+  text:       "#0D0D0D",
+  textSub:    "#3D3D3D",
+  textDim:    "#7A7A7A",
+  success:    "#10b981",
+  successDim: "rgba(16, 185, 129, 0.15)",
+  warning:    "#f59e0b",
+  warningDim: "rgba(245, 158, 11, 0.15)",
+  danger:     "#ef4444",
+  dangerDim:  "rgba(239, 68, 68, 0.15)",
+  blue:       "#0ea5e9",
+  blueDim:    "rgba(14, 165, 233, 0.15)",
+};
+
+interface NeuralLog {
+  id: number;
+  time: string;
+  msg: string;
+  type: 'info' | 'success' | 'warning' | 'error';
+}
+
+function now() {
+  const d = new Date();
+  return [d.getHours(), d.getMinutes(), d.getSeconds()]
+    .map(n => String(n).padStart(2, "0")).join(":");
+}
+
+function MetricRing({ value, max, color, label, unit, size = 96 }: { value: number; max: number; color: string; label: string; unit: string; size?: number }) {
+  const sw = 5.5;
+  const r  = (size - sw) / 2;
+  const ci = 2 * Math.PI * r;
+  const dash = Math.min((value / max) * ci, ci);
+
+  return (
+    <div style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:6 }}>
+      <div style={{ position:"relative", width:size, height:size }}>
+        <svg width={size} height={size} style={{ transform:"rotate(-90deg)" }} aria-hidden>
+          <circle cx={size/2} cy={size/2} r={r}
+            fill="none" stroke={C.border} strokeWidth={sw} />
+          <circle cx={size/2} cy={size/2} r={r}
+            fill="none" stroke={color} strokeWidth={sw}
+            strokeDasharray={`${dash} ${ci}`}
+            strokeLinecap="round"
+            style={{ transition:"stroke-dasharray 0.7s cubic-bezier(.4,0,.2,1)" }} />
+        </svg>
+        <div style={{
+          position:"absolute", inset:0,
+          display:"flex", flexDirection:"column",
+          alignItems:"center", justifyContent:"center",
+          gap:1,
+        }}>
+          <span style={{ fontSize:17, fontWeight:600, color, lineHeight:1, fontFamily:"'Space Grotesk', system-ui, sans-serif" }}>
+            {value}
+          </span>
+          <span style={{ fontSize:9, color:C.textDim, letterSpacing:"0.06em", fontFamily:"'Space Grotesk', system-ui, sans-serif", fontWeight:500 }}>
+            {unit}
+          </span>
+        </div>
+      </div>
+      <span style={{ fontSize:10, color:C.textSub, letterSpacing:"0.12em", fontFamily:"'Space Grotesk', system-ui, sans-serif", fontWeight:500 }}>
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function StatusPill({ label, ok }: { label: string; ok: boolean }) {
+  return (
+    <span style={{
+      display:"inline-flex", alignItems:"center", gap:6,
+      padding:"4px 10px",
+      background: ok ? C.successDim : C.dangerDim,
+      border:`1px solid ${ok ? "rgba(16,185,129,0.3)" : "rgba(239,68,68,0.3)"}`,
+      borderRadius:6,
+      fontSize:10,
+      fontWeight:600,
+      color: ok ? C.success : C.danger,
+      letterSpacing:"0.06em",
+      fontFamily:"'Space Grotesk', system-ui, sans-serif",
+    }}>
+      <span style={{
+        width:6, height:6, borderRadius:"50%",
+        background: ok ? C.success : C.danger,
+        display:"inline-block",
+        boxShadow: `0 0 8px ${ok ? C.success : C.danger}`,
+        animation:"blink 2s infinite",
+      }} />
+      {label}
+    </span>
+  );
+}
+
+function MiniBar({ value, max, color }: { value: number; max: number; color: string }) {
+  return (
+    <div style={{
+      height:4, borderRadius:4,
+      background:C.border, overflow:"hidden",
+    }}>
+      <div style={{
+        height:"100%",
+        width:`${Math.min(100,(value/max)*100)}%`,
+        background:color,
+        borderRadius:4,
+        transition:"width 0.6s ease",
+      }} />
+    </div>
+  );
 }
 
 interface Subscription {
@@ -95,7 +215,8 @@ export default function AdminPanel({
   const [mounted, setMounted] = useState(false);
   const [jarvisMessage, setJarvisMessage] = useState("");
   const [isTyping, setIsTyping] = useState(true);
-  const [neuralLogs, setNeuralLogs] = useState<string[]>([]);
+  const [neuralLogs, setNeuralLogs] = useState<NeuralLog[]>([]);
+  const logRef = useRef<HTMLDivElement>(null);
 
   // Code Generator State
   const [codeInfo, setCodeInfo] = useState<ActiveCodeInfo | null>(initialCodeInfo);
@@ -130,9 +251,9 @@ export default function AdminPanel({
     setJarvisMessage(message);
 
     setNeuralLogs([
-      "Neural sync established.",
-      "Matrix population: " + totalGmails + " nodes.",
-      "Security protocol: Active."
+      { id: 1, time: now(), msg: "Neural sync established.", type: "info" },
+      { id: 2, time: now(), msg: "Matrix population: " + totalGmails + " nodes.", type: "success" },
+      { id: 3, time: now(), msg: "Security protocol: Active.", type: "success" }
     ]);
 
     setIsTyping(true);
@@ -148,15 +269,19 @@ export default function AdminPanel({
         uptime: "99.99" + (Math.floor(Math.random() * 9) + 1) + "%"
       }));
 
-      const logs = [
-        `CPU throughput: ${newCpu}%`,
-        `Memory allocation shifted to ${newRam}%`,
-        "Packet integrity verified.",
-        "Neural sync pulse: Nominal.",
-        "Sub-node status: Synchronized.",
-        "Security scan: No threats."
+      const logsList: { msg: string; type: 'info' | 'success' | 'warning' | 'error' }[] = [
+        { msg: `CPU throughput: ${newCpu}%`, type: newCpu > 12 ? 'warning' : 'info' },
+        { msg: `Memory allocation shifted to ${newRam}%`, type: 'info' },
+        { msg: "Packet integrity verified.", type: "success" },
+        { msg: "Neural sync pulse: Nominal.", type: "success" },
+        { msg: "Sub-node status: Synchronized.", type: "success" },
+        { msg: "Security scan: No threats.", type: "success" }
       ];
-      setNeuralLogs(prev => [logs[Math.floor(Math.random() * logs.length)], ...prev.slice(0, 4)]);
+      const randomLog = logsList[Math.floor(Math.random() * logsList.length)];
+      setNeuralLogs(prev => [
+        { id: Math.random(), time: now(), ...randomLog },
+        ...prev.slice(0, 15)
+      ]);
     }, 3000);
 
     return () => {
@@ -164,6 +289,12 @@ export default function AdminPanel({
       clearInterval(metricInterval);
     };
   }, [totalGmails]);
+
+  useEffect(() => {
+    if (logRef.current) {
+      logRef.current.scrollTop = logRef.current.scrollHeight;
+    }
+  }, [neuralLogs]);
   
   // Filtering
   const filteredSubscriptions = subscriptions
@@ -403,107 +534,328 @@ export default function AdminPanel({
            
            {/* AI Assistant Card */}
            <div className="w-full relative">
-              {/* Floating Status Pill */}
-              <div className="absolute -top-6 right-12 z-20 animate-float">
-                 <div className="bg-white border border-border-strong rounded-2xl px-6 py-3 shadow-xl flex items-center gap-3">
-                    <div className="relative w-3 h-3">
-                       <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" />
-                       <div className="w-3 h-3 bg-green-500 rounded-full shadow-[0_0_10px_#22c55e]" />
-                    </div>
-                    <span className="text-[10px] font-bold text-ink uppercase tracking-widest">Neural Pulse: Optimal</span>
-                 </div>
-              </div>
-
               <Interactive3DBox className="group">
-                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
-                 
-                 <div className="relative p-12 grid grid-cols-1 lg:grid-cols-12 gap-16">
-                    {/* Left: Identity & Critical Stats */}
-                    <div className="lg:col-span-4 space-y-12">
-                       <div className="flex items-center gap-8">
-                          <div className="w-24 h-24 bg-accent/5 border border-accent/10 rounded-full flex items-center justify-center relative">
-                             <div className="absolute inset-0 border border-accent/20 rounded-full animate-ping opacity-10" />
-                             <div className="w-14 h-14 flex items-center justify-center relative">
-                                <div className="absolute inset-0 border-2 border-accent/30 rounded-full animate-spin-slow" />
-                                <div className="w-5 h-5 bg-accent rounded-full shadow-[0_0_15px_rgba(146,64,14,0.5)]" />
+                 {/* top accent line */}
+                 <div style={{
+                   position:"absolute", top:0, left:"10%", width:"80%", height:2,
+                   background:`linear-gradient(90deg,transparent,${C.accent},transparent)`,
+                   zIndex:2,
+                   opacity: 0.6
+                 }} />
+
+                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+
+                 {/* ── HEADER ── */}
+                 <div style={{
+                   display:"flex", alignItems:"center", justifyContent:"space-between",
+                   padding:"24px 32px",
+                   borderBottom:`1px solid ${C.border}`,
+                   background: "linear-gradient(180deg, #FFFFFF 0%, transparent 100%)"
+                 }} className="flex-col sm:flex-row gap-4">
+                   <div style={{ display:"flex", alignItems:"center", gap:20 }}>
+                     {/* abstract logo/orb */}
+                     <div style={{
+                       width:48, height:48, borderRadius:"12px",
+                       background:`linear-gradient(135deg, ${C.accent}, ${C.accentSoft})`,
+                       boxShadow:`0 8px 16px ${C.accentGlow}`,
+                       display:"flex", alignItems:"center", justifyContent:"center",
+                       position:"relative",
+                       flexShrink:0,
+                       transform: "rotate(-10deg)"
+                     }}>
+                       <div style={{
+                         width:20, height:20, borderRadius:"4px",
+                         background:C.panel,
+                         transform: "rotate(20deg)"
+                       }} />
+                     </div>
+
+                     <div>
+                       <div style={{ 
+                         fontSize:24, 
+                         fontWeight:700, 
+                         letterSpacing:"-0.02em", 
+                         color:C.text,
+                         fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                       }}>
+                         SCHOLAR SYSTEM
+                       </div>
+                       <div style={{ display:"flex", alignItems:"center", gap:10, marginTop:6 }}>
+                         <StatusPill label="SUPABASE: CONNECTED" ok={true} />
+                         <StatusPill label="CF EDGE: ACTIVE" ok={true} />
+                       </div>
+                     </div>
+                   </div>
+
+                   <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-end", gap:8 }} className="items-center sm:items-end">
+                     <span style={{ 
+                       fontSize:12, 
+                       fontWeight: 600,
+                       color: (metrics.cpu < 75 && metrics.ram < 75 && metrics.latency < 60) ? C.success : C.warning, 
+                       letterSpacing:"0.06em",
+                       fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                     }}>
+                       {(metrics.cpu < 75 && metrics.ram < 75 && metrics.latency < 60) ? "INFRASTRUCTURE: OPTIMAL" : "INFRASTRUCTURE: LOADED"}
+                     </span>
+                     <span style={{ 
+                       fontSize:11, 
+                       color:C.textDim, 
+                       letterSpacing:"0.04em",
+                       fontFamily:"'Space Grotesk', system-ui, sans-serif",
+                       fontWeight: 500
+                     }}>
+                       {now()} UTC
+                     </span>
+                   </div>
+                 </div>
+
+                 {/* ── BODY ── */}
+                 <div className="grid grid-cols-1 lg:grid-cols-2 animate-in fade-in duration-500" style={{ minHeight:340 }}>
+
+                   {/* LEFT – metrics */}
+                   <div style={{
+                     padding:"28px 32px",
+                     borderRight:`1px solid ${C.border}`,
+                     display:"flex", flexDirection:"column", gap:28,
+                     background: "rgba(255,255,255,0.4)"
+                   }}>
+                     <div style={{ 
+                       fontSize:11, 
+                       fontWeight:600,
+                       color:C.textSub, 
+                       letterSpacing:"0.1em",
+                       fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                     }}>
+                       NETWORK METRICS
+                     </div>
+
+                     {/* rings row */}
+                     <div style={{ display:"flex", justifyContent:"space-between" }} className="flex-wrap gap-4 sm:flex-nowrap justify-around">
+                       <MetricRing value={metrics.cpu}  max={100} color={metrics.cpu > 70 ? C.danger : metrics.cpu > 50 ? C.warning : C.accent}  label="WORKER"  unit="ms" />
+                       <MetricRing value={metrics.ram}  max={100} color={metrics.ram > 70 ? C.danger : metrics.ram > 50 ? C.warning : C.blue}  label="DB LOAD" unit="%" />
+                       <MetricRing value={metrics.latency}  max={150} color={metrics.latency > 60 ? C.danger : metrics.latency > 30 ? C.warning : C.success}  label="LATENCY" unit="ms" />
+                     </div>
+
+                     {/* mini bars */}
+                     <div style={{ display:"flex", flexDirection:"column", gap:18 }}>
+                       {[
+                         { label:"EDGE COMPUTE",  value:metrics.cpu, max:100,  color:metrics.cpu > 70 ? C.danger : metrics.cpu > 50 ? C.warning : C.accent, unit:"ms" },
+                         { label:"CONNECTION POOL", value:metrics.ram, max:100,  color:metrics.ram > 70 ? C.danger : metrics.ram > 50 ? C.warning : C.blue, unit:"%" },
+                         { label:"ROUTING PING",  value:metrics.latency, max:150,  color:metrics.latency > 60 ? C.danger : metrics.latency > 30 ? C.warning : C.success, unit:"ms"},
+                       ].map(({ label, value, max, color, unit }) => (
+                         <div key={label}>
+                           <div style={{
+                             display:"flex", justifyContent:"space-between",
+                             marginBottom:8,
+                           }}>
+                             <span style={{ 
+                               fontSize:11, 
+                               fontWeight: 600,
+                               color:C.textSub, 
+                               letterSpacing:"0.06em",
+                               fontFamily:"'Space Grotesk', system-ui, sans-serif" 
+                             }}>
+                               {label}
+                             </span>
+                             <span style={{ 
+                               fontSize:12, 
+                               color, 
+                               fontWeight:700,
+                               fontFamily:"'Space Grotesk', system-ui, sans-serif" 
+                             }}>
+                               {value}{unit}
+                             </span>
+                           </div>
+                           <MiniBar value={value} max={max} color={color} />
+                         </div>
+                       ))}
+                     </div>
+                   </div>
+
+                   {/* RIGHT – console + log */}
+                   <div style={{
+                     padding:"28px 32px",
+                     display:"flex", flexDirection:"column", gap:20,
+                     background: C.panel
+                   }}>
+                     {/* console terminal */}
+                     <div style={{
+                       background:C.card,
+                       border:`1px solid ${C.border}`,
+                       borderRadius:12,
+                       overflow:"hidden",
+                       boxShadow: "inset 0 2px 4px rgba(0,0,0,0.02)"
+                     }}>
+                       {/* fake titlebar */}
+                       <div style={{
+                         display:"flex", alignItems:"center", gap:8,
+                         padding:"10px 14px",
+                         borderBottom:`1px solid ${C.border}`,
+                         background:C.panelAlt,
+                       }}>
+                         {["#ef4444","#f59e0b","#10b981"].map((c,i) => (
+                           <div key={i} style={{
+                             width:10, height:10, borderRadius:"50%", background:c, opacity:.8,
+                           }} />
+                         ))}
+                         <span style={{ 
+                           fontSize:10, 
+                           fontWeight: 600,
+                           color:C.textDim, 
+                           marginLeft:6, 
+                           letterSpacing:"0.04em",
+                           fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                         }}>
+                           admin_shell — code_generator
+                         </span>
+                       </div>
+                       <div style={{ padding:"16px 20px" }}>
+                         <div style={{
+                           fontSize:12,
+                           color:C.textSub,
+                           lineHeight:1.7,
+                           fontFamily: "'Space Grotesk', monospace",
+                           fontWeight: 500
+                         }}>
+                           <span style={{ color:C.accent }}>admin@scholar ❯ </span>
+                           <span style={{ color:C.success }}>yarn run generate</span>
+                         </div>
+                         
+                         {/* Dynamic JARVIS Terminal Output */}
+                         <div style={{
+                           fontSize:13,
+                           color:C.text,
+                           lineHeight:1.6,
+                           marginTop:8,
+                           fontFamily: "system-ui, sans-serif"
+                         }}>
+                           {isTyping ? (
+                             <div className="flex gap-2 items-center py-2">
+                               <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce" />
+                               <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce [animation-delay:0.2s]" />
+                               <div className="w-2 h-2 bg-accent/40 rounded-full animate-bounce [animation-delay:0.4s]" />
                              </div>
-                          </div>
-                          <div>
-                             <h2 className="text-4xl font-serif font-bold tracking-tight text-ink group-hover:text-accent transition-colors">LOGGER OS</h2>
-                             <div className="flex items-center gap-2.5 mt-2">
-                                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                                <span className="text-xs font-bold uppercase tracking-widest text-ink-3">Core Synchronized</span>
-                             </div>
-                          </div>
+                           ) : (
+                             <span className="font-serif italic font-medium text-ink-2">
+                               &quot;{jarvisMessage}&quot;
+                             </span>
+                           )}
+                         </div>
+                         
+                         <div style={{
+                           fontSize:12, color:C.textDim, marginTop:10,
+                           display:"flex", alignItems:"center", gap:6,
+                           fontFamily: "'Space Grotesk', monospace"
+                         }}>
+                           <span style={{ color: C.accentDeep }}>❯</span>
+                           <span style={{ animation:"blink 1.1s step-start infinite", color: C.textSub }}>_</span>
+                         </div>
+                       </div>
+                     </div>
+
+                     {/* neural sync stream -> API Request Stream */}
+                     <div style={{ flex:1, display:"flex", flexDirection:"column", minHeight:0 }}>
+                       <div style={{
+                         display:"flex", alignItems:"center",
+                         justifyContent:"space-between",
+                         marginBottom:12,
+                       }}>
+                         <div style={{ display:"flex", alignItems:"center", gap:8 }}>
+                           <span style={{
+                             width:8, height:8, borderRadius:"50%",
+                             background:C.blue,
+                             animation:"blink 1.5s infinite",
+                             display:"inline-block",
+                           }} />
+                           <span style={{ 
+                             fontSize:11, 
+                             fontWeight: 600,
+                             color:C.blue, 
+                             letterSpacing:"0.08em",
+                             fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                           }}>
+                             LIVE API STREAM
+                           </span>
+                         </div>
                        </div>
 
-                       <div className="space-y-8">
-                          {[
-                            { label: 'CPU Throughput', val: metrics.cpu, color: 'bg-accent' },
-                            { label: 'Neural Memory', val: metrics.ram, color: 'bg-accent' },
-                            { label: 'Packet Latency', val: metrics.latency, color: 'bg-accent', max: 50 }
-                          ].map((s, i) => (
-                            <div key={i} className="space-y-3">
-                               <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-[0.2em] text-ink-3">
-                                  <span>{s.label}</span>
-                                  <span className="text-accent">{s.val}{s.label.includes('Latency') ? 'ms' : '%'}</span>
-                               </div>
-                               <div className="h-2 w-full bg-accent/5 rounded-full overflow-hidden border border-accent/5">
-                                  <div 
-                                    className={cn("h-full transition-all duration-1000", s.color)} 
-                                    style={{ width: `${(s.val / (s.max || 100)) * 100}%` }} 
-                                  />
-                               </div>
-                            </div>
-                          ))}
+                       <div
+                         ref={logRef}
+                         style={{
+                           flex:1,
+                           overflowY:"auto",
+                           maxHeight:160,
+                           display:"flex",
+                           flexDirection:"column",
+                           gap:6,
+                           scrollBehavior:"smooth",
+                           paddingRight: 8,
+                         }}
+                         className="custom-scrollbar"
+                       >
+                         {neuralLogs.map(log => (
+                           <div key={log.id} style={{
+                             display:"flex", gap:12,
+                             fontSize:12,
+                             lineHeight:1.5,
+                             animation:"fadeUp 0.3s ease",
+                             fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                           }}>
+                             <span style={{
+                               color:C.textDim,
+                               minWidth:72,
+                               flexShrink:0,
+                               fontWeight: 500,
+                               fontSize: 11
+                             }}>
+                               [{log.time}]
+                             </span>
+                             <span style={{ 
+                               color: log.type === 'success' ? C.success : log.type === 'warning' ? C.warning : log.type === 'error' ? C.danger : C.textSub,
+                               fontWeight: log.type === 'success' || log.type === 'warning' ? 600 : 500
+                             }}>
+                               {log.msg}
+                             </span>
+                           </div>
+                         ))}
                        </div>
-                    </div>
+                     </div>
+                   </div>
+                 </div>
 
-                    {/* Right: Message & Real-time Neural Stream */}
-                    <div className="lg:col-span-8 flex flex-col gap-10">
-                       <div className="flex-1 p-10 bg-bg/40 border border-border-strong rounded-[40px] flex items-center relative group-hover:bg-bg/60 transition-colors duration-500">
-                          <div className="absolute top-6 left-8 flex gap-2">
-                             <div className="w-2.5 h-2.5 rounded-full bg-red-400/40" />
-                             <div className="w-2.5 h-2.5 rounded-full bg-amber-400/40" />
-                             <div className="w-2.5 h-2.5 rounded-full bg-green-400/40" />
-                          </div>
-                          <div className="w-full">
-                             {isTyping ? (
-                                <div className="flex gap-2 items-center py-4">
-                                   <div className="w-2.5 h-2.5 bg-accent/30 rounded-full animate-bounce" />
-                                   <div className="w-2.5 h-2.5 bg-accent/30 rounded-full animate-bounce [animation-delay:0.2s]" />
-                                   <div className="w-2.5 h-2.5 bg-accent/30 rounded-full animate-bounce [animation-delay:0.4s]" />
-                                </div>
-                             ) : (
-                                <p className="text-3xl font-serif font-medium text-ink leading-relaxed tracking-tight">
-                                   &quot;{jarvisMessage}&quot;
-                                </p>
-                             )}
-                          </div>
-                       </div>
-                       
-                       {/* Real-time Neural Stream Log */}
-                       <div className="bg-white/50 backdrop-blur-sm border border-border-strong rounded-3xl p-6 overflow-hidden relative">
-                          <div className="absolute top-0 left-0 w-1 h-full bg-accent/20" />
-                          <div className="space-y-2">
-                             <p className="text-[10px] font-bold text-accent uppercase tracking-widest mb-4 flex items-center gap-2">
-                                <Sparkles className="w-3 h-3" /> Neural Sync Stream
-                             </p>
-                             <div className="space-y-2">
-                                {neuralLogs.map((log, i) => (
-                                  <div key={i} className={cn(
-                                    "text-xs font-medium text-ink-3 flex items-center gap-3 transition-all duration-500",
-                                    i === 0 ? "opacity-100 translate-x-0" : "opacity-40 -translate-x-1"
-                                  )}>
-                                     <span className="w-1 h-1 bg-accent rounded-full" />
-                                     <span className="font-mono text-[10px] opacity-40">[{new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' })}]</span>
-                                     {log}
-                                  </div>
-                                ))}
-                             </div>
-                          </div>
-                       </div>
-                    </div>
+                 {/* ── FOOTER ── */}
+                 <div style={{
+                   borderTop:`1px solid ${C.border}`,
+                   padding:"14px 32px",
+                   display:"flex", justifyContent:"space-between", alignItems:"center",
+                   background: C.panelAlt
+                 }}>
+                   <div style={{ display:"flex", gap:24 }}>
+                     {[
+                       { k:"DATABASE",  v:"ONLINE", c:C.success },
+                       { k:"WORKERS",   v:"14 INSTANCES", c:C.accentDeep  },
+                       { k:"CACHE",     v:"HIT",  c:C.blue    },
+                     ].map(({ k,v,c }) => (
+                       <span key={k} style={{ 
+                         fontSize:10, 
+                         fontWeight: 600,
+                         color:C.textDim, 
+                         letterSpacing:"0.06em",
+                         fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                       }}>
+                         {k}: <span style={{ color:c }}>{v}</span>
+                       </span>
+                     ))}
+                   </div>
+                   <span style={{
+                     fontSize:10, 
+                     fontWeight: 600,
+                     color:C.textDim, 
+                     letterSpacing:"0.04em",
+                     fontFamily:"'Space Grotesk', system-ui, sans-serif"
+                   }}>
+                     UPTIME {metrics.uptime}
+                   </span>
                  </div>
               </Interactive3DBox>
            </div>
