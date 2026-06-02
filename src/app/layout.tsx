@@ -39,7 +39,8 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
-              var stored = localStorage.getItem('scholar-atlas-theme');
+              var match = document.cookie.match(/(?:^|; )scholar-atlas-theme=([^;]*)/);
+              var stored = match ? match[1] : localStorage.getItem('scholar-atlas-theme');
               if (stored === 'dark') {
                 document.documentElement.classList.add('dark');
               }

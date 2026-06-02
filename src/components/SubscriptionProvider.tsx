@@ -129,9 +129,11 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
         if (theme === 'dark') {
           document.documentElement.classList.add("dark");
           localStorage.setItem("scholar-atlas-theme", "dark");
+          document.cookie = "scholar-atlas-theme=dark; path=/; max-age=31536000";
         } else {
           document.documentElement.classList.remove("dark");
           localStorage.setItem("scholar-atlas-theme", "light");
+          document.cookie = "scholar-atlas-theme=light; path=/; max-age=31536000";
         }
         requestAnimationFrame(() => {
           document.documentElement.classList.remove("no-transition");
