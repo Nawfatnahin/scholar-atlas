@@ -2,6 +2,20 @@
 All notable changes to Scholar Atlas are documented here.
 Format: [version] — YYYY-MM-DD
 
+## [2.0.6] — 2026-06-02
+
+### Added
+- **AI Crawler Exclusions (`src/app/robots.ts`)**: Designed a dynamic crawlers security configuration targeting search engine optimization and AI model training agents.
+
+### Improved
+- **Beneficial AI Search Discovery**: Explicitly whitelisted high-fidelity search-driven AI crawlers like ClaudeBot, Claude-Web, GPTBot, OAI-SearchBot, PerplexityBot, Googlebot, and Applebot to allow them to crawl public information, retrieve citation links, and drive organic traffic.
+- **Private Route Security**: Blocked search engine indexing on dynamic internal endpoints, specifically `/api`, `/dashboard`, and `/auth` zones.
+
+### Removed
+- **Unrestricted Training Scrapers**: Strictly blocked raw scrapers and collectors that do not provide citation traffic—specifically Common Crawl (`CCBot`), ByteDance (`Bytespider`), Amazon (`Amazonbot`), Meta (`FacebookBot`), and Cohere (`Cohere-ai`).
+
+---
+
 ## [2.0.5] — 2026-05-31
 
 ### Added

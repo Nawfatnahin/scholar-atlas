@@ -14,6 +14,17 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
+    version: "2.0.6",
+    date: "2026-06-02",
+    summary: "Implemented dynamic robots.txt crawler protection policy for search and AI scraper management",
+    changes: [
+      { type: "NEW", description: "Created dynamic Next.js robots.ts crawling control system to define granular scraping guidelines" },
+      { type: "IMPROVED", description: "Allowed reputable AI search services (Claude, GPT, Perplexity) and standard search engines (Googlebot, Applebot) to access public links to drive search discoverability" },
+      { type: "REMOVED", description: "Blocked raw model collectors and aggressive bandwidth leeches (Common Crawl CCBot, Bytespider, Amazonbot, FacebookBot, Cohere-ai) from crawling" },
+      { type: "IMPROVED", description: "Secured dynamic private routes (/api, /dashboard, /auth) from standard search engine indexing" },
+    ],
+  },
+  {
     version: "2.0.5",
     date: "2026-05-31",
     summary: "Simplified and improved dashboard Optimization Tips for enhanced user experience",
