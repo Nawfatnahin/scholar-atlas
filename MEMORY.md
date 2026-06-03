@@ -26,7 +26,7 @@ This file captures verified architectural decisions, hard-won debugging insights
   - **General Exclusions**: Excluded standard bots from accessing private paths (`/api/`, `/dashboard/`, `/auth/`).
 
 ## 6. Operational Synchronization Rules
-- **Deployment & Source Control Sync**: Whenever Sir issues a command to "deploy to Cloudflare", it implicitly triggers a push to GitHub. Conversely, whenever Sir commands to "push to GitHub", it implicitly triggers a deployment to Cloudflare. Both pipelines must always run in sync to prevent environment drift.
+- **Deployment & Source Control Sync**: Deployment to Cloudflare and pushing to Git must only be executed for tasks that specifically modify the Scholar Atlas website, and only when explicitly instructed by Sir. Avoid auto-deploying or pushing for general system modifications, vocal tweaks, or other tasks.
 
 ## 7. About Section & Styling Redesign
 - **WANDER.ph Grid Architecture**: Redesigned the main About section into a custom 2-column layout. The left column contains direct developer stack information and client-side metrics, while the right column houses a stacked three-card grid detailing the simulator, attendance tracker, and PDF tool.

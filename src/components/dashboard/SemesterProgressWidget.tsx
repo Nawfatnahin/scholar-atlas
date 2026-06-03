@@ -69,78 +69,41 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
 
   useEffect(() => {
     async function fetchData() {
-      // Use the server-resolved user name if available to avoid auth race on mount
+      // Always call getUser() first to hydrate the client-side Supabase session.
+      // This is required for tables with RLS (like tasks) — without it, auth.uid()
+      // is null on the first render and the query is blocked even when the user is logged in.
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        // Not authenticated — clear all loading states gracefully
+        setLoadingSettings(false); setLoadingSubjects(false);
+        setLoadingTasks(false); setLoadingCGPA(false);
+        return;
+      }
       if (!initialUserName) {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-          setUserName(user.user_metadata?.display_name || user.email?.split('@')[0] || "Student");
-        }
+        setUserName(user.user_metadata?.display_name || user.email?.split('@')[0] || "Student");
       }
 
       const today = startOfDay(new Date());
-      const todayIso = format(today, "yyyy-MM-dd'T'HH:mm:ssxxx");
-      const nextWeekIso = format(addDays(today, 7), "yyyy-MM-dd'T'HH:mm:ssxxx");
 
-      // 1. Fetch Target CGPA from cgpa_settings
-      const fetchSettings = Promise.resolve(supabase.from('cgpa_settings').select('target_cgpa').single())
-        .then(({ data, error }) => {
-          if (error && error.code !== 'PGRST116') {
-            console.error("Error fetching cgpa_settings:", error);
-          }
-          return data?.target_cgpa || 3.50;
-        })
-        .catch(() => 3.50);
-
-      // 2. Fetch subjects list with attendance_records
-      const fetchSubjects = Promise.resolve(supabase.from('subjects')
-        .select('id, name, color, color_tag, semester_start_date, total_classes_planned, schedule_days, attendance_records(absence_type)'))
-        .then(({ data, error }) => {
-          if (error) {
-            setErrorSubjects(true);
-            return [];
-          }
-          return data || [];
-        })
-        .catch(() => {
-          setErrorSubjects(true);
-          return [];
-        });
-
-      // 3. Fetch Tasks
-      const fetchTasks = Promise.resolve(supabase.from('tasks')
+      // Fire ALL 6 Supabase requests simultaneously so widgets populate independently
+      const p_cgpaSettings = supabase.from('cgpa_settings').select('target_cgpa').single();
+      const p_subjects = supabase.from('subjects')
+        .select('id, name, color, color_tag, semester_start_date, total_classes_planned, schedule_days, attendance_records(absence_type)');
+      // Fetch all non-done tasks — client-side filter handles the 7-day window
+      // (avoids PostgREST date-type comparison issues with server-side lte filter)
+      const p_tasks = supabase.from('tasks')
         .select('id, title, due_date, status, subject_id')
-        .or(`due_date.lte.${nextWeekIso},and(status.neq.done,due_date.lt.${todayIso})`))
-        .then(({ data, error }) => {
-          if (error) {
-            setErrorTasks(true);
-            return [];
-          }
-          return data || [];
-        })
-        .catch(() => {
-          setErrorTasks(true);
-          return [];
-        });
+        .neq('status', 'done');
+      const p_cgpaSetup = supabase.from('cgpa_semester_setup').select('*').single();
+      const p_cgpaCourses = supabase.from('cgpa_courses_auto').select('*, cgpa_class_tests(*)');
+      const p_cgpaScales = supabase.from('cgpa_grade_scales').select('*');
 
-      // 4. Fetch CGPA setup and auto courses in parallel
-      const fetchCGPADetails = Promise.all([
-        supabase.from('cgpa_semester_setup').select('*').single(),
-        supabase.from('cgpa_courses_auto').select('*, cgpa_class_tests(*)'),
-        supabase.from('cgpa_grade_scales').select('*')
-      ]).then(([setupRes, coursesRes, scalesRes]) => {
-        return {
-          setup: setupRes.data,
-          courses: coursesRes.data || [],
-          scales: scalesRes.data || []
-        };
-      }).catch(err => {
-        console.error("Error fetching CGPA details for widget:", err);
-        return null;
-      });
-
-      Promise.all([fetchSettings, fetchSubjects, fetchTasks, fetchCGPADetails])
-        .then(([targetCgpa, rawSubjects, rawTasks, cgpaDetails]) => {
-          // A. Process Settings and Semester Progress week info
+      // Resolve subjects and tasks first — they power the fast-rendering widgets
+      Promise.resolve(p_subjects).then(({ data, error }) => {
+        if (error) {
+          setErrorSubjects(true);
+        } else {
+          const rawSubjects = data || [];
           let earliestStartDate: string | null = null;
           let correspondingWeeks = 15;
 
@@ -153,14 +116,6 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
             }
           });
 
-          setSettings({
-            semester_start_date: earliestStartDate || "",
-            semester_total_weeks: correspondingWeeks,
-            target_cgpa: targetCgpa
-          });
-          setLoadingSettings(false);
-
-          // B. Process Subjects list
           const mappedSubjects: Subject[] = rawSubjects.map((s: any) => {
             const records = s.attendance_records || [];
             const activeRecords = records.filter((r: any) => r.absence_type !== 'cancelled');
@@ -174,14 +129,53 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
               total_classes: activeRecords.length,
             };
           });
+
           setSubjects(mappedSubjects);
-          setLoadingSubjects(false);
+          setSettings(prev => ({
+            ...(prev || { semester_start_date: '', semester_total_weeks: 15, target_cgpa: 3.5 }),
+            semester_start_date: earliestStartDate || '',
+            semester_total_weeks: correspondingWeeks,
+          }));
+          // Store rawSubjects for CGPA computation later
+          (window as any).__scholarAtlasRawSubjects = rawSubjects;
+        }
+        setLoadingSubjects(false);
+        setLoadingSettings(false);
+      }).catch(() => {
+        setErrorSubjects(true);
+        setLoadingSubjects(false);
+        setLoadingSettings(false);
+      });
 
-          // C. Process Tasks
-          setTasks(rawTasks);
-          setLoadingTasks(false);
+      Promise.resolve(p_tasks).then(({ data, error }) => {
+        if (error) {
+          setErrorTasks(true);
+        } else {
+          setTasks(data || []);
+        }
+        setLoadingTasks(false);
+      }).catch(() => {
+        setErrorTasks(true);
+        setLoadingTasks(false);
+      });
 
-          // D. Process CGPA
+      // CGPA resolves independently — doesn't block the above widgets
+      Promise.all([p_cgpaSettings, p_cgpaSetup, p_cgpaCourses, p_cgpaScales])
+        .then(([settingsRes, setupRes, coursesRes, scalesRes]) => {
+          const targetCgpa = (!settingsRes.error && settingsRes.data?.target_cgpa) ? settingsRes.data.target_cgpa : 3.50;
+          setSettings(prev => ({
+            ...(prev || { semester_start_date: '', semester_total_weeks: 15, target_cgpa: 3.5 }),
+            target_cgpa: targetCgpa,
+          }));
+
+          const cgpaDetails = (!setupRes.error && setupRes.data) ? {
+            setup: setupRes.data,
+            courses: coursesRes.data || [],
+            scales: scalesRes.data || []
+          } : null;
+
+          const rawSubjectsVal = (window as any).__scholarAtlasRawSubjects || [];
+
           let overallCGPAVal = 0;
           if (cgpaDetails && cgpaDetails.setup && cgpaDetails.setup.initialized) {
             const { setup, courses: autoCourses, scales } = cgpaDetails;
@@ -192,7 +186,6 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
               const cts = course.cgpa_class_tests || [];
               const bestOf = course.ct_best_of || 0;
               const ctWeight = Number(course.ct_weight) || 0;
-
               let ctAvg = 0;
               if (cts.length > 0) {
                 const pct = cts.map((ct: any) => {
@@ -206,47 +199,39 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
                 ctAvg = countedPct.length > 0 ? countedPct.reduce((sum: number, p: number) => sum + p, 0) / countedPct.length : 0;
               }
               const ctContribution = (ctAvg * ctWeight) / 100;
-
               const assignmentObtained = Number(course.assignment_obtained) || 0;
               const assignmentTotal = Number(course.assignment_total_marks) || 0;
               const assignmentWeight = Number(course.assignment_weight) || 0;
               const assignmentScore = assignmentTotal > 0 ? (assignmentObtained / assignmentTotal) * assignmentWeight : 0;
-
               let attendanceContribution = 0;
               if (course.attendance_linked && course.attendance_course_id) {
-                const linkedSub = rawSubjects.find((s: any) => s.id === course.attendance_course_id);
+                const linkedSub = rawSubjectsVal.find((s: any) => s.id === course.attendance_course_id);
                 if (linkedSub) {
                   const subRecords = linkedSub.attendance_records || [];
-                  const activeRecords = subRecords.filter((r: any) => r.absence_type !== 'cancelled');
-                  const present = activeRecords.filter((r: any) => r.absence_type === 'present').length;
-                  const total = activeRecords.length;
-                  const attendancePercentage = total > 0 ? (present / total) * 100 : 0;
-
+                  const activeRecs = subRecords.filter((r: any) => r.absence_type !== 'cancelled');
+                  const present = activeRecs.filter((r: any) => r.absence_type === 'present').length;
+                  const total = activeRecs.length;
+                  const attendancePct = total > 0 ? (present / total) * 100 : 0;
                   const threshold = Number(course.attendance_threshold_percentage) || 75;
                   const maxMarks = Number(course.attendance_total_marks) || 0;
                   if (threshold > 0 && maxMarks > 0) {
-                    const ratio = attendancePercentage / threshold;
+                    const ratio = attendancePct / threshold;
                     const attendanceMarks = Math.min(ratio * maxMarks, maxMarks);
                     attendanceContribution = (attendanceMarks / maxMarks) * (Number(course.attendance_weight) || 0);
                   }
                 }
               }
-
               const currentWeightedScore = ctContribution + assignmentScore + attendanceContribution;
               const examWeight = Number(course.exam_weight) || 0;
               const targetGradePoint = Number(course.target_grade_point) || 4.0;
-
               const targetMapping = [...scaleMappings].find((m: any) => m.gradePoint === targetGradePoint);
               const targetTotalScore = targetMapping ? targetMapping.threshold : 0;
-
               let requiredExamPercentage = 0;
               if (examWeight > 0) {
                 requiredExamPercentage = ((targetTotalScore - currentWeightedScore) / examWeight) * 100;
               }
-
               const predictedExamScore = Math.max(0, Math.min(100, requiredExamPercentage));
               const predictedTotalScore = currentWeightedScore + (predictedExamScore / 100) * examWeight;
-
               let predictedGradePoint = 0;
               const sorted = [...scaleMappings].sort((a: any, b: any) => b.threshold - a.threshold);
               for (const mapping of sorted) {
@@ -272,15 +257,13 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
               return totalCredits > 0 ? totalWeighted / totalCredits : 0;
             };
 
-            const { total_semesters, current_semester, previous_gpas } = setup;
+            const { current_semester, previous_gpas } = setup;
             let gpasSum = 0;
             let semesterCount = 0;
-
             for (let sem = 1; sem < current_semester; sem++) {
               const semCourses = autoCourses.filter((c: any) => c.semester_number === sem);
               if (semCourses.length > 0) {
-                const semGPA = calculateSemesterGPA(sem);
-                gpasSum += semGPA;
+                gpasSum += calculateSemesterGPA(sem);
                 semesterCount++;
               } else {
                 const stored = previous_gpas[String(sem)];
@@ -290,24 +273,18 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
                 }
               }
             }
-
             const currentSemGPA = calculateSemesterGPA(current_semester);
             if (currentSemGPA > 0) {
               gpasSum += currentSemGPA;
               semesterCount++;
             }
-
             overallCGPAVal = semesterCount > 0 ? gpasSum / semesterCount : 0;
           }
-          if (overallCGPAVal > 0) {
-            setLatestCGPA(overallCGPAVal);
-          } else {
-            setLatestCGPA(null);
-          }
+          setLatestCGPA(overallCGPAVal > 0 ? overallCGPAVal : null);
           setLoadingCGPA(false);
         })
         .catch(err => {
-          console.error("Error populating widget data:", err);
+          console.error("Error populating CGPA widget:", err);
           setErrorCGPA(true);
           setLoadingCGPA(false);
         });
@@ -402,7 +379,10 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
   }).slice(0, 4);
 
   const upcomingTasks = tasks
-    .filter(t => t.status !== 'done' && !isAfter(new Date(t.due_date), addDays(startOfDay(new Date()), 7)))
+    .filter(t => {
+      if (!t.due_date) return false; // skip tasks with no due date
+      return t.status !== 'done' && !isAfter(new Date(t.due_date), addDays(startOfDay(new Date()), 7));
+    })
     .sort((a, b) => new Date(a.due_date).getTime() - new Date(b.due_date).getTime())
     .slice(0, 5);
 
@@ -468,8 +448,9 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
         </div>
       )}
 
-      {/* Grid */}
+      {/* Grid — 2 col: Quick Stats | Action Needed */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+
         {/* Quick Stats Card */}
         <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out">
           <div className="flex items-center gap-2 mb-4">
@@ -516,7 +497,7 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
                 )}
               </div>
             </div>
-            {/* Chip 4: Subjects */}
+            {/* Chip 4: Subjects count */}
             <div className="bg-bg-surface/90 dark:bg-bg-elevated/40 border border-border-strong/40 p-3.5 rounded-xl shadow-[inset_0_-2px_4px_rgba(0,0,0,0.02),0_2px_4px_rgba(0,0,0,0.01)] dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02),0_4px_12px_rgba(0,0,0,0.2)] hover:scale-[1.03] hover:-translate-y-0.5 transition-all duration-300 flex flex-col justify-between min-h-[95px] relative overflow-hidden group/tile border-l-4 border-l-blue-500">
               <div className="flex justify-between items-start">
                 <p className="text-[10px] text-text-tertiary truncate">Subjects</p>
@@ -529,22 +510,61 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
           </div>
         </div>
 
-        {/* Upcoming Card */}
-        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out flex flex-col justify-between">
+        {/* Action Needed + Upcoming — unified card */}
+        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out flex flex-col gap-5">
+
+          {/* ── Section 1: Action Needed ── */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
+            <div className="flex items-center gap-2 mb-3">
               <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
-                <Calendar size={14} className="stroke-[2.5]" />
+                <Zap size={14} className="stroke-[2.5]" />
               </span>
-              <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em]">Upcoming</p>
+              <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em]">Action Needed</p>
+            </div>
+            {loadingSettings || loadingSubjects || loadingTasks || loadingCGPA ? (
+              <Skeleton />
+            ) : atRiskIssues.length === 0 ? (
+              <div className="flex items-center gap-3 py-3 text-green-600/90 dark:text-green-400/90 select-none">
+                <div className="relative flex items-center justify-center w-9 h-9 flex-shrink-0">
+                  <span className="animate-ping absolute inline-flex h-7 w-7 rounded-full bg-green-500/20 opacity-75" />
+                  <div className="relative rounded-full p-1.5 bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 shadow-[0_0_10px_rgba(34,197,94,0.2)]">
+                    <CheckCircle2 size={18} className="stroke-[2.5]" />
+                  </div>
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-green-600/85 dark:text-green-400/85">All good — nothing urgent</p>
+              </div>
+            ) : (
+              <ul className="space-y-2">
+                {atRiskIssues.slice(0, 4).map((issue, i) => (
+                  <li key={i} className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-red-500/5 transition-colors border border-transparent hover:border-red-500/10">
+                    <span className="text-red-500 dark:text-[#DC5050] mt-1 font-bold">•</span>
+                    <Link href={issue.link} className={`text-xs font-semibold hover:underline ${issue.critical ? 'text-red-600 dark:text-[#DC5050]' : 'text-text-secondary'}`}>
+                      {issue.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-border-subtle" />
+
+          {/* ── Section 2: Tasks ── */}
+          <div className="flex-1 flex flex-col">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
+                <CheckCircle2 size={14} className="stroke-[2.5]" />
+              </span>
+              <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em]">Tasks</p>
             </div>
             {loadingTasks ? (
               <Skeleton />
             ) : errorTasks ? (
-              <p className="text-sm text-text-tertiary">Could not load</p>
+              <p className="text-sm text-text-tertiary">Could not load tasks</p>
             ) : upcomingTasks.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-8 text-text-tertiary select-none">
-                <p className="text-sm italic">No deadlines this week</p>
+              <div className="flex flex-col items-center justify-center py-6 text-text-tertiary select-none">
+                <p className="text-sm italic">No tasks due this week</p>
               </div>
             ) : (
               <div className="space-y-2">
@@ -556,104 +576,22 @@ export default function SemesterProgressWidget({ initialUserName }: SemesterProg
                         <span className="text-[10px] font-medium text-text-tertiary uppercase tracking-wider">{getDueDateLabel(task.due_date)}</span>
                       </div>
                     </div>
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       onChange={() => updateTaskStatus(task.id)}
-                      className="w-4 h-4 rounded border-border-subtle text-accent focus:ring-accent cursor-pointer dark:bg-bg-surface transition-transform duration-200 hover:scale-110" 
+                      className="w-4 h-4 rounded border-border-subtle text-accent focus:ring-accent cursor-pointer dark:bg-bg-surface transition-transform duration-200 hover:scale-110"
                     />
                   </div>
                 ))}
               </div>
             )}
-          </div>
-          <div className="mt-4 pt-4 border-t border-border-subtle">
-            <Link href="/dashboard/tasks" className="text-[11px] font-black text-accent uppercase tracking-widest hover:underline flex items-center gap-1">
-              View calendar →
-            </Link>
-          </div>
-        </div>
-
-        {/* Subjects Card */}
-        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out flex flex-col justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
-                <BookOpen size={14} className="stroke-[2.5]" />
-              </span>
-              <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em]">Subjects</p>
+            <div className="mt-4 pt-3 border-t border-border-subtle">
+              <Link href="/dashboard/tasks" className="text-[11px] font-black text-accent uppercase tracking-widest hover:underline flex items-center gap-1">
+                View all tasks →
+              </Link>
             </div>
-            {loadingSubjects ? (
-              <Skeleton />
-            ) : errorSubjects ? (
-              <p className="text-sm text-text-tertiary">Could not load</p>
-            ) : (
-              <div className="space-y-2">
-                {sortedSubjects.map(s => {
-                  const pct = (s.attended_classes / (s.total_classes || 1)) * 100;
-                  const colorHex = COLOR_MAP[s.color_tag || ''] || s.color || '#92400e';
-                  return (
-                    <Link href="/dashboard/attendance" key={s.id} className={`flex items-center justify-between p-2.5 rounded-xl bg-bg-base/40 dark:bg-bg-elevated/10 border border-border-strong/30 hover:border-border-strong/80 hover:bg-bg-base/80 dark:hover:bg-bg-elevated/30 hover:shadow-sm transition-all duration-200 ${pct < 75 ? 'border-l-2 border-red-500' : ''}`}>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2.5 h-2.5 rounded-full animate-pulse-slow" style={{ backgroundColor: colorHex, boxShadow: `0 0 8px ${colorHex}` }} />
-                        <span className="text-sm font-bold text-text-primary truncate max-w-[120px]">{s.name}</span>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className="w-[60px] h-1.5 bg-border-subtle rounded-full overflow-hidden shadow-inner">
-                          <div className={`h-full ${attendanceBg(pct)} rounded-full transition-all duration-500`} style={{ width: `${pct}%`, boxShadow: `0 0 8px currentColor` }} />
-                        </div>
-                        <span className={`text-xs font-black min-w-[30px] text-right ${attendanceColor(pct)}`}>
-                          {Math.round(pct)}%
-                        </span>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            )}
           </div>
-          <div className="mt-4 pt-4 border-t border-border-subtle">
-            <Link href="/dashboard/attendance" className="text-[11px] font-black text-accent uppercase tracking-widest hover:underline flex items-center gap-1">
-              View all →
-            </Link>
-          </div>
-        </div>
 
-        {/* Action Needed Card */}
-        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-white/60 dark:border-white/10 p-6 rounded-[28px] relative overflow-hidden group/card shadow-[0_20px_50px_rgba(0,0,0,0.04),inset_0_1px_1px_white] dark:shadow-[0_20px_50px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:shadow-[0_40px_80px_rgba(0,0,0,0.08),inset_0_1px_1px_white] dark:hover:shadow-[0_40px_80px_rgba(0,0,0,0.3),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:-translate-y-2 transition-all duration-500 ease-out">
-          <div className="flex items-center gap-2 mb-4">
-            <span className="p-1.5 rounded-lg bg-accent/10 text-accent dark:bg-accent/20">
-              <Zap size={14} className="stroke-[2.5]" />
-            </span>
-            <p className="text-[11px] font-bold text-text-tertiary uppercase tracking-[0.08em]">Action Needed</p>
-          </div>
-          {loadingSettings || loadingSubjects || loadingTasks || loadingCGPA ? (
-            <Skeleton />
-          ) : atRiskIssues.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-6 text-green-600/90 dark:text-green-400/90 select-none">
-              <div className="relative flex items-center justify-center w-14 h-14 mb-4">
-                {/* Multi-layered pulsing glowing rings */}
-                <span className="animate-ping absolute inline-flex h-10 w-10 rounded-full bg-green-500/20 opacity-75"></span>
-                <span className="animate-pulse absolute inline-flex h-12 w-12 rounded-full bg-green-500/10 opacity-50"></span>
-                <div className="relative rounded-full p-2.5 bg-green-500/10 border border-green-500/30 text-green-600 dark:text-green-400 shadow-[0_0_15px_rgba(34,197,94,0.2)]">
-                  <CheckCircle2 size={24} className="stroke-[2.5]" />
-                </div>
-              </div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-green-600/85 dark:text-green-400/85 bg-green-500/5 px-3 py-1 rounded-full border border-green-500/10 shadow-[0_2px_10px_rgba(34,197,94,0.05)]">
-                ALL GOOD — NOTHING URGENT
-              </p>
-            </div>
-          ) : (
-            <ul className="space-y-2.5">
-              {atRiskIssues.slice(0, 4).map((issue, i) => (
-                <li key={i} className="flex items-start gap-2.5 p-2 rounded-lg hover:bg-red-500/5 transition-colors border border-transparent hover:border-red-500/10">
-                  <span className="text-red-500 dark:text-[#DC5050] mt-1 font-bold">•</span>
-                  <Link href={issue.link} className={`text-xs font-semibold hover:underline ${issue.critical ? 'text-red-600 dark:text-[#DC5050]' : 'text-text-secondary'}`}>
-                    {issue.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
         </div>
       </div>
     </div>

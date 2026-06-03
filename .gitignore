@@ -57,3 +57,20 @@ next-env.d.ts
 .wrangler
 .dev.vars*
 !.dev.vars.example
+# Added by code-review-graph
+.code-review-graph/
+
+# IDE/Tool configs
+.gemini/
+.claude/
+.cursor/
+.cursorrules
+.windsurfrules
+.vscode/
+.kiro/
+.qoder/
+.mcp.json
+.opencode.json
+GEMINI.md
+QODER.md
+.github/code-review-graph.instruction.md

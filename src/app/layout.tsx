@@ -39,13 +39,16 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: `
           (function() {
             try {
-              var match = document.cookie.match(/(?:^|; )scholar-atlas-theme=([^;]*)/);
-              var stored = match ? match[1] : localStorage.getItem('scholar-atlas-theme');
+              var stored = localStorage.getItem('scholar-atlas-theme');
+              if (!stored) {
+                var match = document.cookie.match(/(?:^|; )scholar-atlas-theme=([^;]*)/);
+                stored = match ? decodeURIComponent(match[1]) : null;
+              }
               if (stored === 'dark') {
                 document.documentElement.classList.add('dark');
               }
               document.documentElement.classList.add('no-transition');
-              window.addEventListener('load', function() {
+              document.addEventListener('DOMContentLoaded', function() {
                 document.documentElement.classList.remove('no-transition');
               });
             } catch(e) {}

@@ -124,21 +124,30 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
     }, 1500);
 
     const applyUserTheme = (theme: string | undefined) => {
-      if (theme === 'dark' || theme === 'light') {
-        document.documentElement.classList.add("no-transition");
-        if (theme === 'dark') {
-          document.documentElement.classList.add("dark");
-          localStorage.setItem("scholar-atlas-theme", "dark");
-          document.cookie = "scholar-atlas-theme=dark; path=/; max-age=31536000";
-        } else {
-          document.documentElement.classList.remove("dark");
-          localStorage.setItem("scholar-atlas-theme", "light");
-          document.cookie = "scholar-atlas-theme=light; path=/; max-age=31536000";
-        }
-        requestAnimationFrame(() => {
-          document.documentElement.classList.remove("no-transition");
-        });
+      const localTheme = localStorage.getItem("scholar-atlas-theme");
+
+      // localStorage is the source of truth for this device.
+      // Supabase metadata is only used as a fallback on a brand-new device
+      // where the user has never set a preference locally.
+      const effectiveTheme = (localTheme === 'dark' || localTheme === 'light')
+        ? localTheme
+        : (theme === 'dark' || theme === 'light') ? theme : null;
+
+      if (!effectiveTheme) return;
+
+      document.documentElement.classList.add("no-transition");
+      if (effectiveTheme === 'dark') {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("scholar-atlas-theme", "dark");
+        document.cookie = "scholar-atlas-theme=dark; path=/; max-age=31536000; SameSite=Lax";
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("scholar-atlas-theme", "light");
+        document.cookie = "scholar-atlas-theme=light; path=/; max-age=31536000; SameSite=Lax";
       }
+      requestAnimationFrame(() => {
+        document.documentElement.classList.remove("no-transition");
+      });
     };
 
     const initSession = async () => {

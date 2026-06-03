@@ -162,101 +162,148 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Section 2: Redesigned About & Core Capabilities Grid (WANDER.ph Layout) */}
-        <section className="mb-32">
-          <div className="flex items-center gap-4 mb-16">
-            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
-            <h2 className="text-[12px] font-black text-ink-4 uppercase tracking-[0.4em] px-4 whitespace-nowrap">Core Philosophy</h2>
-            <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent via-border-strong to-transparent" />
-          </div>
+        {/* Section 2: Redesigned About & Core Capabilities Grid (Editorial Academic Layout) */}
+        <section className="mb-32 bg-[#F9F8F6] dark:bg-[#1A1918] text-[#2D2B2A] dark:text-[#EAE8E3] py-16 sm:py-24 px-6 sm:px-12 rounded-[2rem] border border-[#E8E6DF] dark:border-[#33302E]">
+          <div className="max-w-[1200px] mx-auto">
+            
+            {/* Section Header */}
+            <div className="flex items-center gap-4 mb-16">
+              <div className="h-[1px] flex-1 bg-[#E8E6DF] dark:bg-[#33302E]" />
+              <h2 className="text-[11px] font-medium uppercase tracking-[0.2em] text-stone-500 dark:text-stone-400">Core Philosophy</h2>
+              <div className="h-[1px] flex-1 bg-[#E8E6DF] dark:bg-[#33302E] hidden sm:block" />
+            </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            {/* Left Column: Story & Developer Background */}
-            <div className="lg:col-span-7 space-y-8">
-              <h2 className="text-3xl sm:text-5xl font-black tracking-tight uppercase leading-tight text-ink">
-                Engineered for Academic Control
-              </h2>
-              
-              <p className="text-lg text-ink-2 leading-relaxed font-medium">
-                Designed and built by Nawfat, Scholar Atlas replaces sluggish spreadsheets with a fast, client-side utility workspace. Combining attendance trackers, grade simulators, and local PDF tools, it runs entirely within your browser environment.
-              </p>
-
-              <p className="text-base text-ink-3 leading-relaxed font-medium">
-                By leveraging Next.js 15, TypeScript, Supabase RLS, and Cloudflare Workers, the platform processes calculations on your hardware without exporting log metrics. It is optimized to eliminate interface latency so you can analyze metrics instantly at any hour.
-              </p>
-
-
-              {/* Stats Pedestal Grid */}
-              <div className="grid grid-cols-3 gap-6 pt-10 border-t border-border-strong mt-10">
-                <div className="text-center sm:text-left space-y-1">
-                  <div className="w-10 h-10 rounded-full bg-accent/5 flex items-center justify-center mx-auto sm:mx-0 mb-3 text-accent dark:bg-accent/10 dark:text-orange-400">
-                    <Cpu size={18} />
-                  </div>
-                  <h4 className="text-2xl sm:text-3xl font-black text-ink leading-none">100%</h4>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-ink-4">Client-Side</p>
+            {/* Two-column hero section */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
+              {/* Left side */}
+              <div className="flex flex-col justify-center space-y-8">
+                <h3 className="font-serif text-5xl sm:text-6xl text-[#1a1918] dark:text-[#F9F8F6] leading-[1.1] tracking-tight">
+                  Precision over persuasion.
+                </h3>
+                <p className="text-lg leading-relaxed text-stone-600 dark:text-stone-400 font-sans">
+                  Scholar Atlas is an independent utility engineered to replace sprawling spreadsheets with a secure, browser-local workspace. It computes grades, tracks attendance, and processes PDFs instantly—without ever exporting your data.
+                </p>
+                <div className="flex flex-wrap items-center gap-4 pt-4">
+                  <Link href={user ? "/dashboard" : "/signup"} className="px-6 py-3 bg-[#8B3A3A] hover:bg-[#6E2A2A] text-white text-sm font-medium transition-colors border border-[#8B3A3A]">
+                    Initialize Workspace
+                  </Link>
+                  <Link href="/about" className="px-6 py-3 border border-[#E8E6DF] dark:border-[#33302E] hover:border-[#8B3A3A] hover:text-[#8B3A3A] dark:hover:text-[#E5B5B5] text-sm font-medium transition-colors">
+                    Read Documentation
+                  </Link>
                 </div>
-                <div className="text-center sm:text-left space-y-1">
-                  <div className="w-10 h-10 rounded-full bg-accent/5 flex items-center justify-center mx-auto sm:mx-0 mb-3 text-accent dark:bg-accent/10 dark:text-orange-400">
-                    <Zap size={18} />
-                  </div>
-                  <h4 className="text-2xl sm:text-3xl font-black text-ink leading-none">&lt; 0.1s</h4>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-ink-4">Execution Latency</p>
+              </div>
+
+              {/* Right side: large dashboard-style preview card + 2 smaller modules */}
+              <div className="relative mt-12 lg:mt-0">
+                {/* Large Dashboard Card */}
+                <div className="bg-white dark:bg-[#201F1E] border border-[#E8E6DF] dark:border-[#33302E] p-6 shadow-sm z-10 relative">
+                    <div className="flex items-center justify-between mb-6 pb-4 border-b border-[#F0EEE6] dark:border-[#33302E]/50">
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 rounded-full bg-[#8B3A3A]" />
+                        <span className="text-[10px] font-mono text-stone-500 uppercase tracking-widest">Simulation Engine</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-stone-400">SYS.OK</span>
+                    </div>
+                    
+                    <div className="space-y-4 font-mono text-xs text-stone-600 dark:text-stone-400">
+                      <div className="flex justify-between items-center bg-[#F9F8F6] dark:bg-[#1A1918] p-3 border border-[#E8E6DF] dark:border-[#33302E]">
+                          <span>Target GPA</span>
+                          <span className="text-stone-900 dark:text-stone-200 font-semibold">3.85</span>
+                      </div>
+                      <div className="flex justify-between items-center bg-[#F9F8F6] dark:bg-[#1A1918] p-3 border border-[#E8E6DF] dark:border-[#33302E]">
+                          <span>Variance Tolerance</span>
+                          <span className="text-[#8B3A3A] dark:text-[#D94F3D]">±0.15</span>
+                      </div>
+                      <div className="pt-4 space-y-2">
+                          <div className="h-1 w-full bg-[#F0EEE6] dark:bg-[#33302E]">
+                            <div className="h-full bg-stone-800 dark:bg-stone-300 w-[78%]" />
+                          </div>
+                          <div className="flex justify-between text-[9px] text-stone-500 uppercase tracking-widest">
+                            <span>Probability of Success</span>
+                            <span>78%</span>
+                          </div>
+                      </div>
+                    </div>
                 </div>
-                <div className="text-center sm:text-left space-y-1">
-                  <div className="w-10 h-10 rounded-full bg-accent/5 flex items-center justify-center mx-auto sm:mx-0 mb-3 text-accent dark:bg-accent/10 dark:text-orange-400">
-                    <Star size={18} />
-                  </div>
-                  <h4 className="text-2xl sm:text-3xl font-black text-ink leading-none">3+ Yrs</h4>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-ink-4">Dev Experience</p>
+                
+                {/* Smaller module 1 */}
+                <div className="absolute -left-8 -bottom-12 bg-white dark:bg-[#252422] border border-[#E8E6DF] dark:border-[#33302E] p-4 shadow-sm z-20 w-48 hidden sm:block">
+                    <span className="block text-[9px] text-stone-500 uppercase tracking-widest mb-2 font-mono">Last Sync</span>
+                    <span className="block text-sm font-medium text-stone-800 dark:text-stone-200 font-mono">14:02:44 Local</span>
+                </div>
+                
+                {/* Smaller module 2 */}
+                <div className="absolute -right-6 top-12 bg-[#F0EEE6] dark:bg-[#1E1D1C] border border-[#E8E6DF] dark:border-[#33302E] p-4 shadow-sm z-0 w-40 hidden sm:block">
+                    <span className="block text-[9px] text-stone-500 uppercase tracking-widest mb-2 font-mono">Privacy Lock</span>
+                    <div className="flex items-center gap-2 text-[#4A5D23] dark:text-[#8E9B6C]">
+                      <ShieldCheck size={14} />
+                      <span className="text-xs font-mono font-medium">Secured</span>
+                    </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Stacked Cards (WANDER.ph style) */}
-            <div className="lg:col-span-5 flex flex-col gap-6 w-full">
-              {/* Card 1: Dynamic Grade Simulator (Dark/Accent color style) */}
-              <div className="flex items-center gap-5 p-6 rounded-[24px] shadow-md border border-transparent bg-accent text-white dark:bg-accent/20 dark:border-accent/30 dark:text-white transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-white/10 text-white dark:bg-accent/20 dark:text-orange-400 flex items-center justify-center shrink-0 shadow-sm">
-                  <GraduationCap size={22} />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <h4 className="font-black uppercase tracking-wider text-sm">
-                    Grade Simulator
-                  </h4>
-                  <p className="text-xs leading-relaxed opacity-90">
-                    Predict final semester outcomes with a custom simulation engine. Test various grade inputs and understand exactly what marks you need to hit your targets.
-                  </p>
-                </div>
+            {/* Below hero: evidence strip */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-y border-[#E8E6DF] dark:border-[#33302E] mb-24">
+              <div className="space-y-1">
+                <span className="block text-2xl font-serif text-[#1a1918] dark:text-[#F9F8F6]">0.0s</span>
+                <span className="block text-[11px] text-stone-500 uppercase tracking-widest">Server Latency</span>
+              </div>
+              <div className="space-y-1">
+                <span className="block text-2xl font-serif text-[#1a1918] dark:text-[#F9F8F6]">100%</span>
+                <span className="block text-[11px] text-stone-500 uppercase tracking-widest">Local Processing</span>
+              </div>
+              <div className="space-y-1">
+                <span className="block text-2xl font-serif text-[#1a1918] dark:text-[#F9F8F6]">AES-256</span>
+                <span className="block text-[11px] text-stone-500 uppercase tracking-widest">Browser Storage</span>
+              </div>
+              <div className="space-y-1">
+                <span className="block text-2xl font-serif text-[#1a1918] dark:text-[#F9F8F6]">0</span>
+                <span className="block text-[11px] text-stone-500 uppercase tracking-widest">Telemetry Events</span>
+              </div>
+            </div>
+
+            {/* Feature section using one large card and two smaller offset cards */}
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+              {/* Large Card */}
+              <div className="md:col-span-8 bg-white dark:bg-[#201F1E] border border-[#E8E6DF] dark:border-[#33302E] p-10 flex flex-col justify-between min-h-[320px]">
+                  <div>
+                    <span className="inline-block px-2 py-1 bg-[#F0EEE6] dark:bg-[#33302E] text-stone-600 dark:text-stone-300 text-[10px] uppercase tracking-widest mb-6 font-mono">Module 01</span>
+                    <h4 className="font-serif text-3xl text-[#1a1918] dark:text-[#F9F8F6] mb-4">Stochastic Grade Prediction</h4>
+                    <p className="text-stone-600 dark:text-stone-400 text-sm leading-relaxed max-w-md">
+                      Calculate exact thresholds for your final exams. The engine allows for multiple weighted assignments and provides real-time adjustments without reloading.
+                    </p>
+                  </div>
+                  <div className="mt-8 flex items-center justify-between border-t border-[#E8E6DF] dark:border-[#33302E] pt-6">
+                    <div className="flex gap-2">
+                      <span className="w-1.5 h-1.5 bg-[#8B3A3A] rounded-full opacity-80" />
+                      <span className="w-1.5 h-1.5 bg-[#E8E6DF] dark:bg-[#44403C] rounded-full" />
+                      <span className="w-1.5 h-1.5 bg-[#E8E6DF] dark:bg-[#44403C] rounded-full" />
+                    </div>
+                    <ArrowRight size={16} className="text-stone-400" />
+                  </div>
               </div>
 
-              {/* Card 2: Attendance Tracker (Warm/Mid-tone style) */}
-              <div className="flex items-center gap-5 p-6 rounded-[24px] border border-accent/10 bg-accent-light/50 text-ink dark:bg-zinc-900/40 dark:border-zinc-800 dark:text-white transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent dark:bg-zinc-800 dark:text-orange-400 flex items-center justify-center shrink-0">
-                  <CalendarCheck size={22} />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <h4 className="font-black uppercase tracking-wider text-sm text-ink">
-                    Attendance Health
-                  </h4>
-                  <p className="text-xs leading-relaxed text-ink-2 dark:text-ink-2 opacity-95">
-                    Monitor classes and predict if you will fall below threshold levels before it is too late, complete with custom timetable placeholders.
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 3: PDF Suite (Light Glass style) */}
-              <div className="flex items-center gap-5 p-6 rounded-[24px] border border-white/60 bg-white/40 text-ink dark:bg-black/40 dark:border-zinc-900 dark:text-white transition-all duration-300">
-                <div className="w-12 h-12 rounded-xl bg-stone-200/50 text-ink-2 dark:bg-zinc-950 dark:text-ink-3 flex items-center justify-center shrink-0">
-                  <FileText size={22} />
-                </div>
-                <div className="flex-1 space-y-1">
-                  <h4 className="font-black uppercase tracking-wider text-sm text-ink">
-                    Local PDF Tools
-                  </h4>
-                  <p className="text-xs leading-relaxed text-ink-2 dark:text-ink-2 opacity-95">
-                    Merge, split, and convert documents locally in the browser. Zero server uploads, guaranteeing total document privacy.
-                  </p>
-                </div>
+              {/* Two Smaller Offset Cards */}
+              <div className="md:col-span-4 flex flex-col gap-6">
+                  <div className="bg-[#F0EEE6] dark:bg-[#1E1D1C] border border-[#E8E6DF] dark:border-[#33302E] p-8 flex-1 flex flex-col justify-center">
+                    <div className="flex items-center gap-3 mb-3">
+                        <CalendarCheck size={18} className="text-[#8B3A3A]" />
+                        <h4 className="font-serif text-xl text-[#1a1918] dark:text-[#F9F8F6]">Attendance Matrix</h4>
+                    </div>
+                    <p className="text-stone-600 dark:text-stone-400 text-xs leading-relaxed">
+                      A strict accounting of class presence. Warns you before dropping below mandatory thresholds.
+                    </p>
+                  </div>
+                  <div className="bg-[#F0EEE6] dark:bg-[#1E1D1C] border border-[#E8E6DF] dark:border-[#33302E] p-8 flex-1 flex flex-col justify-center ml-0 lg:-ml-12 relative z-10 shadow-sm mt-0 lg:mt-6">
+                    <div className="flex items-center gap-3 mb-3">
+                        <FileText size={18} className="text-[#8B3A3A]" />
+                        <h4 className="font-serif text-xl text-[#1a1918] dark:text-[#F9F8F6]">Local Document Suite</h4>
+                    </div>
+                    <p className="text-stone-600 dark:text-stone-400 text-xs leading-relaxed">
+                      Split, merge, and convert PDFs entirely in your browser memory.
+                    </p>
+                  </div>
               </div>
             </div>
           </div>

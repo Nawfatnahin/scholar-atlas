@@ -26,11 +26,11 @@ export default function DarkModeToggle() {
     if (nextIsDark) {
       document.documentElement.classList.add("dark");
       localStorage.setItem("scholar-atlas-theme", "dark");
-      document.cookie = "scholar-atlas-theme=dark; path=/; max-age=31536000";
+      document.cookie = "scholar-atlas-theme=dark; path=/; max-age=31536000; SameSite=Lax";
     } else {
       document.documentElement.classList.remove("dark");
       localStorage.setItem("scholar-atlas-theme", "light");
-      document.cookie = "scholar-atlas-theme=light; path=/; max-age=31536000";
+      document.cookie = "scholar-atlas-theme=light; path=/; max-age=31536000; SameSite=Lax";
     }
 
     // 3. Sync theme preference to Cloud database if authenticated

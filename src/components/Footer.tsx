@@ -45,7 +45,7 @@ export default function Footer() {
                 </Link>
               ) : (
                 <Link href="/" className="font-display text-[20px] font-bold text-ink flex items-center gap-2 no-underline tracking-tight mb-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-[#92400e]/85 flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-lg bg-[#92400e]/85 dark:bg-[#833AB4]/85 flex items-center justify-center">
                     <svg viewBox="0 0 20 20" className="w-4 h-4 fill-white">
                       <path d="M10 2L3 7v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1V7l-7-5z" />
                     </svg>
