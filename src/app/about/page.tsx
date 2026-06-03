@@ -194,19 +194,6 @@ export default function AboutPage() {
                 >
                   <Cpu size={14} /> GitHub Profile
                 </Link>
-                <Link 
-                  href="https://x.com/Nawfat" 
-                  target="_blank" 
-                  className="flex items-center gap-2 px-4 py-2 border border-border-strong rounded-xl text-xs font-black uppercase tracking-wider text-ink-2 hover:text-accent hover:border-accent/40 bg-bg-surface hover:bg-bg transition-all"
-                >
-                  <Zap size={14} /> Twitter / X
-                </Link>
-                <Link 
-                  href="mailto:contact@scholaratlas.com" 
-                  className="flex items-center gap-2 px-4 py-2 border border-border-strong rounded-xl text-xs font-black uppercase tracking-wider text-ink-2 hover:text-accent hover:border-accent/40 bg-bg-surface hover:bg-bg transition-all"
-                >
-                  <FileText size={14} /> Contact
-                </Link>
               </div>
 
               {/* Stats Pedestal Grid */}
@@ -238,7 +225,7 @@ export default function AboutPage() {
             {/* Right Column: Stacked Cards (WANDER.ph style) */}
             <div className="lg:col-span-5 flex flex-col gap-6 w-full">
               {/* Card 1: Dynamic Grade Simulator (Dark/Accent color style) */}
-              <div className="flex gap-5 p-6 rounded-[24px] shadow-md border border-transparent bg-accent text-white dark:bg-accent/20 dark:border-accent/30 dark:text-white transition-all duration-300">
+              <div className="flex items-center gap-5 p-6 rounded-[24px] shadow-md border border-transparent bg-accent text-white dark:bg-accent/20 dark:border-accent/30 dark:text-white transition-all duration-300">
                 <div className="w-12 h-12 rounded-xl bg-white/10 text-white dark:bg-accent/20 dark:text-orange-400 flex items-center justify-center shrink-0 shadow-sm">
                   <GraduationCap size={22} />
                 </div>
@@ -253,7 +240,7 @@ export default function AboutPage() {
               </div>
 
               {/* Card 2: Attendance Tracker (Warm/Mid-tone style) */}
-              <div className="flex gap-5 p-6 rounded-[24px] border border-accent/10 bg-accent-light/50 text-ink dark:bg-zinc-900/40 dark:border-zinc-800 dark:text-white transition-all duration-300">
+              <div className="flex items-center gap-5 p-6 rounded-[24px] border border-accent/10 bg-accent-light/50 text-ink dark:bg-zinc-900/40 dark:border-zinc-800 dark:text-white transition-all duration-300">
                 <div className="w-12 h-12 rounded-xl bg-accent/10 text-accent dark:bg-zinc-800 dark:text-orange-400 flex items-center justify-center shrink-0">
                   <CalendarCheck size={22} />
                 </div>
@@ -268,7 +255,7 @@ export default function AboutPage() {
               </div>
 
               {/* Card 3: PDF Suite (Light Glass style) */}
-              <div className="flex gap-5 p-6 rounded-[24px] border border-white/60 bg-white/40 text-ink dark:bg-black/40 dark:border-zinc-900 dark:text-white transition-all duration-300">
+              <div className="flex items-center gap-5 p-6 rounded-[24px] border border-white/60 bg-white/40 text-ink dark:bg-black/40 dark:border-zinc-900 dark:text-white transition-all duration-300">
                 <div className="w-12 h-12 rounded-xl bg-stone-200/50 text-ink-2 dark:bg-zinc-950 dark:text-ink-3 flex items-center justify-center shrink-0">
                   <FileText size={22} />
                 </div>

@@ -14,77 +14,14 @@ export interface VersionEntry {
 
 export const CHANGELOG: VersionEntry[] = [
   {
-    version: "2.0.6",
-    date: "2026-06-02",
-    summary: "Implemented dynamic robots.txt crawler protection policy for search and AI scraper management",
-    changes: [
-      { type: "NEW", description: "Created dynamic Next.js robots.ts crawling control system to define granular scraping guidelines" },
-      { type: "IMPROVED", description: "Allowed reputable AI search services (Claude, GPT, Perplexity) and standard search engines (Googlebot, Applebot) to access public links to drive search discoverability" },
-      { type: "REMOVED", description: "Blocked raw model collectors and aggressive bandwidth leeches (Common Crawl CCBot, Bytespider, Amazonbot, FacebookBot, Cohere-ai) from crawling" },
-      { type: "IMPROVED", description: "Secured dynamic private routes (/api, /dashboard, /auth) from standard search engine indexing" },
-    ],
-  },
-  {
-    version: "2.0.5",
-    date: "2026-05-31",
-    summary: "Simplified and improved dashboard Optimization Tips for enhanced user experience",
-    changes: [
-      { type: "IMPROVED", description: "Rewrote Optimization Tips on the dashboard in simplified, action-oriented, student-friendly language" },
-      { type: "NEW", description: "Introduced a new action-oriented tip highlighting CGPA prediction feature mapping to the CGPA Manager module" },
-      { type: "IMPROVED", description: "Broadened tips coverage to target all four primary modules: PDF Toolkit, Attendance Tracker, Task Board, and CGPA Manager" },
-    ],
-  },
-  {
-    version: "2.0.4",
-    date: "2026-05-30",
-    summary: "Integrated premium Scholar Atlas themed LoggerOS admin dashboard upper section",
-    changes: [
-      { type: "NEW", description: "Successfully migrated and integrated the newly designed LoggerOS control panel directly into the Next.js web application admin dashboard" },
-      { type: "IMPROVED", description: "Configured real-time, reactive circular MetricRings for Edge CPU computing, DB load, and network latency status tracking" },
-      { type: "IMPROVED", description: "Constructed dynamic command shell terminal output showing J.A.R.V.I.S. greeting responses synchronized with client typewriter rendering" },
-      { type: "IMPROVED", description: "Implemented structured type-colored log items in the Live API Stream terminal with automatic scrolling viewport tracking" },
-    ],
-  },
-  {
-    version: "2.0.3",
-    date: "2026-05-28",
-    summary: "Removed PDF Tools link from mobile navigation menu",
-    changes: [
-      { type: "REMOVED", description: "Removed PDF Tools navigation option from the three-line mobile menu list to optimize mobile UX layout" },
-    ],
-  },
-  {
-    version: "2.0.2",
-    date: "2026-05-27",
-    summary: "Responsive UserBadge mobile layout and dark mode styling updates",
-    changes: [
-      { type: "NEW", description: "Created an elegant, space-efficient UserBadge mobile layout visible only on phone/tablet viewport widths" },
-      { type: "IMPROVED", description: "Refined both mobile and desktop badges with full CSS dark mode support for perfect color contrast" },
-    ],
-  },
-  {
-    version: "2.0.1",
-    date: "2026-05-27",
-    summary: "Restored Dashboard SemesterProgressWidget overview counts and progress bar",
-    changes: [
-      { type: "FIXED", description: "Repaired the SemesterProgressWidget database query and calculations, ensuring it pulls target CGPA from cgpa_settings and calculates attendance stats from attendance_records instead of a non-existent table" },
-      { type: "NEW", description: "Implemented dynamic semester start date and total weeks estimation based on earliest course start date" },
-      { type: "NEW", description: "Replicated high-fidelity cumulative CGPA forecasting calculation inside the dashboard widget to sync overall CGPA accurately with the CGPA Manager page" },
-    ],
-  },
-  {
     version: "2.0.0",
-    date: "2026-05-27",
-    summary: "CGPA Manager Multi-Semester Redesign & Schema Upgrade",
+    date: "2026-06-02",
+    summary: "CGPA Manager Multi-Semester Redesign, Admin Dashboard Integration, and Platform Security Upgrades",
     changes: [
-      { type: "NEW", description: "Introduced high-fidelity, multi-step InitManagerModal wizard to initialize target CGPA and set current semester tracking" },
-      { type: "NEW", description: "Created horizontal SemesterTabs navigation bar to switch fluidly between academic semesters" },
-      { type: "NEW", description: "Designed clean, animated DegreeProgressBar featuring premium terracotta/amber gradients and numeric progress displays" },
-      { type: "NEW", description: "Developed dynamic CGPASummaryCard showing real-time CGPA, total credits, target difference, and encouraging target-based notifications" },
-      { type: "NEW", description: "Added SemesterSettingsPanel for custom target overrides and full CGPA resets with visual double-confirmation" },
-      { type: "NEW", description: "Reworked AutoCGPACounter to be fully semester-aware, supporting isolated semester courses and cumulative, multi-semester calculation" },
-      { type: "NEW", description: "Implemented new PostgreSQL table public.cgpa_semester_setup and updated public.cgpa_courses_auto schema with RLS and index optimizations" },
-      { type: "IMPROVED", description: "Optimized entire CGPA Manager with robust, professional dark mode and light mode color mapping for seamless theme toggling" },
+      { type: "NEW", description: "Multi-semester CGPA Manager upgrade with PostgreSQL schema setup and real-time cumulative CGPA forecasting widget" },
+      { type: "NEW", description: "Integrated LoggerOS administrative system console and live API stream logs tracker" },
+      { type: "NEW", description: "Implemented responsive UserBadge layout and navigation optimizations for mobile viewport widths" },
+      { type: "NEW", description: "Created dynamic crawler control policy (robots.ts) to restrict data scraping while allowing index bots" },
     ],
   },
   {

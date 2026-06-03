@@ -2,87 +2,17 @@
 All notable changes to Scholar Atlas are documented here.
 Format: [version] — YYYY-MM-DD
 
-## [2.0.6] — 2026-06-02
+## [2.0.0] — 2026-06-02
 
 ### Added
-- **AI Crawler Exclusions (`src/app/robots.ts`)**: Designed a dynamic crawlers security configuration targeting search engine optimization and AI model training agents.
+- **Multi-Semester CGPA Manager**: Multi-semester tabs layout, degree progress widget, and cumulative forecasting.
+- **LoggerOS Admin Panel Dashboard**: Integrated admin control panel with interactive SVG status rings and typewriter J.A.R.V.I.S. terminals.
+- **AI Scraper & Search Optimization**: Configured robots.ts crawler policies to block trainers while supporting index visibility.
+- **UserBadge Mobile Navigation**: Designed compact badge styling and layout for narrow viewports.
 
 ### Improved
-- **Beneficial AI Search Discovery**: Explicitly whitelisted high-fidelity search-driven AI crawlers like ClaudeBot, Claude-Web, GPTBot, OAI-SearchBot, PerplexityBot, Googlebot, and Applebot to allow them to crawl public information, retrieve citation links, and drive organic traffic.
-- **Private Route Security**: Blocked search engine indexing on dynamic internal endpoints, specifically `/api`, `/dashboard`, and `/auth` zones.
-
-### Removed
-- **Unrestricted Training Scrapers**: Strictly blocked raw scrapers and collectors that do not provide citation traffic—specifically Common Crawl (`CCBot`), ByteDance (`Bytespider`), Amazon (`Amazonbot`), Meta (`FacebookBot`), and Cohere (`Cohere-ai`).
-
----
-
-## [2.0.5] — 2026-05-31
-
-### Added
-- **CGPA Prediction Tip**: Added an action-oriented tip to introduce students to the predictive grading features of the CGPA Manager.
-
-### Improved
-- **Simplified Optimization Tips**: Redesigned and rewrote the optimization tips list on the main dashboard to use simplified, action-oriented, student-friendly language. All four primary modules are now covered by highly readable instructions.
-
----
-
-## [2.0.4] — 2026-05-30
-
-### Added
-- **Integrated LoggerOS Admin Panel Section**: Seamlessly migrated and adapted the premium LoggerOS dashboard module directly into Next.js admin page `AdminPanel.tsx` in `scholar-atlas`.
-
-### Improved
-- **Reactive Circular Metric Indicators**: Implemented animated SVG MetricRings tracking CPU computational workload, PostgreSQL replica DB load, and network response latency.
-- **Dynamic J.A.R.V.I.S. Command Shell**: Reworked the terminal area to output reactive, time-of-day greeting responses from J.A.R.V.I.S. with beautiful typewriter animations.
-- **Type-Colored Live API Log Stream**: Upgraded logging output to support type-safe colored logs (success, warning, error, info) inside an auto-scrolling terminal box.
-
----
-
-## [2.0.3] — 2026-05-28
-
-### Removed
-- **PDF Tools from mobile view**: Removed the PDF Tools navigation entry from the mobile screen menu overlay to streamline and simplify the three-line mobile dashboard experience.
-
----
-
-## [2.0.2] — 2026-05-27
-
-### Added
-- **Space-efficient UserBadge mobile layout**: Created an elegant, compact user badge layout visible only on phone/tablet viewport widths, displaying a high-contrast icon badge alongside concise uppercase tier labels ("ADMIN", "PRO", or "FREE") and a pulsing green dot active indicator.
-
-### Improved
-- **Premium Dark Mode support**: hard-coded bespoke CSS color classes in the UserBadge component for perfect color contrast across mobile and desktop interfaces in dark mode.
-
----
-
-## [2.0.1] — 2026-05-27
-
-### Added
-- **Dynamic semester progress mapping**: Estimating start date and total semester duration dynamically from the earliest active subject course schedule.
-- **Dynamic cumulative CGPA forecasting widget**: Client-side predictive CGPA tracking on the dashboard that is fully synchronized with active courses and previous semester GPA settings.
-
-### Fixed
-- **SemesterProgressWidget repair**: Solved critical widget crash caused by incorrect query attempts on non-existent `user_settings` and `subjects` columns. Retrieved target CGPA from `cgpa_settings` and calculated attendance statistics directly using the `attendance_records` relation.
-
----
-
-## [2.0.0] — 2026-05-27
-
-### Added
-- **Multi-step Initialize Manager modal** with user-friendly 4-step wizard to setup degrees, current semesters, past semester GPAs, and target CGPA with beautiful Framer Motion animations.
-- **Horizontal SemesterTabs navigation** bar to view, manage, and toggle easily between individual semesters.
-- **DegreeProgressBar widget** showing current degree completion with elegant terracotta gradients.
-- **Dynamic CGPASummaryCard panel** showcasing active CGPA, total degree credits, distance from target CGPA, and custom feedback alerts.
-- **SemesterSettingsPanel** to configure custom targets per semester or completely reset the CGPA tracker with safety confirmation dialogs.
-- Context-aware **InstructionsButton** on the CGPA page highlighting specific setup guides vs. active semester tracker tips.
-
-### Improved
-- **Reworked AutoCGPACounter logic** to support fully isolated per-semester courses, cumulative CGPA calculation, and graceful read-only views for un-tracked past semesters.
-- Full high-fidelity **Dark Mode and Light Mode synchronization** across all CGPA components for an exceptionally premium look and feel.
-
-### Technical
-- Added the PostgreSQL table `public.cgpa_semester_setup` to store degree metadata, initialized states, and past GPA caches.
-- Updated `public.cgpa_courses_auto` schema with `semester_number` tracking, complete with indexes and RLS optimizations.
+- **Platform Performance & Safety**: Indexed critical foreign keys and optimized Supabase query RLS caching rules.
+- **Dashboard Usability**: Simplified action tips targeting all primary modules.
 
 ---
 
