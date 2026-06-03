@@ -49,9 +49,9 @@ export default function AboutPage() {
           
           {/* Header Section */}
           <header className="mb-24 sm:mb-40 max-w-3xl">
-            <div className="flex items-center gap-3 mb-8">
-              <div className="h-[1px] w-8 bg-text-tertiary/30" />
-              <span className="text-xs tracking-[0.2em] uppercase text-text-secondary font-semibold">
+            <div className="mb-8">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-accent/10 border border-accent/25 rounded-full text-xs font-mono font-semibold tracking-wide text-accent">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-slow"></span>
                 Version {APP_VERSION.current}
               </span>
             </div>
