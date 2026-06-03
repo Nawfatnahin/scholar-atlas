@@ -214,10 +214,10 @@ export default function AboutPage() {
                 </div>
                 <div className="text-center sm:text-left space-y-1">
                   <div className="w-10 h-10 rounded-full bg-accent/5 flex items-center justify-center mx-auto sm:mx-0 mb-3 text-accent dark:bg-accent/10 dark:text-orange-400">
-                    <ShieldCheck size={18} />
+                    <Star size={18} />
                   </div>
-                  <h4 className="text-2xl sm:text-3xl font-black text-ink leading-none">0</h4>
-                  <p className="text-[10px] font-black uppercase tracking-widest text-ink-4">Logs Uploaded</p>
+                  <h4 className="text-2xl sm:text-3xl font-black text-ink leading-none">3+ Yrs</h4>
+                  <p className="text-[10px] font-black uppercase tracking-widest text-ink-4">Dev Experience</p>
                 </div>
               </div>
             </div>
