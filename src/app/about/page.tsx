@@ -185,16 +185,6 @@ export default function AboutPage() {
                 By leveraging Next.js 15, TypeScript, Supabase RLS, and Cloudflare Workers, the platform processes calculations on your hardware without exporting log metrics. It is optimized to eliminate interface latency so you can analyze metrics instantly at any hour.
               </p>
 
-              {/* Developer Links */}
-              <div className="flex flex-wrap gap-4 pt-2">
-                <Link 
-                  href="https://github.com/Nawfatnahin" 
-                  target="_blank" 
-                  className="flex items-center gap-2 px-4 py-2 border border-border-strong rounded-xl text-xs font-black uppercase tracking-wider text-ink-2 hover:text-accent hover:border-accent/40 bg-bg-surface hover:bg-bg transition-all"
-                >
-                  <Cpu size={14} /> GitHub Profile
-                </Link>
-              </div>
 
               {/* Stats Pedestal Grid */}
               <div className="grid grid-cols-3 gap-6 pt-10 border-t border-border-strong mt-10">
