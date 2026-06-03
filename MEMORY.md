@@ -27,3 +27,8 @@ This file captures verified architectural decisions, hard-won debugging insights
 
 ## 6. Operational Synchronization Rules
 - **Deployment & Source Control Sync**: Whenever Sir issues a command to "deploy to Cloudflare", it implicitly triggers a push to GitHub. Conversely, whenever Sir commands to "push to GitHub", it implicitly triggers a deployment to Cloudflare. Both pipelines must always run in sync to prevent environment drift.
+
+## 7. About Section & Styling Redesign
+- **WANDER.ph Grid Architecture**: Redesigned the main About section into a custom 2-column layout. The left column contains direct developer stack information and client-side metrics, while the right column houses a stacked three-card grid detailing the simulator, attendance tracker, and PDF tool.
+- **Theme Color Safety**: Ensured card colors dynamically resolve correctly for both light theme and dark mode (using Next.js standard theme variables and tailwind overrides).
+
