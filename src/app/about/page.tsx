@@ -58,7 +58,7 @@ export default function AboutPage() {
             <h1 className="text-5xl sm:text-7xl font-serif tracking-tight leading-[1.1] mb-8 text-text-primary">
               Clarity in the midst of academic chaos.
             </h1>
-            <p className="text-xl sm:text-2xl text-text-secondary font-light leading-relaxed">
+            <p className="text-xl sm:text-2xl text-text-primary font-light leading-relaxed">
               Scholar Atlas is a quiet, powerful workspace designed to track grades, predict outcomes, and manage classes—without the noise of traditional school portals.
             </p>
           </header>
@@ -85,14 +85,14 @@ export default function AboutPage() {
                   <span className="text-accent mt-1"><Lock size={20} strokeWidth={1.5}/></span>
                   <div>
                     <h3 className="text-lg font-serif mb-2 text-text-primary">Absolute Privacy</h3>
-                    <p className="text-text-secondary leading-relaxed">Everything happens locally in your browser. Your grades and data are stored on your machine and never sent to our servers. We cannot see it, and we cannot sell it.</p>
+                    <p className="text-text-primary leading-relaxed">Everything happens locally in your browser. Your grades and data are stored on your machine and never sent to our servers. We cannot see it, and we cannot sell it.</p>
                   </div>
                 </li>
                 <li className="flex gap-4">
                   <span className="text-accent mt-1"><Zap size={20} strokeWidth={1.5}/></span>
                   <div>
                     <h3 className="text-lg font-serif mb-2 text-text-primary">Uncompromising Speed</h3>
-                    <p className="text-text-secondary leading-relaxed">Because there is no backend database slowing things down, navigating between your dashboard, attendance, and grades is instantaneous.</p>
+                    <p className="text-text-primary leading-relaxed">Because there is no backend database slowing things down, navigating between your dashboard, attendance, and grades is instantaneous.</p>
                   </div>
                 </li>
               </ul>
@@ -111,7 +111,7 @@ export default function AboutPage() {
                  <div>
                    <BarChart4 className="mb-8 text-accent" size={28} strokeWidth={1} />
                    <h3 className="text-xl font-serif mb-4 text-text-primary">Grade Engine</h3>
-                   <p className="text-sm text-text-secondary leading-relaxed">
+                   <p className="text-sm text-text-primary leading-relaxed">
                      Input your syllabus weights. Log your assignment scores. The engine instantly calculates what you need on the final to secure your target grade. No guesswork.
                    </p>
                  </div>
@@ -122,7 +122,7 @@ export default function AboutPage() {
                  <div>
                    <CheckCircle2 className="mb-8 text-accent" size={28} strokeWidth={1} />
                    <h3 className="text-xl font-serif mb-4 text-text-primary">Attendance Matrix</h3>
-                   <p className="text-sm text-text-secondary leading-relaxed">
+                   <p className="text-sm text-text-primary leading-relaxed">
                      A precise ledger of your presence. Track cuts, set mandatory attendance thresholds, and receive warnings before you breach university limits.
                    </p>
                  </div>
@@ -133,7 +133,7 @@ export default function AboutPage() {
                  <div>
                    <Library className="mb-8 text-accent" size={28} strokeWidth={1} />
                    <h3 className="text-xl font-serif mb-4 text-text-primary">Local Utilities</h3>
-                   <p className="text-sm text-text-secondary leading-relaxed">
+                   <p className="text-sm text-text-primary leading-relaxed">
                      Merge, split, and edit PDFs directly inside the browser using your machine&apos;s memory. Your sensitive assignments never touch an external server.
                    </p>
                  </div>
@@ -160,7 +160,7 @@ export default function AboutPage() {
                      <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary w-20 pt-1">
                        {change.type}
                      </span>
-                     <span className="text-base text-text-secondary">
+                     <span className="text-base text-text-primary">
                        {change.description}
                      </span>
                    </div>
@@ -180,7 +180,7 @@ export default function AboutPage() {
              <h2 className="text-4xl sm:text-6xl font-serif tracking-tight mb-8 text-text-primary">
                Ready to begin?
              </h2>
-             <p className="text-lg text-text-secondary mb-12 max-w-lg mx-auto">
+             <p className="text-lg text-text-primary mb-12 max-w-lg mx-auto">
                Initialize your local workspace today and take absolute control over your academic trajectory.
              </p>
              
