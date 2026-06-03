@@ -31,7 +31,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-bg-base font-body flex flex-col text-text-primary selection:bg-accent/10 selection:text-accent">
+    <div className="about-section min-h-screen bg-bg-base font-body flex flex-col text-text-primary selection:bg-accent/10 selection:text-accent">
       <Navigation />
       
       {isPageLoading ? (

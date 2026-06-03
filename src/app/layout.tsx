@@ -1,9 +1,24 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Manrope } from "next/font/google";
+import { Playfair_Display, Manrope, Inter, Lora, Space_Grotesk } from "next/font/google";
 import { Toaster } from "sonner";
 import { SubscriptionProvider } from "@/components/SubscriptionProvider";
 import { KeepAlive } from "@/components/KeepAlive";
 import "./globals.css";
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+});
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -28,7 +43,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${manrope.variable} ${playfair.variable} h-full antialiased overflow-x-hidden`}
+      className={`${inter.variable} ${lora.variable} ${spaceGrotesk.variable} ${manrope.variable} ${playfair.variable} h-full antialiased overflow-x-hidden`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: `

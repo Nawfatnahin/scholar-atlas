@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 
 export default function ChangelogPage() {
   return (
-    <div className="min-h-screen bg-bg font-body flex flex-col relative overflow-hidden text-ink">
+    <div className="about-section min-h-screen bg-bg font-body flex flex-col relative overflow-hidden text-ink">
       {/* Decorative Background Elements */}
       <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
       
@@ -94,10 +94,10 @@ export default function ChangelogPage() {
 
       <style jsx>{`
         .font-serif {
-          font-family: var(--font-lora), serif;
+          font-family: var(--font-playfair), serif;
         }
         .font-black {
-          font-family: var(--font-space-grotesk), sans-serif;
+          font-family: var(--font-manrope), sans-serif;
           font-weight: 900;
         }
       `}</style>

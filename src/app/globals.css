@@ -780,3 +780,20 @@ html, body {
     scrollbar-width: none;
   }
 }
+
+/* About Section Font Overrides */
+.about-section h1,
+.about-section h2,
+.about-section h3,
+.about-section h4,
+.about-section h5,
+.about-section h6,
+.about-section .font-serif {
+  font-family: var(--font-playfair), serif !important;
+}
+
+.about-section,
+.about-section .font-body,
+.about-section .font-sans {
+  font-family: var(--font-manrope), sans-serif !important;
+}
