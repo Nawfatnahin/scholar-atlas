@@ -19,8 +19,46 @@ export default function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (isFirstPage && typeof window !== "undefined" && window.location.hash) {
+      const hash = window.location.hash.substring(1);
+      const timer = setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 400); // 400ms delay to allow elements to hydrate and mount
+      return () => clearTimeout(timer);
+    }
+  }, [isFirstPage, pathname]);
+
   const handleLogout = async () => {
     await logout();
+  };
+
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    if (isFirstPage) {
+      e.preventDefault();
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.pushState(null, "", `/#${targetId}`);
+      }
+    }
+  };
+
+  const handleMobileScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    setMobileMenuOpen(false);
+    if (isFirstPage) {
+      e.preventDefault();
+      const element = document.getElementById(targetId);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+        window.history.pushState(null, "", `/#${targetId}`);
+      }
+    }
   };
 
   return (
@@ -50,7 +88,7 @@ export default function Navigation() {
           </Link>
         ) : (
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-accent flex items-center justify-center shadow-md transition-transform group-hover:scale-110">
+            <div className="w-8 h-8 rounded-lg bg-[#92400e] dark:bg-[#833AB4] flex items-center justify-center shadow-md transition-transform group-hover:scale-110">
               <svg viewBox="0 0 20 20" className="w-4 h-4 fill-white">
                 <path d="M10 2L3 7v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1V7l-7-5z" />
               </svg>
@@ -61,9 +99,9 @@ export default function Navigation() {
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          <Link href="/#features" className="text-sm font-semibold text-ink-2 hover:text-accent transition-colors">Features</Link>
-          <Link href="/#how" className="text-sm font-semibold text-ink-2 hover:text-accent transition-colors">How it works</Link>
-          <Link href="/#pricing" className="text-sm font-semibold text-ink-2 hover:text-accent transition-colors">Pricing</Link>
+          <Link href="/#features" onClick={(e) => handleScrollTo(e, "features")} className="text-sm font-semibold text-ink-2 hover:text-accent transition-colors">Features</Link>
+          <Link href="/#how" onClick={(e) => handleScrollTo(e, "how")} className="text-sm font-semibold text-ink-2 hover:text-accent transition-colors">How it works</Link>
+          <Link href="/#pricing" onClick={(e) => handleScrollTo(e, "pricing")} className="text-sm font-semibold text-ink-2 hover:text-accent transition-colors">Pricing</Link>
           <Link href="/about" className="text-sm font-semibold text-ink-2 hover:text-accent transition-colors">About</Link>
         </div>
         
@@ -104,15 +142,15 @@ export default function Navigation() {
             : "opacity-0 scale-y-95 -translate-y-2 invisible"
         }`}
       >
-        <Link href="/#features" onClick={() => setMobileMenuOpen(false)} className="text-base font-bold py-3.5 border-b border-border-strong/50 flex items-center justify-between text-ink hover:text-accent transition-colors">
+        <Link href="/#features" onClick={(e) => handleMobileScrollTo(e, "features")} className="text-base font-bold py-3.5 border-b border-border-strong/50 flex items-center justify-between text-ink hover:text-accent transition-colors">
           <span>Features</span>
           <span className="text-ink-4">→</span>
         </Link>
-        <Link href="/#how" onClick={() => setMobileMenuOpen(false)} className="text-base font-bold py-3.5 border-b border-border-strong/50 flex items-center justify-between text-ink hover:text-accent transition-colors">
+        <Link href="/#how" onClick={(e) => handleMobileScrollTo(e, "how")} className="text-base font-bold py-3.5 border-b border-border-strong/50 flex items-center justify-between text-ink hover:text-accent transition-colors">
           <span>How it works</span>
           <span className="text-ink-4">→</span>
         </Link>
-        <Link href="/#pricing" onClick={() => setMobileMenuOpen(false)} className="text-base font-bold py-3.5 border-b border-border-strong/50 flex items-center justify-between text-ink hover:text-accent transition-colors">
+        <Link href="/#pricing" onClick={(e) => handleMobileScrollTo(e, "pricing")} className="text-base font-bold py-3.5 border-b border-border-strong/50 flex items-center justify-between text-ink hover:text-accent transition-colors">
           <span>Pricing</span>
           <span className="text-ink-4">→</span>
         </Link>
