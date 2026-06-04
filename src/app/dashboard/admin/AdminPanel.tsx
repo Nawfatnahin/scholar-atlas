@@ -1336,8 +1336,8 @@ export default function AdminPanel({
                           </div>
                        </div>
                     </div>
-                 </Interactive3DBox>
-              </div>
+               </div>
+            </div>
            </div>
         </div>
 
