@@ -159,10 +159,26 @@ export function MarksEntryModal({
 
   // -- Save handler --
   const handleSave = async () => {
-    if (!allFilled) {
-      toast.error('Please fill all required marks before saving, Sir.');
+    // Validate partial CT inputs
+    for (const f of ctForms) {
+      if ((f.marks_obtained !== '' && f.total_marks === '') || (f.marks_obtained === '' && f.total_marks !== '')) {
+        toast.error(`Please fill both obtained and total marks for CT ${f.ct_number}, Sir.`);
+        return;
+      }
+    }
+
+    // Validate partial Assignment inputs
+    if ((assignmentObtained !== '' && assignmentTotal === '') || (assignmentObtained === '' && assignmentTotal !== '')) {
+      toast.error('Please fill both obtained and total marks for assignments, Sir.');
       return;
     }
+
+    // Validate attendance link selection
+    if (attendanceLinked && !attendanceCourseId) {
+      toast.error('Please select a subject to link from the attendance tracker, Sir.');
+      return;
+    }
+
     setIsSaving(true);
     try {
       const courseRes = await saveAutoCourse({
@@ -625,11 +641,11 @@ export function MarksEntryModal({
             </button>
             <button
               onClick={handleSave}
-              disabled={isSaving || !allFilled}
+              disabled={isSaving}
               className="flex items-center gap-2 bg-[#92400e] text-white px-8 py-3.5 rounded-2xl font-black text-xs uppercase tracking-[0.3em] hover:bg-[#78350f] transition-all disabled:opacity-50 shadow-xl shadow-[#92400e]/20 active:scale-95"
             >
               <Save className="w-4 h-4" />
-              {isSaving ? 'Saving...' : allFilled ? 'Save Marks' : 'Fill All Fields First'}
+              {isSaving ? 'Saving...' : 'Save Marks'}
             </button>
           </div>
         </motion.div>
