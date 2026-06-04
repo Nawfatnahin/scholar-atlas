@@ -50,13 +50,9 @@ export default function AboutPage() {
           {/* Header Section */}
           <header className="mb-24 sm:mb-40 max-w-5xl">
             <div className="mb-8">
-              <span className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-bg-surface/60 backdrop-blur-md border border-border-default rounded-full text-sm font-mono font-bold tracking-wider text-text-secondary hover:border-accent/40 dark:hover:border-accent-color/40 hover:scale-[1.02] transition-all duration-300 shadow-sm">
-                <span className="relative flex h-2.5 w-2.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent dark:bg-accent-soft opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent dark:bg-accent-soft"></span>
-                </span>
+              <span className="inline-flex items-center gap-2 px-5 py-2 bg-accent/[0.06] dark:bg-accent-deep/15 border border-accent/20 dark:border-accent-deep/30 rounded-full text-sm font-mono font-bold tracking-wider text-accent dark:text-accent-soft hover:scale-[1.02] transition-all duration-300 shadow-[0_2px_10px_rgba(146,64,14,0.03)] dark:shadow-[0_2px_10px_rgba(131,58,180,0.05)]">
                 <span>Version</span>
-                <span className="text-accent dark:text-accent-soft font-black">{APP_VERSION.current}</span>
+                <span className="font-black">{APP_VERSION.current}</span>
               </span>
             </div>
             <h1 className="text-5xl sm:text-7xl font-serif tracking-tight leading-[1.1] mb-8 text-text-primary">
