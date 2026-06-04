@@ -35,7 +35,7 @@ module.exports = {
         accent: "#92400e",
         "accent-orange": "#f97316",
         "accent-amber": "#f59e0b",
-        "accent-light": "#F5EFEB",
+        "accent-light": "var(--panel-alt)",
         "border-strong": "rgba(0, 0, 0, 0.08)",
         // Adding Jarvis colors as separate namespace
         jarvis: {

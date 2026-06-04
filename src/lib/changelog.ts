@@ -16,10 +16,9 @@ export const CHANGELOG: VersionEntry[] = [
   {
     version: "1.3",
     date: "2026-05-30",
-    summary: "Multi-Semester CGPA Manager, LoggerOS Integration, and Admin Dashboards",
+    summary: "Multi-Semester CGPA Manager, UserBadge Mobile Layout, and Search Optimization",
     changes: [
       { type: "NEW", description: "Multi-semester tabs layout, degree progress widget, and cumulative forecasting" },
-      { type: "NEW", description: "Integrated LoggerOS administrative system console and live API stream logs" },
       { type: "NEW", description: "Implemented responsive UserBadge layout and mobile navigation optimizations" },
       { type: "NEW", description: "Created crawler control policy (robots.ts) to restrict data scraping" },
     ],

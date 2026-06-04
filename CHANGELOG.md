@@ -6,7 +6,6 @@ Format: [version] — YYYY-MM-DD
 
 ### Added
 - **Multi-Semester CGPA Manager**: Multi-semester tabs layout, degree progress widget, and cumulative forecasting.
-- **LoggerOS Admin Panel Dashboard**: Integrated admin control panel with interactive SVG status rings and typewriter J.A.R.V.I.S. terminals.
 - **AI Scraper & Search Optimization**: Configured robots.ts crawler policies to block trainers while supporting index visibility.
 - **UserBadge Mobile Navigation**: Designed compact badge styling and layout for narrow viewports.
 
