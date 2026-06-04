@@ -35,7 +35,7 @@ export default function AboutPage() {
       <Navigation />
       
       {isPageLoading ? (
-        <main className="flex-1 max-w-5xl mx-auto px-6 py-24 sm:py-32 w-full animate-pulse">
+        <main className="flex-1 max-w-7xl mx-auto px-6 py-24 sm:py-32 w-full animate-pulse">
            <div className="h-16 w-3/4 bg-border-default rounded-md mb-8" />
            <div className="h-6 w-1/2 bg-border-default rounded-md mb-24" />
            
@@ -45,10 +45,10 @@ export default function AboutPage() {
            </div>
         </main>
       ) : (
-        <main className="flex-1 max-w-5xl mx-auto px-6 py-20 sm:py-32 w-full fade-in-up">
+        <main className="flex-1 max-w-7xl mx-auto px-6 py-20 sm:py-32 w-full fade-in-up">
           
           {/* Header Section */}
-          <header className="mb-24 sm:mb-40 max-w-3xl">
+          <header className="mb-24 sm:mb-40 max-w-5xl">
             <div className="mb-8">
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-accent/10 border border-accent/25 rounded-full text-xs font-mono font-semibold tracking-wide text-accent">
                 <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse-slow"></span>
@@ -143,7 +143,7 @@ export default function AboutPage() {
 
           {/* Simplified Changelog Section */}
           <section className="mb-32">
-             <div className="glass-card rounded-[32px] p-12 sm:p-20">
+             <div className="bg-gradient-to-br from-white/80 to-white/40 dark:from-bg-elevated/80 dark:to-bg-base/40 border border-transparent bg-clip-padding relative shadow-[0_30px_60px_rgba(249,115,22,0.08)] dark:shadow-[0_30px_60px_rgba(253,29,29,0.12)] before:absolute before:inset-0 before:rounded-[32px] before:p-[2px] before:bg-gradient-to-r before:from-accent/40 before:via-accent-soft/40 before:to-accent-deep/40 dark:before:from-[#833AB4]/60 dark:before:via-[#FD1D1D]/60 dark:before:to-[#F77737]/60 before:-z-10 before:content-[''] rounded-[32px] p-12 sm:p-20 transition-all duration-500 hover:-translate-y-1">
                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-16 gap-6">
                  <div>
                    <p className="text-xs font-bold tracking-widest uppercase text-accent mb-4">Current Release</p>
@@ -154,7 +154,7 @@ export default function AboutPage() {
                  </p>
                </div>
                
-               <div className="space-y-4 max-w-2xl">
+               <div className="space-y-4 max-w-4xl w-full">
                  {currentRelease.changes.map((change, i) => (
                    <div key={i} className="flex gap-6 items-start border-b border-border-subtle pb-4 last:border-0 last:pb-0">
                      <span className="text-[10px] font-mono uppercase tracking-widest text-text-tertiary w-20 pt-1">
