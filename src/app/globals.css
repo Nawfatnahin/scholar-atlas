@@ -70,7 +70,12 @@ html, body {
 
 @layer base {
   body {
-    @apply bg-bg-base text-text-primary font-body antialiased selection:bg-accent/10 selection:text-accent;
+    @apply bg-bg-base text-text-primary font-body antialiased;
+  }
+
+  ::selection {
+    background-color: var(--accent-glow);
+    color: var(--accent-color);
   }
   
   h1, h2, h3, h4, h5, h6 {
