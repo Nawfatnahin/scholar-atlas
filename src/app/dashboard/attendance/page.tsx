@@ -56,12 +56,12 @@ export default async function AttendancePage() {
           <div className="flex items-center gap-2 sm:gap-4">
             <InstructionButton 
               title="Attendance Tracker"
-              description="Monitor your overall semester health with precision, log class statuses in real-time, and view high-fidelity trend charts."
+              description="Track your attendance, stay above required thresholds, and view your patterns over time."
               options={[
-                { title: "Automated Semester Health Tracking", description: "The system tracks your overall attendance percentage automatically. If it falls below your required threshold, subjects are flagged as 'Attention' or 'Critical' immediately, helping you stay ahead of policy drops." },
-                { title: "Instant Log & Status Control", description: "Within the active course section, click 'Present', 'Absent', or 'Cancelled' on any day. The system logs the timestamped session and updates your cumulative tracker in real-time with absolute precision." },
-                { title: "Holiday & Cancellation Manager", description: "Easily register scheduled university holidays or specific class cancellations. These logged adjustments reduce total planned class counts, ensuring that your health score isn't unfairly lowered by missed days." },
-                { title: "Precision Attendance Trend Chart", description: "View a high-fidelity visual history of your course attendance progress over time. Spot attendance patterns, audit historical metrics, and check exactly where critical dips occurred." }
+                { title: "Attendance Health", description: "Monitors your overall attendance. If your percentage falls below the threshold, it flags subjects needing attention." },
+                { title: "Log Sessions", description: "Click 'Present', 'Absent', or 'Cancelled' to record class status. Your attendance percentage updates instantly." },
+                { title: "Holidays & Cancellations", description: "Add holidays or class cancellations. Cancelled classes don't count against your attendance score." },
+                { title: "Trend Chart", description: "View your attendance trends over time to spot patterns and check when dips occurred." }
               ]}
             />
           </div>

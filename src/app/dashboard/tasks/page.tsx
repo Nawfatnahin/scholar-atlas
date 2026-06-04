@@ -46,11 +46,11 @@ export default async function TasksPage() {
           <div className="flex items-center gap-4">
             <InstructionButton 
               title="Task Tracker"
-              description="Organize your workload, assign course linkages, and manage your pipeline with efficiency."
+              description="Organize your academic tasks, set priorities, and track your progress."
               options={[
-                { title: "Task Lifecycle Creation", description: "Add new tasks, homework assignments, or projects with descriptive titles. Assign priority weights (Low, Medium, High) and register explicit due dates." },
-                { title: "Subject-Linked Deadlines", description: "Link your tasks directly to active subjects from your Attendance Tracker. This integrates your tasks and coursework directly to academic trackers for visual clarity." },
-                { title: "Dynamic Kanban Pipeline", description: "Keep track of active work by moving tasks between 'To Do', 'In Progress', and 'Completed' pipelines. The system tracks your progress stats to maintain a clean backlog." }
+                { title: "Create Tasks", description: "Add tasks with titles, select priority levels (Low, Medium, High), and set due dates." },
+                { title: "Link to Subjects", description: "Connect tasks to your courses to keep track of assignments and homework for each subject." },
+                { title: "Kanban Board", description: "Drag and drop tasks between 'To Do', 'In Progress', and 'Done' columns to track your work visually." }
               ]}
             />
           </div>

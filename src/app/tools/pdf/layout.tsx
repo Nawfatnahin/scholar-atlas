@@ -33,13 +33,13 @@ export default function PdfToolsLayout({
           <div className="flex items-center gap-4">
             <InstructionButton 
               title="PDF Toolkit"
-              description="Transform, split, and merge your academic documents. All processing runs 100% securely inside your local browser sandbox—zero data ever uploads to any external server."
+              description="Merge, split, or convert documents. All actions happen locally in your browser—no files are uploaded to any server, keeping your data 100% private."
               options={[
-                { title: "Seamless PDF Merger", description: "Upload multiple PDF materials, research papers, or syllabus documents. Reorder the uploaded files effortlessly using drag-and-drop actions, and merge them into a single continuous PDF in milliseconds." },
-                { title: "Precision Page Splitter", description: "Extract individual chapters or specific page subsets from heavy textbooks. Define your custom target ranges, split them instantly into isolated PDF files, and download only the content you need." },
-                { title: "High-Resolution PDF to Images", description: "Convert complete PDF documents or specific page selections into high-quality JPG or PNG images. Excellent for slide extraction, study graphics, or visual presentations." },
-                { title: "Images to PDF Compiler", description: "Upload digital notes, sketches, or photos (JPG, PNG, WebP) and compile them into a single, beautifully-aligned PDF document. Adjust ordering and orientation effortlessly before exporting." },
-                { title: "100% Client-Side Privacy", description: "All PDF and image manipulation processes execute natively inside your web browser. Your private academic materials, grades, and records are completely safe and stay on your device." }
+                { title: "Merge PDFs", description: "Select multiple PDF files, drag to reorder them, and combine them into a single PDF instantly." },
+                { title: "Split PDF", description: "Enter page ranges (like 1-5, 8) to extract specific pages from a PDF and download them as a new file." },
+                { title: "PDF to Images", description: "Convert your PDF pages into high-quality images (PNG/JPG) for presentations or easy viewing." },
+                { title: "Images to PDF", description: "Upload images (JPG, PNG, WebP), rearrange their order, and compile them into a clean PDF document." },
+                { title: "Local Privacy", description: "All files stay on your device. We do not upload, store, or view any of your documents." }
               ]}
             />
           </div>
