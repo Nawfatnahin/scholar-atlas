@@ -896,7 +896,7 @@ export default function AdminPanel({
                      UPTIME {metrics.uptime}
                    </span>
                  </div>
-              </Interactive3DBox>
+              </div>
            </div>
 
            {/* ── ACCESS CODE GENERATOR ── */}
