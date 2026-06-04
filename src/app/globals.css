@@ -3,39 +3,41 @@
 @tailwind utilities;
 
 :root {
-  --bg-base:        #D9D6CD;
-  --bg-surface:     #E6E4DF;
-  --bg-elevated:    #EBE9E4;
-  --border-subtle:  rgba(0, 0, 0, 0.06);
-  --border-default: rgba(0, 0, 0, 0.12);
+  --bg-base:        #F4F4F5;
+  --bg-surface:     #FFFFFF;
+  --bg-elevated:    #FAFAFA;
+  --border-subtle:  rgba(0, 0, 0, 0.04);
+  --border-default: rgba(0, 0, 0, 0.08);
   --text-primary:   #0F1117;
-  --text-secondary: #5C6070;
-  --text-tertiary:  #9DA3B0;
-  --panel-alt:      #DCD6D2;
-  --accent-color:   #f97316;
-  --accent-soft:    #f59e0b;
-  --accent-deep:    #92400e;
-  --accent-glow:    rgba(249, 115, 22, 0.18);
-  --accent-line:    rgba(146, 64, 14, 0.3);
+  --text-secondary: #555555;
+  --text-tertiary:  #757575;
+  --panel-alt:      #E4E4E7;
+  --accent-color:   #E07A3C;
+  --accent-soft:    #F5A97F;
+  --accent-deep:    #B05C2B;
+  --accent-glow:    rgba(224, 122, 60, 0.15);
+  --accent-line:    rgba(176, 92, 43, 0.25);
   --bg-panel-left:  rgba(255, 255, 255, 0.4);
+  --track-bg:       #E5E7EB;
 }
 
 .dark {
-  --bg-base:        #000000;
-  --bg-surface:     #080808;
-  --bg-elevated:    #101010;
+  --bg-base:        #0F0F0F;
+  --bg-surface:     #161618;
+  --bg-elevated:    #1E1E22;
   --border-subtle:  rgba(255, 255, 255, 0.04);
   --border-default: rgba(255, 255, 255, 0.08);
   --text-primary:   #FFFFFF;
-  --text-secondary: #a8a8a8;
-  --text-tertiary:  #6b6b6b;
-  --panel-alt:      #121214;
-  --accent-color:   #FD1D1D;
-  --accent-soft:    #F77737;
-  --accent-deep:    #833AB4;
-  --accent-glow:    rgba(253, 29, 29, 0.18);
-  --accent-line:    rgba(253, 29, 29, 0.3);
+  --text-secondary: #A0A0A0;
+  --text-tertiary:  #808080;
+  --panel-alt:      #1F222A;
+  --accent-color:   #E07A3C;
+  --accent-soft:    #F5A97F;
+  --accent-deep:    #B05C2B;
+  --accent-glow:    rgba(224, 122, 60, 0.15);
+  --accent-line:    rgba(176, 92, 43, 0.25);
   --bg-panel-left:  rgba(0, 0, 0, 0.2);
+  --track-bg:       #2A2A2A;
 }
 
 /* Smooth transition when toggling — applied to everything */
@@ -115,7 +117,7 @@ html, body {
   }
 
   .dark .text-ink-3 {
-    color: #6b6b6b !important;
+    color: #A0A0A0 !important;
   }
 
   /* Text gradient for accent elements, EXCLUDING buttons, SVGs, or flex containers */
