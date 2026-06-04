@@ -12,7 +12,7 @@ from datetime import datetime, timezone, timedelta
 logger = logging.getLogger("LEARNING_PROTOCOL")
 
 _ROOT = Path(__file__).resolve().parent.parent
-_VERSIONS_DIR = _ROOT.parent / "JARVIS versions"
+_VERSIONS_DIR = _ROOT / "versions"
 
 sys.path.insert(0, str(_ROOT))
 try:
@@ -101,7 +101,7 @@ def log_learning(summary: str, details: str = None) -> bool:
             f.write(new_content)
             
         # Log to development_log.json
-        log_change(f"JARVIS versions/{codename}.md", f"Committed dynamic learning: {summary}", "LEARN")
+        log_change(f"JARVIS/versions/{codename}.md", f"Committed dynamic learning: {summary}", "LEARN")
         
         logger.info("✦ NOMINAL | LEARNING_PROTOCOL | Logged learning to %s.md: %s", codename, summary)
         return True

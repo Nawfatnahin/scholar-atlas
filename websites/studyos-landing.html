@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scholar Atlas — Your Academic Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Manrope:wght@300..600&family=Playfair+Display:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2EFE6; /* Deeper Cream/Ivory background */
+    --white: #FFFFFF;
+    --ink: #0D0D0D;
+    --ink-2: #3D3D3D;
+    --ink-3: #7A7A7A;
+    --ink-4: #B0B0B0;
+    --accent: #2B2B2B;
+    --accent-organized: #A67B5B; /* Creamy Brown */
+    --accent-premium: #C19A6B; /* Premium Gold/Cream Brown */
+    --accent-light: #EBEBEB;
+    --accent-mid: #999999;
+    --cream-brown: #C19A6B;
+    --cream-brown-light: #F5EFEB;
+    --green: #16A34A;
+    --green-light: #DCFCE7;
+    --amber: #D97706;
+    --amber-light: #FEF3C7;
+    --red: #DC2626;
+    --red-light: #FEE2E2;
+    --border: rgba(40,30,20,0.06);
+    --border-strong: rgba(40,30,20,0.12);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+    --font-display: 'Bricolage Grotesque', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+  }
+
+  .special-word {
+    font-weight: 900;
+    font-size: 1.15em;
+    color: #000000;
+    position: relative;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── UTILITIES ─────────────────────────────────────────────── */
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; padding: 8px 20px;
+    border-radius: 24px;
+    color: var(--ink-2);
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #ffffff, #f4f2ea);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03), inset 0 1px 0 white, inset 0 -2px 0 rgba(0,0,0,0.03);
+    transform: translateY(0);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06), inset 0 1px 0 white, inset 0 -2px 0 rgba(0,0,0,0.03);
+  }
+  .tag-dot { 
+    width: 8px; height: 8px; border-radius: 50%; 
+    background: rgba(193, 154, 107, 0.5); 
+    box-shadow: 0 0 8px 3px rgba(193, 154, 107, 0.4); 
+    animation: pulse-glow 2s infinite alternate; 
+  }
+  @keyframes pulse-glow {
+    from { opacity: 0.6; box-shadow: 0 0 4px 1px rgba(193, 154, 107, 0.3); }
+    to { opacity: 1; box-shadow: 0 0 10px 4px rgba(193, 154, 107, 0.5); }
+  }
+
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── NAVBAR ─────────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 14px 0;
+    background: rgba(242,239,230,0.45);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: background .4s, backdrop-filter .4s;
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--font-display); font-size: 20px; font-weight: 700;
+    color: var(--ink); text-decoration: none; letter-spacing: -.02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(146, 64, 14, 0.85); 
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(146, 64, 14, 0.2);
+  }
+  .logo-mark svg { width: 16px; height: 16px; fill: white; }
+  .nav-links { display: flex; align-items: center; gap: 6px; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500; color: var(--ink-2);
+    text-decoration: none; padding: 7px 14px; border-radius: 8px;
+    transition: background .2s, color .2s;
+  }
+  .nav-links a:hover { background: var(--white); color: var(--ink); }
+  .nav-cta {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .btn-ghost {
+    font-size: 14px; font-weight: 500; color: var(--ink-2);
+    text-decoration: none; padding: 8px 16px; border-radius: 8px;
+    transition: color .2s;
+  }
+  .btn-ghost:hover { color: var(--ink); }
+  .btn-primary {
+    font-family: var(--font-body); font-size: 14px; font-weight: 600;
+    color: white; 
+    background: rgba(146, 64, 14, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 10px; padding: 9px 20px;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s, transform .15s;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(146, 64, 14, 0.15);
+  }
+  .btn-primary:hover { 
+    background: rgba(146, 64, 14, 1); 
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(146, 64, 14, 0.25);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-large {
+    font-size: 15px; padding: 14px 28px; border-radius: 12px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline {
+    font-family: var(--font-body); font-size: 15px; font-weight: 600;
+    color: var(--ink); background: transparent;
+    border: 1px solid var(--border-strong); border-radius: 12px;
+    padding: 13px 28px; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background .2s, border-color .2s;
+  }
+  .btn-outline:hover { background: var(--white); border-color: rgba(0,0,0,.18); }
+
+  /* Hamburger for mobile */
+  .hamburger {
+    display: none; background: none; border: none;
+    cursor: pointer; padding: 6px; border-radius: 8px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--ink); border-radius: 2px; margin: 4px 0;
+    transition: all .3s;
+  }
+
+  /* ── HERO ───────────────────────────────────────────────────────────── */
+  .hero {
+    padding: 148px 0 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  }
+  .hero-blob {
+    position: absolute; border-radius: 50%;
+    filter: blur(120px); opacity: .20;
+  }
+  .hero-blob-1 {
+    width: 600px; height: 600px;
+    background: #2756E8; top: -120px; right: -80px;
+  }
+  .hero-blob-2 {
+    width: 400px; height: 400px;
+    background: #8B5CF6; top: 200px; right: 200px;
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 64px; align-items: center;
+  }
+  .hero-content {}
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 14px; font-weight: 600; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent);
+    padding: 10px 24px; border-radius: 32px; margin-bottom: 24px;
+    background: linear-gradient(135deg, var(--accent-light), #ffffff);
+    border: 1px solid rgba(43,43,43,0.15);
+    box-shadow: 0 4px 8px rgba(43,43,43,0.1), inset 0 1px 0 rgba(255,255,255,0.8);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .hero-eyebrow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(43,43,43,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+  .hero-eyebrow-dot { 
+    width: 8px; height: 8px; border-radius: 50%; 
+    background: rgba(193, 154, 107, 0.5); 
+    box-shadow: 0 0 8px 3px rgba(193, 154, 107, 0.4); 
+    animation: pulse-glow 2s infinite alternate; 
+  }
+
+  h1 {
+    font-family: var(--font-serif);
+    font-size: clamp(42px, 5vw, 64px);
+    font-weight: 700; line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 22px;
+  }
+  h1 .accent-word { 
+    color: #000000; /* Pure Black */
+    font-weight: 900; 
+    font-style: italic; 
+  }
+
+  .how-num-1 { background: #3B82F6 !important; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+  .how-num-2 { background: #8B5CF6 !important; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4); }
+  .how-num-3 { background: #F59E0B !important; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
+
+  .hero-sub {
+    font-size: 18px; font-weight: 400; line-height: 1.65;
+    color: var(--ink-2); margin-bottom: 36px; max-width: 440px;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .hero-note {
+    margin-top: 20px; font-size: 13px; color: var(--ink-3);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hero-note svg { width: 14px; height: 14px; opacity: .5; }
+
+  /* Hero mockup */
+  .hero-visual {
+    position: relative; display: flex; justify-content: flex-end;
+  }
+  .mockup-wrap {
+    position: relative;
+    transform: perspective(1200px) rotateY(-8deg) rotateX(3deg);
+    transform-style: preserve-3d;
+    transition: transform .5s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .mockup-wrap:hover {
+    transform: perspective(1200px) rotateY(-3deg) rotateX(1deg) translateY(-8px);
+  }
+  .mockup-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.8) 0%, rgba(250,248,242,0.8) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.06), 0 8px 10px -6px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.8);
+    padding: 20px; width: 420px; min-height: 440px;
+    position: relative; overflow: hidden;
+    transition: box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .mockup-wrap:hover .mockup-card {
+    box-shadow: 0 30px 40px -10px rgba(0,0,0,0.10), 0 15px 15px -10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,1);
+  }
+  .mockup-topbar {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 18px;
+  }
+  .mockup-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+  }
+  .mockup-dot-r { background: #FF5F57; }
+  .mockup-dot-y { background: #FEBC2E; }
+  .mockup-dot-g { background: #28C840; }
+  .mockup-tabs {
+    display: flex; gap: 4px; background: var(--bg); border-radius: 10px;
+    padding: 3px; margin-bottom: 18px; border: 1px solid var(--border);
+  }
+  .mockup-tab {
+    font-family: var(--font-body); font-size: 11px; font-weight: 600;
+    padding: 5px 12px; border-radius: 7px; border: none;
+    cursor: pointer; transition: all .2s; color: var(--ink-3);
+    background: transparent;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mockup-tab.active {
+    background: var(--white); color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+  .mockup-tab svg { width: 14px; height: 14px; }
+  .mockup-section { display: none; }
+  .mockup-section.active { display: block; }
+
+  /* Attendance mock */
+  .mock-subj-card {
+    background: var(--bg); border-radius: 12px; padding: 12px 14px;
+    margin-bottom: 8px; display: flex; justify-content: space-between;
+    align-items: center; border: 1px solid var(--border);
+  }
+  .mock-subj-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .mock-subj-meta { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+  .mock-pct {
+    font-size: 18px; font-weight: 700; font-family: var(--font-display);
+  }
+  .pct-ok { color: var(--green); }
+  .pct-warn { color: var(--amber); }
+  .pct-bad { color: var(--red); }
+  .mock-bar { height: 4px; border-radius: 2px; background: #E8E8E8; margin-top: 8px; }
+  .mock-bar-fill { height: 100%; border-radius: 2px; }
+  .bar-ok { background: var(--green); }
+  .bar-warn { background: var(--amber); }
+  .bar-bad { background: var(--red); }
+  .mock-warn-banner {
+    background: #FEF9EC; border: 1px solid #FDE68A; border-radius: 8px;
+    padding: 8px 12px; font-size: 11px; color: #92400E;
+    display: flex; gap: 6px; align-items: center; margin-bottom: 8px;
+  }
+
+  /* Tasks mock */
+  .mock-task-col { }
+  .mock-col-label {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--ink-3); margin-bottom: 8px;
+    padding: 0 2px;
+  }
+  .mock-task {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; margin-bottom: 6px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .mock-task-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .mock-task-meta { display: flex; gap: 6px; align-items: center; }
+  .mock-priority {
+    font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px;
+  }
+  .p-high { background: #FEE2E2; color: #991B1B; }
+  .p-med  { background: #FEF3C7; color: #92400E; }
+  .p-low  { background: #DCFCE7; color: #166534; }
+  .mock-due { font-size: 10px; color: var(--ink-3); }
+
+  /* PDF mock */
+  .mock-dropzone {
+    border: 2px dashed var(--border-strong); border-radius: 12px;
+    padding: 24px; text-align: center; margin-bottom: 12px;
+    background: rgba(255,255,255,0.7);
+  }
+  .mock-drop-icon { font-size: 28px; margin-bottom: 6px; }
+  .mock-drop-text { font-size: 12px; color: var(--ink-2); font-weight: 500; }
+  .mock-drop-sub { font-size: 10px; color: var(--ink-3); margin-top: 3px; }
+  .mock-ops { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .mock-op-btn {
+    background: var(--bg); border-radius: 8px; padding: 10px 8px;
+    text-align: center; font-size: 11px; font-weight: 600; color: var(--ink-2);
+    cursor: pointer; border: 1px solid var(--border);
+    transition: background .2s, border-color .2s;
+  }
+  .mock-op-btn:hover { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
+  .mock-op-btn.selected { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+  .mock-op-icon { font-size: 16px; display: block; margin-bottom: 3px; }
+  .mock-op-icon svg { width: 16px; height: 16px; }
+  .mock-file-list {}
+  .mock-file-item {
+    display: flex; align-items: center; gap: 8px; padding: 7px 0;
+    border-top: 1px solid var(--border); font-size: 11px;
+  }
+  .mock-file-icon { font-size: 16px; }
+  .mock-file-icon svg { width: 14px; height: 14px; vertical-align: middle; }
+  .mock-file-name { flex: 1; font-weight: 500; color: var(--ink); }
+  .mock-file-size { color: var(--ink-3); }
+  .mock-file-dl { color: var(--accent); font-weight: 600; cursor: pointer; }
+
+  /* Floating badges */
+  .float-badge {
+    position: absolute; background: var(--white);
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 8px 14px; box-shadow: var(--shadow-md);
+    font-size: 12px; font-weight: 600; display: flex;
+    align-items: center; gap: 6px; white-space: nowrap;
+  }
+  .float-badge-1 { top: -20px; right: -30px; animation: floatY 4s ease-in-out infinite; }
+  .float-badge-2 { bottom: 20px; left: -40px; animation: floatY 4s ease-in-out infinite .8s; }
+  @keyframes floatY { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+
+  /* ── FEATURES ─────────────────────────────────────────────────── */
+  section { padding: 140px 0; }
+  .section-label {
+    text-align: center; margin-bottom: 24px;
+  }
+  h2 {
+    font-family: var(--font-display); font-size: clamp(32px, 5vw, 56px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -.03em;
+    color: var(--ink); text-align: center; margin-bottom: 24px;
+  }
+  .section-sub {
+    font-size: 18px; color: var(--ink-2); text-align: center;
+    max-width: 520px; margin: 0 auto 56px; line-height: 1.65;
+  }
+
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  
+  .feature-card, .showcase-screen, .pricing-card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(250,248,242,0.85) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04), 0 4px 6px -2px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.6);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .feature-card {
+    padding: 32px 28px;
+    position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; border-radius: var(--r-lg) var(--r-lg) 0 0;
+    opacity: 0; transition: opacity .3s;
+  }
+  .feature-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 40px -10px rgba(0,0,0,0.12), 0 15px 15px -10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+  .pricing-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .fc-pdf::before { background: var(--accent); }
+  .fc-att::before { background: var(--green); }
+  .fc-task::before { background: var(--amber); }
+
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin-bottom: 20px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .feature-icon svg { width: 24px; height: 24px; }
+  .fi-blue { background: var(--cream-brown-light); }
+  .fi-green { background: var(--green-light); }
+  .fi-amber { background: var(--amber-light); }
+
+  .feature-card h3 {
+    font-family: var(--font-display); font-size: 20px; font-weight: 700;
+    letter-spacing: -.02em; margin-bottom: 10px;
+  }
+  .feature-card p {
+    font-size: 14px; color: var(--ink-2); line-height: 1.65; margin-bottom: 20px;
+  }
+  .feature-list { list-style: none; }
+  .feature-list li {
+    font-size: 13px; color: var(--ink-2); padding: 5px 0;
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list li::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--accent-mid); flex-shrink: 0;
+  }
+  .fc-green .feature-list li::before { background: #86EFAC; }
+  .fc-amber .feature-list li::before { background: #FCD34D; }
+
+  /* ── HOW IT WORKS ──────────────────────────────────────────────── */
+  .how { background: transparent; }
+  .how-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    position: relative;
+  }
+  .how-step { 
+    text-align: center; padding: 32px 24px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(250,248,242,0.7) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04), 0 4px 6px -2px rgba(0,0,0,0.02), inset 0 1px 0 rgba(255,255,255,0.6);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    z-index: 2;
+  }
+  .how-step:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 40px -10px rgba(0,0,0,0.12), 0 15px 15px -10px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+  .how-num {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: var(--accent); color: white;
+    font-family: var(--font-display); font-size: 20px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px; position: relative; z-index: 1;
+    box-shadow: 0 4px 10px rgba(43,43,43,0.3), 0 0 0 8px var(--accent-light);
+  }
+  .how-step h3 {
+    font-family: var(--font-display); font-size: 18px; font-weight: 700;
+    letter-spacing: -.02em; margin-bottom: 10px;
+  }
+  .how-step p { font-size: 14px; color: var(--ink-2); line-height: 1.65; }
+
+  /* ── PRODUCT SHOWCASE ──────────────────────────────────────────── */
+  .showcase-tabs {
+    display: flex; justify-content: center; gap: 6px;
+    background: var(--white); border: 1px solid var(--border-strong);
+    border-radius: 14px; padding: 5px; width: fit-content;
+    margin: 0 auto 48px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+  }
+  .showcase-tab {
+    font-family: var(--font-body); font-size: 14px; font-weight: 600;
+    padding: 10px 22px; border-radius: 10px; border: none;
+    cursor: pointer; transition: all .2s; color: var(--ink-3);
+    background: transparent; display: flex; align-items: center; gap: 7px;
+  }
+  .showcase-tab.active {
+    background: var(--accent); color: white;
+    box-shadow: 0 4px 12px rgba(43,43,43,.35);
+  }
+  .showcase-tab:not(.active):hover { background: var(--bg); color: var(--ink); }
+  .showcase-tab-icon { font-size: 16px; display: flex; align-items: center; }
+  .showcase-tab-icon svg { width: 16px; height: 16px; }
+
+  .showcase-panel { display: none; }
+  .showcase-panel.active { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+
+  .showcase-info {}
+  .showcase-info h3 {
+    font-family: var(--font-display); font-size: 30px; font-weight: 800;
+    letter-spacing: -.02em; margin-bottom: 14px; text-align: left;
+  }
+  .showcase-info p {
+    font-size: 16px; color: var(--ink-2); line-height: 1.7; margin-bottom: 24px;
+  }
+  .showcase-points { list-style: none; }
+  .showcase-points li {
+    font-size: 14px; padding: 9px 0; display: flex; gap: 10px;
+    border-bottom: 1px solid var(--border); color: var(--ink-2);
+    align-items: flex-start;
+  }
+  .showcase-points li:last-child { border-bottom: none; }
+  .sp-check {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--green-light); display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0; font-size: 10px; margin-top: 1px;
+    color: var(--green);
+  }
+  .sp-check svg { width: 12px; height: 12px; }
+
+  .showcase-screen {
+    padding: 24px;
+  }
+  .showcase-screen-bar {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 20px;
+  }
+  .ss-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2); }
+  .ss-title {
+    flex: 1; text-align: center; font-size: 12px; font-weight: 600;
+    color: var(--ink-3);
+  }
+
+  /* PDF showcase screen */
+  .ss-upload-zone {
+    border: 2px dashed var(--accent-mid); border-radius: 14px;
+    padding: 32px; text-align: center; background: var(--accent-light);
+    margin-bottom: 16px; transition: background .2s, border-color .2s;
+    cursor: pointer;
+  }
+  .ss-upload-zone:hover { background: #DDE6FF; border-color: var(--accent); }
+  .ss-upload-icon { font-size: 32px; margin-bottom: 10px; color: var(--ink-3); }
+  .ss-upload-icon svg { width: 48px; height: 48px; margin: 0 auto; }
+  .ss-upload-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .ss-upload-sub { font-size: 12px; color: var(--ink-3); }
+  .ss-tools-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .ss-tool-chip {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px; display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all .2s;
+  }
+  .ss-tool-chip:hover { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
+  .ss-tool-chip span { font-size: 18px; display: flex; align-items: center; }
+  .ss-tool-chip span svg { width: 18px; height: 18px; }
+
+  /* Attendance showcase */
+  .ss-att-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .ss-att-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+  .ss-add-btn {
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    background: var(--accent-light); border: none; border-radius: 7px;
+    padding: 5px 10px; cursor: pointer;
+  }
+  .ss-subj-row {
+    background: var(--bg); border-radius: 12px; padding: 12px 14px;
+    margin-bottom: 8px; border: 1px solid var(--border);
+  }
+  .ss-subj-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .ss-subj-name { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .ss-subj-name svg { width: 14px; height: 14px; }
+  .ss-pct-badge {
+    font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+  }
+  .ok-badge { background: var(--green-light); color: var(--green); }
+  .warn-badge { background: var(--amber-light); color: var(--amber); }
+  .ss-bar { height: 5px; background: #E5E7EB; border-radius: 3px; }
+  .ss-bar-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+  .ss-subj-meta { font-size: 11px; color: var(--ink-3); margin-top: 6px; }
+
+  /* Tasks showcase */
+  .ss-task-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .ss-task-col-head {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--ink-3); padding: 0 0 8px;
+    border-bottom: 2px solid var(--border-strong); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .col-count {
+    background: var(--bg); border-radius: 4px; padding: 1px 6px;
+    font-size: 10px; color: var(--ink-3);
+  }
+  .ss-task-item {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px; margin-bottom: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .ss-task-name { font-size: 12px; font-weight: 600; margin-bottom: 5px; line-height: 1.3; }
+  .ss-task-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .chip {
+    font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px;
+  }
+  .chip-subj { background: var(--accent-light); color: var(--accent); }
+  .chip-high { background: #FEE2E2; color: #991B1B; }
+  .chip-med  { background: #FEF3C7; color: #92400E; }
+  .chip-low  { background: #DCFCE7; color: #166534; }
+  .chip-due  { background: var(--bg); color: var(--ink-3); }
+
+  /* ── PRICING ─────────────────────────────────────────────────── */
+  .pricing { background: transparent; }
+  .pricing-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+    max-width: 860px; margin: 0 auto;
+  }
+  .pricing-card {
+    padding: 36px 32px;
+  }
+  .pricing-card.popular {
+    background: var(--ink); border-color: var(--ink);
+    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.3);
+  }
+  .pricing-card.premium {
+    background: linear-gradient(180deg, #ffffff 0%, #fdfbf7 100%);
+    border: 2px solid var(--accent-premium);
+    position: relative;
+    box-shadow: 0 20px 40px -10px rgba(193, 154, 107, 0.2);
+  }
+  .pricing-card.premium:hover {
+    border-color: #F59E0B;
+    box-shadow: 0 0 10px rgba(245, 158, 11, 0.4), 0 0 20px rgba(245, 158, 11, 0.2), 0 30px 50px -10px rgba(193, 154, 107, 0.3);
+  }
+  .pricing-card.popular:hover {
+    border-color: #3B82F6;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.6), 0 0 30px rgba(59, 130, 246, 0.3), 0 20px 30px -10px rgba(0,0,0,0.5);
+  }
+  .popular-pill {
+    display: inline-block; background: var(--accent); color: white;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(43,43,43,0.3);
+  }
+  .pricing-plan {
+    font-family: var(--font-display); font-size: 15px; font-weight: 700;
+    letter-spacing: .02em; margin-bottom: 12px;
+  }
+  .pricing-card.popular .pricing-plan { color: rgba(255,255,255,.6); }
+  .pricing-price {
+    font-family: var(--font-display); font-size: 48px; font-weight: 800;
+    letter-spacing: -.04em; color: var(--ink); line-height: 1;
+    margin-bottom: 6px;
+  }
+  .pricing-card.popular .pricing-price { color: white; }
+  .pricing-per { font-size: 13px; color: var(--ink-3); margin-bottom: 28px; }
+  .pricing-card.popular .pricing-per { color: rgba(255,255,255,.5); }
+  .pricing-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
+  .pricing-card.popular .pricing-divider { background: rgba(255,255,255,.1); }
+  .pricing-features { list-style: none; margin-bottom: 28px; }
+  .pricing-features li {
+    font-size: 14px; padding: 7px 0; display: flex; gap: 10px;
+    align-items: center; color: var(--ink-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .pricing-card.popular .pricing-features li { color: rgba(255,255,255,.75); border-bottom-color: rgba(255,255,255,.1); }
+  .pricing-features li:last-child { border-bottom: none; }
+  .check-icon { font-size: 15px; color: var(--green); display: flex; align-items: center; }
+  .check-icon svg { width: 14px; height: 14px; }
+  .btn-pricing-free {
+    display: block; text-align: center; width: 100%;
+    background: var(--white); border: 1px solid var(--border-strong);
+    color: var(--ink); font-family: var(--font-body); font-size: 14px;
+    font-weight: 700; padding: 13px; border-radius: 12px;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, border-color .2s;
+  }
+  .btn-pricing-free:hover { background: var(--bg); border-color: rgba(0,0,0,.2); }
+  .btn-pricing-pro {
+    display: block; text-align: center; width: 100%;
+    background: var(--accent); border: none; color: white;
+    font-family: var(--font-body); font-size: 14px; font-weight: 700;
+    padding: 14px; border-radius: 12px; cursor: pointer;
+    text-decoration: none; transition: opacity .2s, transform .15s;
+  }
+  .btn-pricing-pro:hover { opacity: .88; transform: translateY(-1px); }
+
+  /* ── REVIEW BOX ─────────────────────────────────────────────── */
+  .review-box {
+    background: linear-gradient(180deg, rgba(255,255,255,0.7) 0%, rgba(250,248,242,0.7) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    padding: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6);
+    text-align: center;
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  .review-box:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 40px -10px rgba(0,0,0,0.12), inset 0 1px 0 rgba(255,255,255,0.8);
+  }
+  .review-box h3 { 
+    margin-bottom: 16px; 
+    font-family: var(--font-display); 
+    font-size: 22px; 
+  }
+  .star-rating { 
+    font-size: 40px; 
+    color: var(--border-strong); 
+    cursor: pointer; 
+    margin-bottom: 24px; 
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    user-select: none;
+  }
+  .star-rating span { transition: color 0.2s, transform 0.1s; display: flex; align-items: center; }
+  .star-rating span svg { width: 32px; height: 32px; }
+  .star-rating span:active { transform: scale(0.9); }
+  .review-box textarea {
+    width: 100%;
+    height: 120px;
+    padding: 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--white);
+  }
+  .review-box textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-light);
+  }
+
+  /* ── FINAL CTA ──────────────────────────────────────────────────── */
+  .final-cta {
+    background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .final-cta-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse 60% 80% at 70% 50%, #1d3f9e 0%, transparent 70%);
+    opacity: .6;
+  }
+  .final-cta-inner {
+    position: relative; z-index: 1; text-align: center;
+  }
+  .final-cta h2 { color: white; margin-bottom: 16px; }
+  .final-cta p { color: rgba(255,255,255,.65); margin-bottom: 36px; }
+  .email-form {
+    display: flex; gap: 10px; max-width: 420px; margin: 0 auto 16px;
+  }
+  .email-input {
+    flex: 1; font-family: var(--font-body); font-size: 14px;
+    padding: 13px 16px; border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(255,255,255,.1); color: white;
+    outline: none; transition: border-color .2s;
+  }
+  .email-input::placeholder { color: rgba(255,255,255,.4); }
+  .email-input:focus { border-color: rgba(255,255,255,.4); }
+  .final-note { font-size: 13px; color: rgba(255,255,255,.4); }
+
+  /* ── FOOTER ──────────────────────────────────────────────────────── */
+  footer {
+    padding: 48px 0 32px; border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 48px;
+    margin-bottom: 40px;
+  }
+  .footer-brand {}
+  .footer-tagline { font-size: 13px; color: var(--ink-3); margin-top: 10px; line-height: 1.6; max-width: 280px; }
+  .footer-col h4 {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--ink-3); margin-bottom: 14px;
+  }
+  .footer-col a {
+    display: block; font-size: 14px; color: var(--ink-2);
+    text-decoration: none; margin-bottom: 8px; transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--ink); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--ink-3);
+  }
+  .footer-bottom-links { display: flex; gap: 20px; }
+  .footer-bottom-links a { color: var(--ink-3); text-decoration: none; }
+  .footer-bottom-links a:hover { color: var(--ink); }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { justify-content: center; }
+    .mockup-wrap { transform: none; }
+    .features-grid { grid-template-columns: 1fr; }
+    .how-grid { grid-template-columns: 1fr; }
+    .showcase-panel.active { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; max-width: 420px; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+  }
+  @media (max-width: 600px) {
+    .hero { padding: 110px 0 60px; }
+    .email-form { flex-direction: column; }
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .showcase-tabs { flex-wrap: wrap; width: 100%; }
+    .ss-task-cols { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+    h2 { font-size: 26px; }
+  }
+
+  /* ── SCROLL ANIMATIONS ────────────────────────────────────── */
+  @keyframes heroEnter {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content > * {
+    animation: heroEnter .7s ease both;
+  }
+  .hero-content > *:nth-child(1) { animation-delay: .1s; }
+  .hero-content > *:nth-child(2) { animation-delay: .22s; }
+  .hero-content > *:nth-child(3) { animation-delay: .34s; }
+  .hero-content > *:nth-child(4) { animation-delay: .46s; }
+  .hero-content > *:nth-child(5) { animation-delay: .54s; }
+  .hero-visual { animation: heroEnter .8s ease .3s both; }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20"><path d="M10 2L3 7v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1V7l-7-5z"/></svg>
+      </div>
+      Scholar Atlas
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#showcase">Modules</a>
+      <a href="#pricing">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn-ghost">Sign in</a>
+      <a href="#" class="btn-primary">Get started free</a>
+    </div>
+    <button class="hamburger" onclick="this.classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <div class="hero-eyebrow">
+          <div class="hero-eyebrow-dot"></div>
+          Built for university students
+        </div>
+        <h1>Your academic<br>life, <span class="accent-word">finally<br>organised.</span></h1>
+        <p class="hero-sub"><span class="special-word">Procrastinate</span> but don't let those backlogs build a fort around you! Stay organized, keep pushing forward and achieve your dreams. This is an all-in-one, fast, minimal platform designed to help you balance your procrastination and progress.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn-primary btn-large">
+            Start for free
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#showcase" class="btn-outline">See how it works</a>
+        </div>
+        <p class="hero-note">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Free plan — No credit card required
+        </p>
+      </div>
+
+      <div class="hero-visual">
+        <div style="position:relative">
+          <div class="float-badge float-badge-1">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+            Attendance: <strong style="color:var(--green)">84%</strong>
+          </div>
+          <div class="mockup-wrap">
+            <div class="mockup-card">
+              <div class="mockup-topbar">
+                <div class="mockup-dot mockup-dot-r"></div>
+                <div class="mockup-dot mockup-dot-y"></div>
+                <div class="mockup-dot mockup-dot-g"></div>
+              </div>
+              <div class="mockup-tabs">
+                <button class="mockup-tab active" onclick="switchMock('att', this)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  Attendance
+                </button>
+                <button class="mockup-tab" onclick="switchMock('tasks', this)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                  Tasks
+                </button>
+                <button class="mockup-tab" onclick="switchMock('pdf', this)">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14.5 2 14.5 7.5 20 7.5"/></svg>
+                  PDF
+                </button>
+              </div>
+
+              <!-- Attendance -->
+              <div class="mockup-section active" id="mock-att">
+                <div class="mock-warn-banner">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                  CSE-401 below 60% threshold
+                </div>
+                <div class="mock-subj-card">
+                  <div>
+                    <div class="mock-subj-name">Urban Planning Theory</div>
+                    <div class="mock-subj-meta">18 of 21 sessions attended</div>
+                    <div class="mock-bar"><div class="mock-bar-fill bar-ok" style="width:85%"></div></div>
+                  </div>
+                  <div class="mock-pct pct-ok">85%</div>
+                </div>
+                <div class="mock-subj-card">
+                  <div>
+                    <div class="mock-subj-name">GIS & Remote Sensing</div>
+                    <div class="mock-subj-meta">14 of 18 sessions attended</div>
+                    <div class="mock-bar"><div class="mock-bar-fill bar-warn" style="width:77%"></div></div>
+                  </div>
+                  <div class="mock-pct pct-warn">77%</div>
+                </div>
+                <div class="mock-subj-card">
+                  <div>
+                    <div class="mock-subj-name">CSE-401 Data Structures</div>
+                    <div class="mock-subj-meta">10 of 16 sessions attended</div>
+                    <div class="mock-bar"><div class="mock-bar-fill bar-bad" style="width:62%"></div></div>
+                  </div>
+                  <div class="mock-pct pct-bad">62%</div>
+                </div>
+              </div>
+
+              <!-- Tasks -->
+              <div class="mockup-section" id="mock-tasks">
+                <div style="margin-bottom:10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3)">Due this week</div>
+                <div class="mock-task">
+                  <div class="mock-task-title">Land Use Analysis Report</div>
+                  <div class="mock-task-meta">
+                    <span class="mock-priority p-high">High</span>
+                    <span class="mock-due">Due May 9</span>
+                  </div>
+                </div>
+                <div class="mock-task">
+                  <div class="mock-task-title">GIS Lab Assignment #3</div>
+                  <div class="mock-task-meta">
+                    <span class="mock-priority p-med">Medium</span>
+                    <span class="mock-due">Due May 12</span>
+                  </div>
+                </div>
+                <div class="mock-task" style="opacity:.5">
+                  <div class="mock-task-title" style="text-decoration:line-through">Read Chapter 4–6</div>
+                  <div class="mock-task-meta">
+                    <span class="mock-priority p-low">Low</span>
+                    <span class="mock-due">Done</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PDF -->
+              <div class="mockup-section" id="mock-pdf">
+                <div class="mock-dropzone">
+                  <div class="mock-drop-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.51a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                  </div>
+                  <div class="mock-drop-text">Drop PDFs here</div>
+                  <div class="mock-drop-sub">or click to browse files</div>
+                </div>
+                <div class="mock-ops">
+                  <div class="mock-op-btn selected"><span class="mock-op-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>Merge</div>
+                  <div class="mock-op-btn"><span class="mock-op-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></span>Split</div>
+                  <div class="mock-op-btn"><span class="mock-op-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span>To Images</div>
+                  <div class="mock-op-btn"><span class="mock-op-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14.5 2 14.5 7.5 20 7.5"/></svg></span>To PDF</div>
+                </div>
+                <div class="mock-file-list">
+                  <div class="mock-file-item">
+                    <span class="mock-file-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14.5 2 14.5 7.5 20 7.5"/></svg></span>
+                    <span class="mock-file-name">lecture-notes.pdf</span>
+                    <span class="mock-file-size">2.1 MB</span>
+                    <span class="mock-file-dl">↓</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="float-badge float-badge-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+            3 tasks due soon
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-label fade-up">
+      <span class="tag"><span class="tag-dot"></span>Three powerful modules</span>
+    </div>
+    <h2 class="fade-up">Everything a student needs.<br>Nothing they don't.</h2>
+    <p class="section-sub fade-up">Three focused tools that solve the three biggest pain points in student life — PDF chaos, forgotten attendance and missed deadlines.</p>
+    <div class="features-grid">
+      <div class="feature-card fc-pdf fade-up" onclick="window.location.href='showcase.html?tab=pdf'" style="cursor: pointer;">
+        <div class="feature-icon fi-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14.5 2 14.5 7.5 20 7.5"/></svg>
+        </div>
+        <h3>PDF Tools</h3>
+        <p>Stop emailing files to yourself. Merge lecture slides, split chapters, convert to images — all processed in seconds with a clean download link.</p>
+        <ul class="feature-list">
+          <li>Merge multiple PDFs into one</li>
+          <li>Split PDFs by page range</li>
+          <li>Convert PDF pages to images</li>
+          <li>Compile images into a PDF</li>
+          <li>Personal file history</li>
+        </ul>
+      </div>
+      <div class="feature-card fc-att fc-green fade-up" style="transition-delay:.1s" onclick="window.location.href='showcase.html?tab=attendance'" style="cursor: pointer;">
+        <div class="feature-icon fi-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <h3>Attendance Tracker</h3>
+        <p>Know exactly where you stand before it's too late. Track sessions per subject, get warned when you drop below 60% and plan your absences smartly.</p>
+        <ul class="feature-list">
+          <li>Create subjects with colour labels</li>
+          <li>Mark present / absent per session</li>
+          <li>Auto-calculated percentage</li>
+          <li>Warning at &lt;60% threshold</li>
+          <li>Per-subject session calendar</li>
+        </ul>
+      </div>
+      <div class="feature-card fc-task fc-amber fade-up" style="transition-delay:.2s" onclick="window.location.href='showcase.html?tab=tasks'" style="cursor: pointer;">
+        <div class="feature-icon fi-amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Task Tracker</h3>
+        <p>A lightweight assignment board designed for student workflows. Set priorities, link tasks to subjects and see what's due at a glance.</p>
+        <ul class="feature-list">
+          <li>Create tasks with due dates</li>
+          <li>Priority levels (Low / Med / High)</li>
+          <li>Kanban or list view</li>
+          <li>Filter by subject or status</li>
+          <li>One-click task completion</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <div class="section-label fade-up">
+      <span class="tag"><span class="tag-dot"></span>How it works</span>
+    </div>
+    <h2 class="fade-up">Up and running in minutes.</h2>
+    <p class="section-sub fade-up">No complex onboarding. No tutorial videos. Scholar Atlas is built to be understood in a single glance.</p>
+    <div class="how-grid">
+      <div class="how-step fade-up">
+        <div class="how-num how-num-1">1</div>
+        <h3>Create your account</h3>
+        <p>Sign up with your university email in under 30 seconds. Your data is private, isolated and secured with row-level encryption.</p>
+      </div>
+      <div class="how-step fade-up" style="transition-delay:.1s">
+        <div class="how-num how-num-2">2</div>
+        <h3>Add your subjects</h3>
+        <p>Enter your courses once. They automatically appear across the Attendance tracker, Task board and PDF organiser.</p>
+      </div>
+      <div class="how-step fade-up" style="transition-delay:.2s">
+        <div class="how-num how-num-3">3</div>
+        <h3>Work smarter daily</h3>
+        <p>Mark attendance after each class, log assignments as they come in and process PDFs instantly. Build a habit in a week.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-label fade-up">
+      <span class="tag"><span class="tag-dot"></span>Pricing</span>
+    </div>
+    <h2 class="fade-up">Simple pricing for students.</h2>
+    <p class="section-sub fade-up">Start free. Upgrade when you need more. No confusing tiers, no hidden fees.</p>
+    <div class="pricing-grid fade-up">
+      <div class="pricing-card premium">
+        <div class="pricing-plan">Free</div>
+        <div class="pricing-price">$0</div>
+        <div class="pricing-per">forever · no credit card</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> 10 PDF operations per month</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Up to 10 subjects</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited attendance records</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Up to 30 active tasks</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> 200 MB file storage</li>
+        </ul>
+        <a href="#" class="btn-pricing-free">Get started free</a>
+      </div>
+      <div class="pricing-card popular">
+        <div class="popular-pill">Most popular</div>
+        <div class="pricing-plan">Pro</div>
+        <div class="pricing-price" style="color:white">$5</div>
+        <div class="pricing-per">per month · billed yearly</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited PDF operations</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited subjects</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited attendance records</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Unlimited tasks</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> 5 GB file storage</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Priority processing speed</li>
+          <li><span class="check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Early access to new features</li>
+        </ul>
+        <a href="#" class="btn-pricing-pro" style="background:var(--white);color:var(--ink);opacity:0.6;cursor:not-allowed">Coming Soon</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STUDENT STORIES / REVIEWS -->
+<section>
+  <div class="container">
+    <div class="section-label fade-up">
+      <span class="tag"><span class="tag-dot"></span>Student stories</span>
+    </div>
+    <h2 class="fade-up">Trusted by students<br>who get things done.</h2>
+    <p class="section-sub fade-up">Share your own experience with Scholar Atlas.</p>
+    
+    <div class="review-box fade-up">
+      <h3>Share your experience</h3>
+      <div class="star-rating" id="review-stars">
+        <span data-val="1"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
+        <span data-val="2"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
+        <span data-val="3"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
+        <span data-val="4"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
+        <span data-val="5"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
+      </div>
+      <textarea placeholder="Write your review here..."></textarea>
+      <button class="btn-primary" style="width:100%;font-size:16px;padding:12px">Submit Review</button>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="final-cta-bg"></div>
+  <div class="container">
+    <div class="final-cta-inner fade-up">
+      <h2>Start your semester right.<br>It takes 30 seconds.</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,.65);max-width:440px">Join thousands of students who've replaced scattered apps, sticky notes and ignored spreadsheets with Scholar Atlas.</p>
+      <div class="email-form">
+        <input type="email" class="email-input" placeholder="Enter your university email">
+        <button class="btn-primary btn-large" style="white-space:nowrap">Get started free</button>
+      </div>
+      <p class="final-note">Free forever · No credit card · Takes 30 seconds</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 20 20"><path d="M10 2L3 7v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1V7l-7-5z"/></svg>
+          </div>
+          Scholar Atlas
+        </a>
+        <p class="footer-tagline">The academic command center for university students. Fast, focused and free to start.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">PDF Tools</a>
+        <a href="#">Attendance</a>
+        <a href="#">Task Tracker</a>
+        <a href="#">Pricing</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Scholar Atlas. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Twitter</a>
+        <a href="#">GitHub</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll animations
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // Hero mockup tabs
+  function switchMock(id, btn) {
+    document.querySelectorAll('.mockup-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.mockup-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('mock-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Showcase tabs
+  function switchShowcase(id, btn) {
+    document.querySelectorAll('.showcase-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.showcase-tab').forEach(b => b.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // Smooth nav background
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.background =
+      window.scrollY > 20 ? 'rgba(242,239,230,0.85)' : 'rgba(242,239,230,0.45)';
+  });
+
+  // Email form
+  document.querySelectorAll('.email-form').forEach(form => {
+    const btn = form.querySelector('button');
+    const input = form.querySelector('input');
+    btn.addEventListener('click', () => {
+      if (input.value.includes('@')) {
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px"><polyline points="20 6 9 17 4 12"/></svg> You\'re on the list!';
+        btn.style.background = '#16A34A';
+        input.disabled = true; btn.disabled = true;
+      } else { input.style.borderColor = '#EF4444'; input.focus(); }
+    });
+  });
+
+  // PDF tool chips — clickable selection
+  document.querySelectorAll('.ss-tool-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      this.closest('.ss-tools-grid').querySelectorAll('.ss-tool-chip')
+        .forEach(c => { c.style.background=''; c.style.borderColor=''; c.style.color=''; });
+      this.style.background = 'var(--accent-light)';
+      this.style.borderColor = 'var(--accent)';
+      this.style.color = 'var(--accent)';
+    });
+  });
+
+  // Star Rating Interaction
+  const stars = document.querySelectorAll('#review-stars span');
+  stars.forEach(star => {
+    star.addEventListener('click', function() {
+      const val = parseInt(this.getAttribute('data-val'));
+      stars.forEach(s => {
+        if (parseInt(s.getAttribute('data-val')) <= val) {
+          s.style.color = '#F59E0B';
+          s.setAttribute('data-selected', 'true');
+        } else {
+          s.style.color = 'var(--border-strong)';
+          s.setAttribute('data-selected', 'false');
+        }
+      });
+    });
+    star.addEventListener('mouseover', function() {
+      const val = parseInt(this.getAttribute('data-val'));
+      stars.forEach(s => {
+        if (parseInt(s.getAttribute('data-val')) <= val) {
+          s.style.color = '#FCD34D';
+        } else {
+          s.style.color = 'var(--border-strong)';
+        }
+      });
+    });
+    star.addEventListener('mouseout', function() {
+      stars.forEach(s => {
+        if (s.getAttribute('data-selected') === 'true') {
+          s.style.color = '#F59E0B';
+        } else {
+          s.style.color = 'var(--border-strong)';
+        }
+      });
+    });
+  });
+</script>
+</body>
+</html>

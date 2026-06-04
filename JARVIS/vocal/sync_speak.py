@@ -26,6 +26,21 @@ _SETTINGS_FILE = _ROOT / "config" / "settings.json"
 
 logger = logging.getLogger("SYNC_SPEAK")
 
+# ---------------------------------------------------------------------------
+# Initialize pygame mixer at module level
+# ---------------------------------------------------------------------------
+try:
+    pygame.mixer.init(
+        frequency=22050,
+        size=-16,  # 16-bit
+        channels=2,  # Stereo
+        buffer=512
+    )
+    logger.info("✦ NOMINAL | SYNC_SPEAK | pygame.mixer initialized successfully")
+except Exception as exc:
+    logger.error("✖ CRITICAL | SYNC_SPEAK | pygame.mixer initialization failed: %s", exc)
+    logger.warning("⚠ ADVISORY | SYNC_SPEAK | Audio output will be disabled")
+
 # Shared overlay reference — set by main.py during boot
 _overlay = None
 _overlay_lock = threading.Lock()
@@ -105,16 +120,31 @@ async def _speak_async(text: str, voice: str, rate: str = "+0%", volume: str = "
                     overlay.set_revealed(0)
                 
             try:
+                # Ensure mixer is initialized
                 if not pygame.mixer.get_init():
-                    pygame.mixer.init()
+                    try:
+                        pygame.mixer.init(frequency=22050, size=-16, channels=2, buffer=512)
+                        logger.info("✦ NOMINAL | SYNC_SPEAK | Re-initialized pygame.mixer")
+                    except Exception as mixer_exc:
+                        logger.error("✖ CRITICAL | SYNC_SPEAK | Failed to re-initialize mixer: %s", mixer_exc)
+                        raise mixer_exc
+                
+                # Verify audio file exists
+                if not tmp_path.exists():
+                    logger.error("✖ CRITICAL | SYNC_SPEAK | Audio file not found: %s", tmp_path)
+                    raise FileNotFoundError(f"Audio file missing: {tmp_path}")
+                
                 try:
                     sound = pygame.mixer.Sound(str(tmp_path))
                     audio_len = sound.get_length()
-                except Exception:
+                except Exception as sound_exc:
+                    logger.warning("⚠ ADVISORY | SYNC_SPEAK | Could not load Sound object: %s", sound_exc)
                     audio_len = 0
                 
+                # Load and play audio
                 pygame.mixer.music.load(str(tmp_path))
                 pygame.mixer.music.play()
+                logger.debug("✦ NOMINAL | SYNC_SPEAK | Audio playback started: %s", tmp_path)
                 
                 start_time = time.time()
                 
@@ -186,12 +216,16 @@ async def _speak_async(text: str, voice: str, rate: str = "+0%", volume: str = "
                         
             except Exception as exc:
                 logger.error("✖ CRITICAL | SYNC_SPEAK | Playback failed: %s", exc)
+                logger.exception("Full traceback:")  # Log full exception stack
             finally:
                 try:
-                    pygame.mixer.music.unload()
+                    # Ensure playback stops and mixer is clean
+                    if pygame.mixer.get_init():
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.unload()
                     tmp_path.unlink(missing_ok=True)
-                except Exception:
-                    pass
+                except Exception as cleanup_exc:
+                    logger.error("✖ CRITICAL | SYNC_SPEAK | Cleanup failed: %s", cleanup_exc)
             
             if overlay:
                 overlay.set_revealed(-1)

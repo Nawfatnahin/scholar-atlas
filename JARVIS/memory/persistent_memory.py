@@ -3,7 +3,9 @@ import os
 from datetime import datetime
 
 class PersistentMemory:
-    def __init__(self, storage_path="jarvis_memory.json"):
+    def __init__(self, storage_path=None):
+        if storage_path is None:
+            storage_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "jarvis_memory.json")
         self.storage_path = storage_path
         self.memory = {
             "preferences": {},

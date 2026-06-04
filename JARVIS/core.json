@@ -3,19 +3,26 @@
     "sarcasm_mode": true,
     "explain_mode": false,
     "explain_depth": 2,
-    "session_start": "2026-05-21T18:43:37.566079+00:00",
-    "last_greeting": "2026-05-21T18:43:39.189178+00:00",
+    "session_start": "2026-06-03T08:46:45.536165+00:00",
+    "last_greeting": "2026-06-03T08:46:47.418486+00:00",
     "preferences": {
         "wake_word_6hr_bypass": true,
         "daily_readme_updates": true,
-        "last_interaction_time": "2026-05-21T10:08:57+06:00",
+        "last_interaction_time": "2026-05-30T14:18:58+06:00",
         "daily_brief_frequency_hours": 1,
         "daily_brief_style": "time_contextual"
     },
-    "active_codename": null,
+    "active_codename": "NEXUS",
+    "version": "3.0.0",
     "last_active_snapshot": {
-        "codename": "V2.0.4",
-        "archive": "snapshot_v2.0.4_20260522_004238.zip",
-        "timestamp": "2026-05-22T00:42:38+06:00"
+        "codename": "V3.0.0",
+        "archive": "snapshot_V3.0.0_20260530_141858.zip",
+        "timestamp": "2026-05-30T08:18:58.000000+00:00"
+    },
+    "skill_routing": {
+        "engine": "ASRP-v2.0",
+        "permission_gate": true,
+        "confidence_threshold": 0.7,
+        "session_override_keyword": "permitted"
     }
 }

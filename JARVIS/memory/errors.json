@@ -49,7 +49,37 @@
       "remediation": "Implemented safe_print to intercept encoding exceptions and fallback to safe console streams",
       "impact": "Medium",
       "resolved": true
+    },
+    {
+      "id": "ERR-006",
+      "timestamp": "2026-05-26T09:20:03.813950+00:00",
+      "category": "ORCHESTRATION",
+      "description": "Duplicate parallel vocal synthesis streams caused dual-channel overlap.",
+      "cause": "Invoking both workspace local and global system speak scripts in parallel.",
+      "remediation": "Strictly route all auditory feedback through the global system speak script.",
+      "impact": "Medium",
+      "resolved": true
+    },
+    {
+      "id": "ERR-007",
+      "timestamp": "2026-05-26T09:20:03.833794+00:00",
+      "category": "SEMANTIC_PARSING",
+      "description": "Misinterpreted user direct address as a skill name.",
+      "cause": "Imprecise parsing of command-end vocative nouns in natural language input.",
+      "remediation": "Refine parsing logic to isolate direct address tokens from operational skill names.",
+      "impact": "Low",
+      "resolved": true
+    },
+    {
+      "id": "ERR-008",
+      "timestamp": "2026-05-26T09:20:03.859876+00:00",
+      "category": "CONTEXT_RESOLUTION",
+      "description": "Misparsed contextual deploy command as Cloudflare web app deployment.",
+      "cause": "Default association of high-priority verbs without cross-checking conversational turn history.",
+      "remediation": "Evaluate verbs against immediate conversation context before executing actions.",
+      "impact": "Medium",
+      "resolved": true
     }
   ],
-  "next_id": 6
+  "next_id": 9
 }

@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scholar Atlas — Your Academic Command Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Manrope:wght@300..600&family=Playfair+Display:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F2EFE6; /* Deeper Cream/Ivory background */
+    --white: #FFFFFF;
+    --ink: #0D0D0D;
+    --ink-2: #3D3D3D;
+    --ink-3: #7A7A7A;
+    --ink-4: #B0B0B0;
+    --accent: #2B2B2B;
+    --accent-light: #EBEBEB;
+    --accent-mid: #999999;
+    --cream-brown: #C19A6B;
+    --cream-brown-light: #F5EFEB;
+    --green: #16A34A;
+    --green-light: #DCFCE7;
+    --amber: #D97706;
+    --amber-light: #FEF3C7;
+    --red: #DC2626;
+    --red-light: #FEE2E2;
+    --border: rgba(40,30,20,0.06);
+    --border-strong: rgba(40,30,20,0.12);
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 16px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.10), 0 4px 12px rgba(0,0,0,0.05);
+    --r-sm: 10px;
+    --r-md: 16px;
+    --r-lg: 24px;
+    --r-xl: 32px;
+    --font-display: 'Bricolage Grotesque', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-serif: 'Playfair Display', serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── UTILITIES ─────────────────────────────────────────────── */
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 600; letter-spacing: .06em;
+    text-transform: uppercase; padding: 5px 14px;
+    border-radius: 20px;
+    color: var(--ink-2);
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffffff, #f4f2ea);
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03), inset 0 1px 0 white, inset 0 -2px 0 rgba(0,0,0,0.03);
+    transform: translateY(0);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.06), inset 0 1px 0 white, inset 0 -2px 0 rgba(0,0,0,0.03);
+  }
+  .tag-dot { 
+    width: 8px; height: 8px; border-radius: 50%; 
+    background: rgba(193, 154, 107, 0.5); 
+    box-shadow: 0 0 8px 3px rgba(193, 154, 107, 0.4); 
+    animation: pulse-glow 2s infinite alternate; 
+  }
+  @keyframes pulse-glow {
+    from { opacity: 0.6; box-shadow: 0 0 4px 1px rgba(193, 154, 107, 0.3); }
+    to { opacity: 1; box-shadow: 0 0 10px 4px rgba(193, 154, 107, 0.5); }
+  }
+
+  .fade-up {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity .65s ease, transform .65s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── NAVBAR ─────────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 14px 0;
+    background: rgba(242,239,230,0.45);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    transition: background .4s, backdrop-filter .4s;
+  }
+  .nav-inner {
+    max-width: 1240px; margin: 0 auto; padding: 0 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    font-family: var(--font-display); font-size: 20px; font-weight: 700;
+    color: var(--ink); text-decoration: none; letter-spacing: -.02em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(146, 64, 14, 0.85); 
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(146, 64, 14, 0.2);
+  }
+  .logo-mark svg { width: 16px; height: 16px; fill: white; }
+  .nav-links { display: flex; align-items: center; gap: 6px; }
+  .nav-links a {
+    font-size: 14px; font-weight: 500; color: var(--ink-2);
+    text-decoration: none; padding: 7px 14px; border-radius: 8px;
+    transition: background .2s, color .2s;
+  }
+  .nav-links a:hover { background: var(--white); color: var(--ink); }
+  .nav-cta {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .btn-ghost {
+    font-size: 14px; font-weight: 500; color: var(--ink-2);
+    text-decoration: none; padding: 8px 16px; border-radius: 8px;
+    transition: color .2s;
+  }
+  .btn-ghost:hover { color: var(--ink); }
+  .btn-primary {
+    font-family: var(--font-body); font-size: 14px; font-weight: 600;
+    color: white; 
+    background: rgba(146, 64, 14, 0.9);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-radius: 10px; padding: 9px 20px;
+    cursor: pointer; text-decoration: none;
+    transition: all .2s, transform .15s;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(146, 64, 14, 0.15);
+  }
+  .btn-primary:hover { 
+    background: rgba(146, 64, 14, 1); 
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(146, 64, 14, 0.25);
+  }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-large {
+    font-size: 15px; padding: 14px 28px; border-radius: 12px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-outline {
+    font-family: var(--font-body); font-size: 15px; font-weight: 600;
+    color: var(--ink); background: transparent;
+    border: 1px solid var(--border-strong); border-radius: 12px;
+    padding: 13px 28px; cursor: pointer; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: background .2s, border-color .2s;
+  }
+  .btn-outline:hover { background: var(--white); border-color: rgba(0,0,0,.18); }
+
+  /* Hamburger for mobile */
+  .hamburger {
+    display: none; background: none; border: none;
+    cursor: pointer; padding: 6px; border-radius: 8px;
+  }
+  .hamburger span {
+    display: block; width: 22px; height: 2px;
+    background: var(--ink); border-radius: 2px; margin: 4px 0;
+    transition: all .3s;
+  }
+
+  .back-nav {
+    position: absolute; top: 100px; left: 32px; z-index: 10;
+  }
+  .back-nav a {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: #A67C52; /* Darker cream/brown */
+    color: white; text-decoration: none;
+    box-shadow: 0 4px 12px rgba(166, 124, 82, 0.25);
+    transition: all .2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .back-nav a:hover { 
+    background: #8B6341; 
+    transform: translateX(-4px); 
+    box-shadow: 0 6px 16px rgba(166, 124, 82, 0.4);
+  }
+  .back-nav svg { width: 18px; height: 18px; stroke-width: 3; }
+
+  /* ── PRODUCT SHOWCASE ──────────────────────────────────────────── */
+  section { position: relative; padding: 100px 0; }
+  .section-label { text-align: center; margin-bottom: 16px; }
+  h2 {
+    font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800; line-height: 1.1; letter-spacing: -.03em;
+    color: var(--ink); text-align: center; margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 18px; color: var(--ink-2); text-align: center;
+    max-width: 520px; margin: 0 auto 56px; line-height: 1.65;
+  }
+
+  .showcase-tabs {
+    display: flex; justify-content: center; gap: 6px;
+    background: var(--white); border: 1px solid var(--border-strong);
+    border-radius: 14px; padding: 5px; width: fit-content;
+    margin: 0 auto 48px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+  }
+  .showcase-tab {
+    font-family: var(--font-body); font-size: 14px; font-weight: 600;
+    padding: 10px 22px; border-radius: 10px; border: none;
+    cursor: pointer; transition: all .2s; color: var(--ink-3);
+    background: transparent; display: flex; align-items: center; gap: 7px;
+  }
+  .showcase-tab.active {
+    background: var(--accent); color: white;
+    box-shadow: 0 4px 12px rgba(43,43,43,.35);
+  }
+  .showcase-tab:not(.active):hover { background: var(--bg); color: var(--ink); }
+  .showcase-tab-icon { font-size: 16px; display: flex; align-items: center; }
+  .showcase-tab-icon svg { width: 16px; height: 16px; }
+
+  .showcase-panel { display: none; }
+  .showcase-panel.active { display: grid; grid-template-columns: 1fr 1.1fr; gap: 64px; align-items: center; }
+
+  .showcase-info {}
+  .showcase-info h3 {
+    font-family: var(--font-display); font-size: 30px; font-weight: 800;
+    letter-spacing: -.02em; margin-bottom: 14px; text-align: left;
+  }
+  .showcase-info p {
+    font-size: 16px; color: var(--ink-2); line-height: 1.7; margin-bottom: 24px;
+  }
+  .showcase-points { list-style: none; }
+  .showcase-points li {
+    font-size: 14px; padding: 9px 0; display: flex; gap: 10px;
+    border-bottom: 1px solid var(--border); color: var(--ink-2);
+    align-items: flex-start;
+  }
+  .showcase-points li:last-child { border-bottom: none; }
+  .sp-check {
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--green-light); display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0; font-size: 10px; margin-top: 1px;
+    color: var(--green);
+  }
+  .sp-check svg { width: 12px; height: 12px; }
+
+  .showcase-screen {
+    background: linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(250,248,242,0.85) 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6);
+    padding: 24px;
+  }
+  .showcase-screen-bar {
+    display: flex; align-items: center; gap: 6px; margin-bottom: 20px;
+  }
+  .ss-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset 0 1px 2px rgba(0,0,0,0.2); }
+  .ss-title {
+    flex: 1; text-align: center; font-size: 12px; font-weight: 600;
+    color: var(--ink-3);
+  }
+
+  /* PDF showcase screen */
+  .ss-upload-zone {
+    border: 2px dashed var(--accent-mid); border-radius: 14px;
+    padding: 32px; text-align: center; background: var(--accent-light);
+    margin-bottom: 16px; transition: background .2s, border-color .2s;
+    cursor: pointer;
+  }
+  .ss-upload-zone:hover { background: #DDE6FF; border-color: var(--accent); }
+  .ss-upload-icon { font-size: 32px; margin-bottom: 10px; color: var(--ink-3); display: flex; justify-content: center; }
+  .ss-upload-icon svg { width: 48px; height: 48px; }
+  .ss-upload-title { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .ss-upload-sub { font-size: 12px; color: var(--ink-3); }
+  .ss-tools-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .ss-tool-chip {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px; display: flex; align-items: center; gap: 8px;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    transition: all .2s;
+  }
+  .ss-tool-chip:hover { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
+  .ss-tool-chip span { font-size: 18px; display: flex; align-items: center; }
+  .ss-tool-chip span svg { width: 18px; height: 18px; }
+
+  /* Attendance showcase */
+  .ss-att-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 16px;
+  }
+  .ss-att-title { font-family: var(--font-display); font-size: 15px; font-weight: 700; }
+  .ss-add-btn {
+    font-size: 11px; font-weight: 700; color: var(--accent);
+    background: var(--accent-light); border: none; border-radius: 7px;
+    padding: 5px 10px; cursor: pointer;
+  }
+  .ss-subj-row {
+    background: var(--bg); border-radius: 12px; padding: 12px 14px;
+    margin-bottom: 8px; border: 1px solid var(--border);
+  }
+  .ss-subj-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .ss-subj-name { font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+  .ss-subj-name svg { width: 14px; height: 14px; }
+  .ss-pct-badge {
+    font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+  }
+  .ok-badge { background: var(--green-light); color: var(--green); }
+  .warn-badge { background: var(--amber-light); color: var(--amber); }
+  .ss-bar { height: 5px; background: #E5E7EB; border-radius: 3px; }
+  .ss-bar-fill { height: 100%; border-radius: 3px; transition: width .6s ease; }
+  .ss-subj-meta { font-size: 11px; color: var(--ink-3); margin-top: 6px; }
+
+  /* Tasks showcase */
+  .ss-task-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+  .ss-task-col-head {
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--ink-3); padding: 0 0 8px;
+    border-bottom: 2px solid var(--border-strong); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .col-count {
+    background: var(--bg); border-radius: 4px; padding: 1px 6px;
+    font-size: 10px; color: var(--ink-3);
+  }
+  .ss-task-item {
+    background: var(--white); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px; margin-bottom: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .ss-task-name { font-size: 12px; font-weight: 600; margin-bottom: 5px; line-height: 1.3; }
+  .ss-task-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .chip {
+    font-size: 10px; font-weight: 600; padding: 2px 6px; border-radius: 4px;
+  }
+  .chip-subj { background: var(--accent-light); color: var(--accent); }
+  .chip-high { background: #FEE2E2; color: #991B1B; }
+  .chip-med  { background: #FEF3C7; color: #92400E; }
+  .chip-low  { background: #DCFCE7; color: #166534; }
+  .chip-due  { background: var(--bg); color: var(--ink-3); }
+
+  /* ── FOOTER ──────────────────────────────────────────────────────── */
+  footer {
+    padding: 48px 0 32px; border-top: 1px solid var(--border);
+  }
+  .footer-inner {
+    display: grid; grid-template-columns: 2fr 1fr; gap: 48px;
+    margin-bottom: 40px;
+  }
+  .footer-brand {}
+  .footer-tagline { font-size: 13px; color: var(--ink-3); margin-top: 10px; line-height: 1.6; max-width: 280px; }
+  .footer-col h4 {
+    font-size: 12px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .07em; color: var(--ink-3); margin-bottom: 14px;
+  }
+  .footer-col a {
+    display: block; font-size: 14px; color: var(--ink-2);
+    text-decoration: none; margin-bottom: 8px; transition: color .2s;
+  }
+  .footer-col a:hover { color: var(--ink); }
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--ink-3);
+  }
+  .footer-bottom-links { display: flex; gap: 20px; }
+  .footer-bottom-links a { color: var(--ink-3); text-decoration: none; }
+  .footer-bottom-links a:hover { color: var(--ink); }
+
+  /* ── RESPONSIVE ──────────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .showcase-panel.active { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: block; }
+  }
+  @media (max-width: 600px) {
+    .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .showcase-tabs { flex-wrap: wrap; width: 100%; }
+    .ss-task-cols { grid-template-columns: 1fr; }
+    h2 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-inner">
+    <a href="studyos-landing.html" class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 20 20"><path d="M10 2L3 7v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1V7l-7-5z"/></svg>
+      </div>
+      Scholar Atlas
+    </a>
+    <div class="nav-links">
+      <a href="studyos-landing.html#features">Features</a>
+      <a href="studyos-landing.html#how">How it works</a>
+      <a href="#showcase">Modules</a>
+      <a href="studyos-landing.html#pricing">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn-ghost">Sign in</a>
+      <a href="#" class="btn-primary">Get started free</a>
+    </div>
+    <button class="hamburger" onclick="this.classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- PRODUCT SHOWCASE -->
+<section id="showcase">
+  <div class="back-nav fade-up">
+    <a href="studyos-landing.html" title="Back to Home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    </a>
+  </div>
+  <div class="container">
+    <div class="section-label fade-up">
+      <span class="tag"><span class="tag-dot"></span>Product showcase</span>
+    </div>
+    <h2 class="fade-up">See it in action.</h2>
+    <p class="section-sub fade-up">Designed to be fast, minimal, and distraction-free. Every screen has one job and does it well.</p>
+
+    <div class="showcase-tabs fade-up">
+      <button class="showcase-tab active" onclick="switchShowcase('pdf', this)">
+        <span class="showcase-tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14.5 2 14.5 7.5 20 7.5"/></svg>
+        </span> PDF Tools
+      </button>
+      <button class="showcase-tab" onclick="switchShowcase('attendance', this)">
+        <span class="showcase-tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </span> Attendance
+      </button>
+      <button class="showcase-tab" onclick="switchShowcase('tasks', this)">
+        <span class="showcase-tab-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </span> Tasks
+      </button>
+    </div>
+
+    <!-- PDF Panel -->
+    <div class="showcase-panel active" id="panel-pdf">
+      <div class="showcase-info">
+        <h3>PDF Tools that don't slow you down.</h3>
+        <p>Upload lecture slides, merge handouts, split long documents, and convert to images — all in a clean interface with real-time progress tracking. No ads, no watermarks, no file limits.</p>
+        <ul class="showcase-points">
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Drag-and-drop upload with instant preview</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Merge up to 20 PDFs in a single operation</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Split by page range or extract single pages</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Convert every page to high-resolution PNG</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>All processed files saved to your history</li>
+        </ul>
+      </div>
+      <div class="showcase-screen">
+        <div class="showcase-screen-bar">
+          <div class="ss-dot" style="background:#FF5F57"></div>
+          <div class="ss-dot" style="background:#FEBC2E"></div>
+          <div class="ss-dot" style="background:#28C840"></div>
+          <div class="ss-title">PDF Tools — Scholar Atlas</div>
+        </div>
+        <div class="ss-upload-zone" onclick="this.style.background='#DDE6FF'">
+          <div class="ss-upload-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.51a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+          </div>
+          <div class="ss-upload-title">Drop your PDFs here</div>
+          <div class="ss-upload-sub">Supports PDF, PNG, JPG · Max 50MB each</div>
+        </div>
+        <div class="ss-tools-grid">
+          <div class="ss-tool-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span> Merge PDFs</div>
+          <div class="ss-tool-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></span> Split PDF</div>
+          <div class="ss-tool-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg></span> PDF → Images</div>
+          <div class="ss-tool-chip"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14.5 2 14.5 7.5 20 7.5"/></svg></span> Images → PDF</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Attendance Panel -->
+    <div class="showcase-panel" id="panel-attendance">
+      <div class="showcase-info">
+        <h3>Never miss the 60% line again.</h3>
+        <p>Add your subjects once and mark attendance after every class. Scholar Atlas automatically calculates your percentage and warns you before it becomes a problem — not after.</p>
+        <ul class="showcase-points">
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Color-coded subject cards with live percentages</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Calendar view to mark present or absent</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Warning banner when attendance drops below threshold</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Custom target percentage per subject</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Session notes for explaining absences</li>
+        </ul>
+      </div>
+      <div class="showcase-screen">
+        <div class="showcase-screen-bar">
+          <div class="ss-dot" style="background:#FF5F57"></div>
+          <div class="ss-dot" style="background:#FEBC2E"></div>
+          <div class="ss-dot" style="background:#28C840"></div>
+          <div class="ss-title">Attendance — Scholar Atlas</div>
+        </div>
+        <div style="background:#FEF9EC;border:1px solid #FDE68A;border-radius:10px;padding:10px 14px;font-size:12px;color:#92400E;display:flex;gap:8px;align-items:center;margin-bottom:16px">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <strong>CSE-401</strong> is at 62% — you need 6 more sessions to reach 60%.
+        </div>
+        <div class="ss-att-header">
+          <div class="ss-att-title">My subjects</div>
+          <button class="ss-add-btn">+ Add subject</button>
+        </div>
+        <div class="ss-subj-row">
+          <div class="ss-subj-top">
+            <div class="ss-subj-name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+              Urban Planning Theory
+            </div>
+            <span class="ss-pct-badge ok-badge">85%</span>
+          </div>
+          <div class="ss-bar"><div class="ss-bar-fill" style="width:85%;background:var(--green)"></div></div>
+          <div class="ss-subj-meta">18 present · 3 absent · 21 total</div>
+        </div>
+        <div class="ss-subj-row">
+          <div class="ss-subj-top">
+            <div class="ss-subj-name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/><path d="M12 2a14.5 14.5 0 0 1 0 20 14.5 14.5 0 0 1 0-20"/></svg>
+              GIS & Remote Sensing
+            </div>
+            <span class="ss-pct-badge ok-badge">77%</span>
+          </div>
+          <div class="ss-bar"><div class="ss-bar-fill" style="width:77%;background:var(--green)"></div></div>
+          <div class="ss-subj-meta">14 present · 4 absent · 18 total</div>
+        </div>
+        <div class="ss-subj-row">
+          <div class="ss-subj-top">
+            <div class="ss-subj-name">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              CSE-401 Data Structures
+            </div>
+            <span class="ss-pct-badge warn-badge">62%</span>
+          </div>
+          <div class="ss-bar"><div class="ss-bar-fill" style="width:62%;background:var(--red)"></div></div>
+          <div class="ss-subj-meta">10 present · 6 absent · 16 total</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tasks Panel -->
+    <div class="showcase-panel" id="panel-tasks">
+      <div class="showcase-info">
+        <h3>Assignments. Organised. Done.</h3>
+        <p>A Kanban board designed for student brains. Create tasks in seconds, assign priorities, link them to subjects, and watch your workload become manageable.</p>
+        <ul class="showcase-points">
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Three-column Kanban: Todo → In Progress → Done</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Priority levels with visual colour coding</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Due date tracking with overdue alerts</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Filter by subject, priority, or status instantly</li>
+          <li><span class="sp-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Add a task in under 10 seconds</li>
+        </ul>
+      </div>
+      <div class="showcase-screen">
+        <div class="showcase-screen-bar">
+          <div class="ss-dot" style="background:#FF5F57"></div>
+          <div class="ss-dot" style="background:#FEBC2E"></div>
+          <div class="ss-dot" style="background:#28C840"></div>
+          <div class="ss-title">Tasks — Scholar Atlas</div>
+        </div>
+        <div class="ss-task-cols">
+          <div>
+            <div class="ss-task-col-head">Todo <span class="col-count">3</span></div>
+            <div class="ss-task-item">
+              <div class="ss-task-name">Land Use Analysis Report</div>
+              <div class="ss-task-chips">
+                <span class="chip chip-subj">Planning</span>
+                <span class="chip chip-high">High</span>
+                <span class="chip chip-due">May 9</span>
+              </div>
+            </div>
+            <div class="ss-task-item">
+              <div class="ss-task-name">Read Jacobs Ch. 4–6</div>
+              <div class="ss-task-chips">
+                <span class="chip chip-subj">Planning</span>
+                <span class="chip chip-low">Low</span>
+              </div>
+            </div>
+            <div class="ss-task-item">
+              <div class="ss-task-name">GIS Lab #3 Submission</div>
+              <div class="ss-task-chips">
+                <span class="chip chip-subj">GIS</span>
+                <span class="chip chip-med">Med</span>
+                <span class="chip chip-due">May 12</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="ss-task-col-head">In progress <span class="col-count">1</span></div>
+            <div class="ss-task-item">
+              <div class="ss-task-name">Zoning Map Assignment</div>
+              <div class="ss-task-chips">
+                <span class="chip chip-subj">GIS</span>
+                <span class="chip chip-high">High</span>
+                <span class="chip chip-due">May 8</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="ss-task-col-head">Done <span class="col-count">2</span></div>
+            <div class="ss-task-item" style="opacity:.55">
+              <div class="ss-task-name" style="text-decoration:line-through">Literature review draft</div>
+              <div class="ss-task-chips">
+                <span class="chip chip-subj">Planning</span>
+              </div>
+            </div>
+            <div class="ss-task-item" style="opacity:.55">
+              <div class="ss-task-name" style="text-decoration:line-through">CSE quiz 2 prep</div>
+              <div class="ss-task-chips">
+                <span class="chip chip-subj">CSE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <a href="studyos-landing.html" class="logo">
+          <div class="logo-mark">
+            <svg viewBox="0 0 20 20"><path d="M10 2L3 7v9a1 1 0 001 1h4v-5h4v5h4a1 1 0 001-1V7l-7-5z"/></svg>
+          </div>
+          Scholar Atlas
+        </a>
+        <p class="footer-tagline">The academic command center for university students. Fast, focused, and free to start.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">PDF Tools</a>
+        <a href="#">Attendance</a>
+        <a href="#">Task Tracker</a>
+        <a href="#">Pricing</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Scholar Atlas. All rights reserved.</span>
+      <div class="footer-bottom-links">
+        <a href="#">Twitter</a>
+        <a href="#">GitHub</a>
+        <a href="#">Discord</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll animations
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // Showcase tabs
+  function switchShowcase(id, btn) {
+    document.querySelectorAll('.showcase-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.showcase-tab').forEach(b => b.classList.remove('active'));
+    const targetPanel = document.getElementById('panel-' + id);
+    if (targetPanel) {
+      targetPanel.classList.add('active');
+    }
+    if (btn) {
+      btn.classList.add('active');
+    }
+  }
+
+  // Handle ?tab= parameter on load
+  window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tabParam = urlParams.get('tab');
+    if (tabParam) {
+      const btn = document.querySelector(`.showcase-tab[onclick*="switchShowcase('${tabParam}'"]`);
+      if (btn) {
+        switchShowcase(tabParam, btn);
+        setTimeout(() => {
+            const showcaseSection = document.getElementById('showcase');
+            if (showcaseSection) showcaseSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  });
+
+  // Smooth nav background
+  window.addEventListener('scroll', () => {
+    document.querySelector('nav').style.background =
+      window.scrollY > 20 ? 'rgba(242,239,230,0.85)' : 'rgba(242,239,230,0.45)';
+  });
+</script>
+</body>
+</html>
+)' : 'rgba(242,239,230,0.45)';
+  });
+</script>
+</body>
+</html>

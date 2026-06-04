@@ -144,6 +144,13 @@ except ImportError as e:
     pending_report = lambda d=None: "Scanner unavailable."
 
 try:
+    from intelligence.memory_curator import curate_memory, MemoryCurator
+except ImportError as e:
+    logger.error("✖ CRITICAL | MAIN | memory_curator import failed: %s", e)
+    curate_memory = lambda: "Curator unavailable."
+    MemoryCurator = None
+
+try:
     from intelligence.mood_engine import MoodEngine
     from intelligence.calendar_linker import CalendarLinker
     from intelligence.file_summarizer import FileSummarizer
@@ -491,6 +498,15 @@ class CommandRouter:
             await async_speak(response)
             return response
 
+        # --- Memory Curator ---
+        if "curate memory" in text_lower or "curate second brain" in text_lower or "memory curation" in text_lower:
+            try:
+                response = curate_memory()
+            except Exception as e:
+                response = f"Curator failed, Sir. {str(e)}"
+            await async_speak(response)
+            return response
+
         # --- Reminder Engine ---
         if self._reminder_engine:
 
@@ -683,6 +699,15 @@ class JarvisRuntime:
             logger.info("✦ NOMINAL | MAIN | Phase 6 — %s", announcement)
         except Exception as exc:
             logger.error("⚠ ADVISORY | MAIN | Task announcement failed: %s", exc)
+
+        # 9.5. Run memory curator (auto-curate second brain at boot)
+        try:
+            if MemoryCurator:
+                curator = MemoryCurator()
+                curator.run_curation(auto_promote=True)
+                logger.info("✦ NOMINAL | MAIN | Phase 6b — Second brain auto-curated successfully")
+        except Exception as exc:
+            logger.error("⚠ ADVISORY | MAIN | Second brain auto-curation failed: %s", exc)
 
         # 10. Speak greeting
         try:

@@ -64,5 +64,59 @@
     "file": "JARVIS versions/V2.0.2.md",
     "summary": "Committed dynamic learning: Protocol: Autonomic Daily README Updates",
     "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-26T09:06:16.871390+00:00",
+    "file": "JARVIS versions/V2.0.4.md",
+    "summary": "Committed dynamic learning: Learned the skill jarvis",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-26T09:09:35.841305+00:00",
+    "file": "JARVIS versions/V2.0.4.md",
+    "summary": "Committed dynamic learning: Integrated Superpowers Skill Suite",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-26T09:20:03.816017+00:00",
+    "file": "JARVIS versions/V2.0.4.md",
+    "summary": "Committed dynamic learning: Autonomic Error Remediation: Solved ORCHESTRATION issue (ERR-006) \u2014 Duplicate parallel vocal synthesis streams caused dual-chann",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-26T09:20:03.836875+00:00",
+    "file": "JARVIS versions/V2.0.4.md",
+    "summary": "Committed dynamic learning: Autonomic Error Remediation: Solved SEMANTIC_PARSING issue (ERR-007) \u2014 Misinterpreted user direct address as a skill name.",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-26T09:20:03.867224+00:00",
+    "file": "JARVIS versions/V2.0.4.md",
+    "summary": "Committed dynamic learning: Autonomic Error Remediation: Solved CONTEXT_RESOLUTION issue (ERR-008) \u2014 Misparsed contextual deploy command as Cloudflare web app de",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-26T09:21:43.030590+00:00",
+    "file": "JARVIS versions/V2.0.4.md",
+    "summary": "Committed dynamic learning: Workspace Cleanup: Housed Memory in JARVIS Directory",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-28T09:30:57.060750+00:00",
+    "file": "JARVIS versions/V2.0.5.md",
+    "summary": "Committed dynamic learning: Learned the skill managing-jarvis-core",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-28T09:41:45.680909+00:00",
+    "file": "JARVIS versions/V2.0.5.md",
+    "summary": "Committed dynamic learning: Audited vocal and wake arbitration subsystems",
+    "operation_id": "LEARN"
+  },
+  {
+    "timestamp": "2026-05-28T18:11:16.608796+00:00",
+    "file": "JARVIS/versions/V2.0.5.md",
+    "summary": "Committed dynamic learning: Initial integration of Autonomic Manifest Learning Protocol",
+    "operation_id": "LEARN"
   }
 ]
