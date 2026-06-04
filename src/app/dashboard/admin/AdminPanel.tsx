@@ -211,7 +211,9 @@ export default function AdminPanel({
   const [isAdding, setIsAdding] = useState(false);
   const [adminName] = useState(ownerEmail.split('@')[0]);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [registrySearch, setRegistrySearch] = useState("");
+  const [waitlistSearch, setWaitlistSearch] = useState("");
+  const [proSearch, setProSearch] = useState("");
   const [mounted, setMounted] = useState(false);
   const [jarvisMessage, setJarvisMessage] = useState("");
   const [isTyping, setIsTyping] = useState(true);
@@ -299,8 +301,14 @@ export default function AdminPanel({
   // Filtering
   const filteredSubscriptions = subscriptions
     .filter(s => s.email !== ownerEmail)
-    .filter(s => s.email.toLowerCase().includes(searchQuery.toLowerCase()))
+    .filter(s => s.email.toLowerCase().includes(registrySearch.toLowerCase()))
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  const filteredWaitlist = waitlistUsers
+    .filter(u => u.email.toLowerCase().includes(waitlistSearch.toLowerCase()));
+    
+  const filteredProAccess = proAccessUsers
+    .filter(u => u.email.toLowerCase().includes(proSearch.toLowerCase()));
 
   // Recent Logins
   const threeDaysAgo = new Date();
@@ -465,17 +473,6 @@ export default function AdminPanel({
             </div>
           </div>
           
-          <div className="hidden lg:flex items-center flex-1 max-w-md mx-8">
-            <div className="relative w-full group">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-ink-3 w-4 h-4 group-focus-within:text-accent transition-colors" />
-              <input 
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search registry..."
-                className="w-full bg-white/60 border border-border-strong rounded-xl py-2.5 pl-12 pr-4 text-sm font-medium outline-none focus:border-accent transition-all text-ink placeholder:text-ink-4 backdrop-blur-sm"
-              />
-            </div>
-          </div>
 
           <div className="flex items-center gap-3 sm:gap-6">
              <div className="hidden xs:flex items-center px-4 py-1.5 rounded-full bg-accent/5 border border-accent/10">
@@ -503,38 +500,80 @@ export default function AdminPanel({
       <main className="p-8 lg:p-16 max-w-[1800px] mx-auto w-full space-y-20 relative z-10 font-body">
         
         {/* Stats Pedestals */}
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-           {[
-             { label: 'Network Population', val: totalGmails, icon: Users, accent: 'amber', detail: 'Active Nodes' },
-             { label: 'Elite Sub-Nodes', val: premiumCount, icon: Crown, accent: 'amber', detail: 'Pro Access' },
-             { label: 'Uptime Matrix', val: metrics.uptime, icon: Globe, accent: 'amber', detail: 'Real-time' },
-             { label: 'Security Shield', val: 'MAX', icon: ShieldCheck, accent: 'amber', detail: 'Active' }
-           ].map((stat, i) => (
-             <Interactive3DBox key={i} className="group">
-                <div className="p-8 h-full">
-                   <div className="flex justify-between items-start mb-6">
-                      <div className="w-12 h-12 rounded-xl bg-accent/5 border border-accent/10 flex items-center justify-center group-hover:bg-accent/10 transition-all">
-                        <stat.icon className="w-6 h-6 text-accent" />
-                      </div>
-                      <div className="text-[10px] font-bold text-ink-3 tracking-widest uppercase">{stat.detail}</div>
-                   </div>
-                   <div className="space-y-1">
-                      <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-ink-3">{stat.label}</h4>
-                      <p className="text-4xl font-serif font-bold text-ink tracking-tight">{stat.val}</p>
-                   </div>
-                   <div className="mt-6 h-1 w-full bg-accent/5 rounded-full overflow-hidden">
-                      <div className="h-full bg-accent w-3/4" />
-                   </div>
-                </div>
-             </Interactive3DBox>
-           ))}
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8">
+           {/* Active Nodes */}
+           <Interactive3DBox className="group">
+              <div className="p-8 h-full bg-[#1A1A1A] rounded-[40px] text-white">
+                 <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center group-hover:bg-accent/40 transition-all">
+                      <Users className="w-6 h-6 text-accent" />
+                    </div>
+                    <div className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Active Nodes</div>
+                 </div>
+                 <div className="space-y-1">
+                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Network Population</h4>
+                    <p className="text-4xl font-serif font-bold text-white tracking-tight">{totalGmails}</p>
+                 </div>
+                 <div className="mt-6 h-1 w-full bg-accent/20 rounded-full overflow-hidden">
+                    <div className="h-full bg-accent w-3/4" />
+                 </div>
+              </div>
+           </Interactive3DBox>
+
+           {/* Admin Glorification Box */}
+           <Interactive3DBox className="group">
+              <div className="p-8 h-full rounded-[40px] relative overflow-hidden bg-gradient-to-br from-indigo-600 via-purple-600 to-accent text-white shadow-2xl">
+                 {/* Decorative elements */}
+                 <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-white/20 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                 <div className="absolute bottom-0 left-0 w-[150px] h-[150px] bg-black/20 rounded-full blur-[40px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+                 <Sparkles className="absolute top-6 right-6 w-8 h-8 text-white/50 opacity-50 group-hover:opacity-100 group-hover:animate-spin-slow transition-opacity duration-1000" />
+                 
+                 <div className="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                       <div className="flex items-center gap-3 mb-2">
+                          <Crown className="w-5 h-5 text-yellow-300 drop-shadow-md" />
+                          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/80">Supreme Commander</h4>
+                       </div>
+                       <p className="text-3xl font-black tracking-tighter drop-shadow-lg break-all">
+                          {ownerEmail}
+                       </p>
+                    </div>
+                    
+                    <div className="mt-6 pt-6 border-t border-white/20 flex items-center justify-between">
+                       <span className="text-[10px] font-bold uppercase tracking-widest text-white/90">System Master</span>
+                       <div className="px-3 py-1 bg-white/20 rounded-full border border-white/30 backdrop-blur-sm">
+                          <span className="text-[9px] font-black tracking-widest text-white">AUTHORIZED</span>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </Interactive3DBox>
+
+           {/* Elite Sub-Nodes */}
+           <Interactive3DBox className="group">
+              <div className="p-8 h-full bg-[#1A1A1A] rounded-[40px] text-white">
+                 <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center group-hover:bg-accent/40 transition-all">
+                      <Crown className="w-6 h-6 text-accent" />
+                    </div>
+                    <div className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">Pro Access</div>
+                 </div>
+                 <div className="space-y-1">
+                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">Elite Sub-Nodes</h4>
+                    <p className="text-4xl font-serif font-bold text-white tracking-tight">{premiumCount}</p>
+                 </div>
+                 <div className="mt-6 h-1 w-full bg-accent/20 rounded-full overflow-hidden">
+                    <div className="h-full bg-accent w-3/4" />
+                 </div>
+              </div>
+           </Interactive3DBox>
         </section>
 
         <div className="flex flex-col gap-12">
            
            {/* AI Assistant Card */}
            <div className="w-full relative">
-              <Interactive3DBox className="group">
+              <div className="w-full bg-[#1A1A1A] text-white rounded-[40px] border border-border-strong overflow-hidden relative shadow-lg group">
                  {/* top accent line */}
                  <div style={{
                    position:"absolute", top:0, left:"10%", width:"80%", height:2,
@@ -575,7 +614,7 @@ export default function AdminPanel({
                          fontSize:24, 
                          fontWeight:700, 
                          letterSpacing:"-0.02em", 
-                         color:C.text,
+                         color:"white",
                          fontFamily:"'Space Grotesk', system-ui, sans-serif"
                        }}>
                          SCHOLAR SYSTEM
@@ -872,7 +911,7 @@ export default function AdminPanel({
                  </div>
               </div>
 
-              <Interactive3DBox className="group">
+              <div className="w-full bg-[#1A1A1A] text-white rounded-[40px] border border-border-strong overflow-hidden relative shadow-lg group">
                  <div className="p-10 grid grid-cols-1 lg:grid-cols-2 gap-12">
                     {/* Left: Code Display */}
                     <div className="space-y-8">
@@ -897,19 +936,19 @@ export default function AdminPanel({
                                 </div>
                              </div>
                           ) : (
-                             <div className="bg-bg border-2 border-dashed border-border-strong rounded-2xl p-6 flex items-center justify-center">
-                                <span className="text-ink-4 text-sm font-bold uppercase tracking-widest">No Active Code</span>
+                             <div className="bg-[#262626] border-2 border-dashed border-[#333] rounded-2xl p-6 flex items-center justify-center">
+                                <span className="text-gray-400 text-sm font-bold uppercase tracking-widest">No Active Code</span>
                              </div>
                           )}
                        </div>
 
                        {/* Code Stats */}
                        <div className="grid grid-cols-2 gap-4">
-                          <div className="bg-bg border border-border-strong rounded-2xl p-5 space-y-2">
-                             <p className="text-[10px] font-black uppercase tracking-widest text-ink-3">Uses</p>
+                          <div className="bg-[#262626] border border-[#333] rounded-2xl p-5 space-y-2">
+                             <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Uses</p>
                              <div className="flex items-end gap-2">
-                                <span className="text-3xl font-serif font-black text-ink">{codeInfo?.usesCount ?? 0}</span>
-                                <span className="text-base text-ink-3 font-bold mb-1">/ {codeInfo?.maxUses ?? 20}</span>
+                                <span className="text-3xl font-serif font-black text-white">{codeInfo?.usesCount ?? 0}</span>
+                                <span className="text-base text-gray-400 font-bold mb-1">/ {codeInfo?.maxUses ?? 20}</span>
                              </div>
                              <div className="h-1.5 w-full bg-accent/5 rounded-full overflow-hidden">
                                 <div 
@@ -918,14 +957,14 @@ export default function AdminPanel({
                                 />
                              </div>
                           </div>
-                          <div className="bg-bg border border-border-strong rounded-2xl p-5 space-y-2">
-                             <p className="text-[10px] font-black uppercase tracking-widest text-ink-3">Expiry</p>
+                          <div className="bg-[#262626] border border-[#333] rounded-2xl p-5 space-y-2">
+                             <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Expiry</p>
                              <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4 text-accent flex-shrink-0" />
-                                <span className="text-sm font-bold text-ink">{getCodeExpiryDisplay() ?? "—"}</span>
+                                <span className="text-sm font-bold text-white">{getCodeExpiryDisplay() ?? "—"}</span>
                              </div>
                              {codeInfo?.expiresAt && (
-                                <p className="text-[10px] text-ink-4">{new Date(codeInfo.expiresAt).toLocaleDateString()}</p>
+                                <p className="text-[10px] text-gray-400">{new Date(codeInfo.expiresAt).toLocaleDateString()}</p>
                              )}
                           </div>
                        </div>
@@ -937,18 +976,18 @@ export default function AdminPanel({
                           <div className={cn(
                              "p-5 rounded-2xl border flex items-start gap-4",
                              codeInfo?.canGenerate
-                                ? "bg-green-50 border-green-200"
-                                : "bg-amber-50 border-amber-200"
+                                ? "bg-green-900/20 border-green-900/40"
+                                : "bg-amber-900/20 border-amber-900/40"
                           )}>
                              {codeInfo?.canGenerate ? (
-                                <Unlock className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                <Unlock className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                              ) : (
-                                <Lock className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                                <Lock className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
                              )}
                              <div>
                                 <p className={cn(
                                    "text-xs font-black uppercase tracking-widest",
-                                   codeInfo?.canGenerate ? "text-green-700" : "text-amber-700"
+                                   codeInfo?.canGenerate ? "text-green-400" : "text-amber-400"
                                 )}>
                                    {codeInfo?.canGenerate ? "Ready to Generate" : "Cooldown Active"}
                                 </p>
@@ -964,7 +1003,7 @@ export default function AdminPanel({
                              </div>
                           </div>
 
-                          <div className="space-y-3 text-[11px] text-ink-3 font-medium">
+                          <div className="space-y-3 text-[11px] text-gray-300 font-medium">
                              <div className="flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                                 Codes are 8-character alphanumeric
@@ -1003,14 +1042,14 @@ export default function AdminPanel({
                        </button>
                     </div>
                  </div>
-              </Interactive3DBox>
+              </div>
            </div>
 
            {/* ── WAITLIST USERS & PRO ACCESS LIST ── */}
            <div className="grid grid-cols-1 xl:grid-cols-2 gap-12">
               {/* Waitlist Users */}
               <div className="space-y-6">
-                 <div className="flex justify-between items-center">
+                 <div className="flex justify-between items-center mb-4">
                     <div className="space-y-2">
                        <h2 className="text-4xl font-serif font-bold text-ink tracking-tight flex items-center gap-4">
                           <ListChecks className="w-10 h-10 text-accent" />
@@ -1019,42 +1058,54 @@ export default function AdminPanel({
                        <p className="text-ink-3 font-bold uppercase tracking-widest text-[10px]">{waitlistUsers.length} Users Registered</p>
                     </div>
                  </div>
-                 <Interactive3DBox className="group">
+
+                 {/* Search Bar for Waitlist */}
+                 <div className="relative mb-6">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+                    <input 
+                       value={waitlistSearch}
+                       onChange={(e) => setWaitlistSearch(e.target.value)}
+                       placeholder="Search waitlist emails..."
+                       className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl py-3 pl-12 pr-4 text-sm font-medium text-white outline-none focus:border-accent transition-all placeholder:text-gray-500 shadow-sm"
+                    />
+                 </div>
+
+                 <div className="w-full bg-[#1A1A1A] text-white rounded-[40px] border border-[#333] overflow-hidden relative shadow-lg">
                     <div className="p-8">
-                       {waitlistUsers.length === 0 ? (
+                       {filteredWaitlist.length === 0 ? (
                           <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
                              <Mail className="w-12 h-12 text-ink-4" />
                              <p className="text-ink-4 text-sm font-bold uppercase tracking-widest">No waitlist users yet</p>
                           </div>
                        ) : (
                           <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                             {waitlistUsers.map((u) => (
-                               <div key={u.id} className="p-4 bg-bg/50 border border-border-strong rounded-2xl hover:bg-bg transition-all">
+                             {filteredWaitlist.map((u) => (
+                               <div key={u.id} className="p-4 bg-[#262626] border border-[#333] rounded-2xl hover:bg-[#333] transition-all">
                                   <div className="flex items-center gap-4">
-                                     <div className="w-10 h-10 rounded-xl bg-white border border-border-strong flex items-center justify-center font-bold text-ink-3 text-sm">
+                                     <div className="w-10 h-10 rounded-xl bg-[#1A1A1A] border border-[#333] flex items-center justify-center font-bold text-gray-400 text-sm">
                                         {u.email[0].toUpperCase()}
                                      </div>
                                      <div className="flex-1 min-w-0">
-                                        <p className="text-xs font-bold text-ink truncate">{u.email}</p>
-                                        <p className="text-[10px] text-ink-3 mt-0.5">{new Date(u.created_at).toLocaleDateString()}</p>
+                                        <p className="text-xs font-bold text-white truncate">{u.email}</p>
+                                        <p className="text-[10px] text-gray-400 mt-0.5">{new Date(u.created_at).toLocaleDateString()}</p>
                                      </div>
-                                     <Mail className="w-4 h-4 text-ink-4 flex-shrink-0" />
+                                     <Mail className="w-4 h-4 text-gray-500 flex-shrink-0" />
                                   </div>
                                </div>
                              ))}
                           </div>
                        )}
-                       <div className="mt-6 pt-5 border-t border-border-strong flex items-center gap-3">
+                       <div className="mt-6 pt-5 border-t border-[#333] flex items-center gap-3">
                           <div className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse" />
-                          <span className="text-[9px] font-bold text-ink-3 uppercase tracking-widest">Live Waitlist Feed</span>
+                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Live Waitlist Feed</span>
                        </div>
                     </div>
-                 </Interactive3DBox>
+                 </div>
               </div>
 
               {/* Pro Access List */}
               <div className="space-y-6">
-                 <div className="flex justify-between items-center">
+                 <div className="flex justify-between items-center mb-4">
                     <div className="space-y-2">
                        <h2 className="text-4xl font-serif font-bold text-ink tracking-tight flex items-center gap-4">
                           <UserCheck className="w-10 h-10 text-accent" />
@@ -1063,24 +1114,36 @@ export default function AdminPanel({
                        <p className="text-ink-3 font-bold uppercase tracking-widest text-[10px]">{proAccessUsers.length} Code Redemptions</p>
                     </div>
                  </div>
-                 <Interactive3DBox className="group">
+
+                 {/* Search Bar for Pro Access */}
+                 <div className="relative mb-6">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+                    <input 
+                       value={proSearch}
+                       onChange={(e) => setProSearch(e.target.value)}
+                       placeholder="Search pro access emails..."
+                       className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl py-3 pl-12 pr-4 text-sm font-medium text-white outline-none focus:border-accent transition-all placeholder:text-gray-500 shadow-sm"
+                    />
+                 </div>
+
+                 <div className="w-full bg-[#1A1A1A] text-white rounded-[40px] border border-[#333] overflow-hidden relative shadow-lg">
                     <div className="p-8">
-                       {proAccessUsers.length === 0 ? (
+                       {filteredProAccess.length === 0 ? (
                           <div className="flex flex-col items-center justify-center py-16 text-center gap-4">
                              <Crown className="w-12 h-12 text-ink-4" />
                              <p className="text-ink-4 text-sm font-bold uppercase tracking-widest">No redemptions yet</p>
                           </div>
                        ) : (
                           <div className="space-y-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
-                             {proAccessUsers.map((u) => (
-                               <div key={u.id} className="p-4 bg-bg/50 border border-border-strong rounded-2xl hover:bg-bg transition-all">
+                             {filteredProAccess.map((u) => (
+                               <div key={u.id} className="p-4 bg-[#262626] border border-[#333] rounded-2xl hover:bg-[#333] transition-all">
                                   <div className="flex items-center gap-4">
-                                     <div className="w-10 h-10 rounded-xl bg-accent/5 border border-accent/10 flex items-center justify-center font-bold text-accent text-sm">
+                                     <div className="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center font-bold text-accent text-sm">
                                         <Crown className="w-4 h-4" />
                                      </div>
                                      <div className="flex-1 min-w-0">
-                                        <p className="text-xs font-bold text-ink truncate">{u.email}</p>
-                                        <p className="text-[10px] text-ink-3 mt-0.5">Code: <span className="font-mono text-accent">{u.code_used}</span> · {new Date(u.granted_at).toLocaleDateString()}</p>
+                                        <p className="text-xs font-bold text-white truncate">{u.email}</p>
+                                        <p className="text-[10px] text-gray-400 mt-0.5">Code: <span className="font-mono text-accent">{u.code_used}</span> · {new Date(u.granted_at).toLocaleDateString()}</p>
                                      </div>
                                      <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0" />
                                   </div>
@@ -1088,12 +1151,12 @@ export default function AdminPanel({
                              ))}
                           </div>
                        )}
-                       <div className="mt-6 pt-5 border-t border-border-strong flex items-center gap-3">
+                       <div className="mt-6 pt-5 border-t border-[#333] flex items-center gap-3">
                           <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
-                          <span className="text-[9px] font-bold text-ink-3 uppercase tracking-widest">Permanent Pro Access Records</span>
+                          <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Permanent Pro Access Records</span>
                        </div>
                     </div>
-                 </Interactive3DBox>
+                 </div>
               </div>
            </div>
 
@@ -1116,6 +1179,17 @@ export default function AdminPanel({
                        <Plus className="w-4 h-4" />
                        <span className="font-bold text-xs uppercase tracking-widest">Provision New Node</span>
                     </button>
+                 </div>
+
+                 {/* Search Bar for Registry */}
+                 <div className="relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4" />
+                    <input 
+                       value={registrySearch}
+                       onChange={(e) => setRegistrySearch(e.target.value)}
+                       placeholder="Search registry by email..."
+                       className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl py-3 pl-12 pr-4 text-sm font-medium text-white outline-none focus:border-accent transition-all placeholder:text-gray-500 shadow-sm"
+                    />
                  </div>
 
                  {isAdding && (
@@ -1233,25 +1307,25 @@ export default function AdminPanel({
                     <ActivityIcon className="w-6 h-6 text-ink-4" />
                  </div>
 
-                 <Interactive3DBox className="group">
+                 <div className="w-full bg-[#1A1A1A] text-white rounded-[40px] border border-[#333] overflow-hidden relative shadow-lg">
                     <div className="p-8">
                        <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
                           {recentLogins.map((user) => (
-                            <div key={user.id} className="p-4 bg-bg/50 border border-border-strong rounded-2xl hover:bg-bg transition-all">
-                               <div className="flex items-center gap-4">
-                                  <div className="w-10 h-10 rounded-xl bg-white border border-border-strong flex items-center justify-center font-bold text-ink-3 text-sm">
-                                     {user.email[0].toUpperCase()}
-                                  </div>
-                                  <div className="flex-1 min-w-0">
-                                     <p className="text-xs font-bold text-ink truncate">{user.email}</p>
-                                     <p className="text-[10px] text-ink-3 mt-0.5">{new Date(user.created_at).toLocaleDateString()}</p>
-                                  </div>
-                                  <div className="text-right">
-                                     <p className="text-xs font-bold text-accent">{new Date(user.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                                     <span className="text-[8px] font-bold text-ink-4 uppercase tracking-tighter">SECURED</span>
-                                  </div>
-                               </div>
-                            </div>
+                             <div key={user.id} className="p-4 bg-[#262626] border border-[#333] rounded-2xl hover:bg-[#333] transition-all">
+                                <div className="flex items-center gap-4">
+                                   <div className="w-10 h-10 rounded-xl bg-[#1A1A1A] border border-[#333] flex items-center justify-center font-bold text-gray-400 text-sm">
+                                      {user.email[0].toUpperCase()}
+                                   </div>
+                                   <div className="flex-1 min-w-0">
+                                      <p className="text-xs font-bold text-white truncate">{user.email}</p>
+                                      <p className="text-[10px] text-gray-400 mt-0.5">{new Date(user.created_at).toLocaleDateString()}</p>
+                                   </div>
+                                   <div className="text-right">
+                                      <p className="text-xs font-bold text-accent">{new Date(user.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
+                                      <span className="text-[8px] font-bold text-gray-500 uppercase tracking-tighter">SECURED</span>
+                                   </div>
+                                </div>
+                             </div>
                           ))}
                        </div>
 
