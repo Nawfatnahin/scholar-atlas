@@ -50,8 +50,13 @@ export default function AboutPage() {
           {/* Header Section */}
           <header className="mb-24 sm:mb-40 max-w-5xl">
             <div className="mb-8">
-              <span className="inline-flex items-center px-4 py-2 bg-gradient-to-br from-white/90 to-white/60 dark:from-bg-elevated/90 dark:to-bg-base/60 border border-transparent bg-clip-padding relative shadow-[0_4px_12px_rgba(249,115,22,0.06)] dark:shadow-[0_4px_12px_rgba(253,29,29,0.08)] before:absolute before:inset-0 before:rounded-xl before:p-[1px] before:bg-gradient-to-r before:from-accent/40 before:to-accent-soft/40 dark:before:from-[#833AB4]/60 dark:before:to-[#FD1D1D]/60 before:-z-10 before:content-[''] rounded-xl text-xs font-mono font-bold tracking-wide text-accent dark:text-[#FD1D1D] hover:scale-105 transition-all duration-300">
-                Version {APP_VERSION.current}
+              <span className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-bg-surface/60 backdrop-blur-md border border-border-default rounded-full text-sm font-mono font-bold tracking-wider text-text-secondary hover:border-accent/40 dark:hover:border-accent-color/40 hover:scale-[1.02] transition-all duration-300 shadow-sm">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent dark:bg-accent-soft opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-accent dark:bg-accent-soft"></span>
+                </span>
+                <span>Version</span>
+                <span className="text-accent dark:text-accent-soft font-black">{APP_VERSION.current}</span>
               </span>
             </div>
             <h1 className="text-5xl sm:text-7xl font-serif tracking-tight leading-[1.1] mb-8 text-text-primary">
@@ -142,7 +147,7 @@ export default function AboutPage() {
 
           {/* Simplified Changelog Section */}
           <section className="mb-32">
-             <div className="bg-gradient-to-br from-white/80 to-white/40 dark:from-bg-elevated/80 dark:to-bg-base/40 border border-transparent bg-clip-padding relative shadow-[0_30px_60px_rgba(249,115,22,0.08)] dark:shadow-[0_30px_60px_rgba(253,29,29,0.12)] before:absolute before:inset-0 before:rounded-[32px] before:p-[2px] before:bg-gradient-to-r before:from-accent/40 before:via-accent-soft/40 before:to-accent-deep/40 dark:before:from-[#833AB4]/60 dark:before:via-[#FD1D1D]/60 dark:before:to-[#F77737]/60 before:-z-10 before:content-[''] rounded-[32px] p-12 sm:p-20 transition-all duration-500 hover:-translate-y-1">
+             <div className="glass-card rounded-[32px] p-12 sm:p-20">
                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-16 gap-6">
                  <div>
                    <p className="text-xs font-bold tracking-widest uppercase text-accent mb-4">Current Release</p>
