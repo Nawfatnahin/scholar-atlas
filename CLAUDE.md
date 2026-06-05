@@ -24,6 +24,11 @@
 ## Project Guidelines & Patterns
 - **Attestation Calculations**: Consolidated calculations to unify around personal targets by updating inputs to assign the same value to both `required_threshold` and `personal_target` upon creation, maintaining full backwards compatibility.
 - **Database Operations**: Use the `createClient` utility from `@/lib/supabase/server` for database transactions. Always enforce Row Level Security (RLS) on new tables.
+- **Skeleton Loaders**: Always configure `src/components/ui/Skeleton.tsx` for Next.js async routes (`loading.tsx`) to prevent layout shifts.
+- **OpenNext Build Cache**: Deploy via `npm run deploy`. Wipe the `.open-next/` directory if wrangler build/lock collisions occur.
+- **RLS Policy Optimization**: Index all RLS policy filter columns. Wrap auth functions in subqueries (e.g., `(SELECT auth.uid())` instead of raw `auth.uid()`) so the query planner can cache them as constants.
+- **Attendance Record Upsert Constraint**: Ensure a unique key constraint on `(subject_id, class_date)` is defined to support secure application-level upserts.
+- **Operational Synchronization**: Only run `git push` or Cloudflare deployments for Scholar Atlas project files when explicitly commanded by Sir.
 
 <!-- code-review-graph MCP tools -->
 ## MCP Tools: code-review-graph

@@ -1358,24 +1358,9 @@ export default function AdminPanel({
       </main>
 
       {/* Industrial Grade Footer */}
-      <footer className="mt-40 border-t border-[#E5E7EB] dark:border-border-default py-16 px-12 flex flex-col md:flex-row items-center justify-between gap-10 bg-white dark:bg-bg-surface shadow-sm">
-         <div className="flex items-center gap-8">
-            <div className="w-12 h-12 bg-bg border border-border-strong rounded-2xl flex items-center justify-center">
-               <Cpu className="w-6 h-6 text-accent" />
-            </div>
-            <div>
-               <p className="text-sm font-bold text-ink tracking-tight">JARVIS OS v1.0.0</p>
-               <p className="text-xs font-bold text-ink-3 uppercase tracking-widest mt-1">Loyal by choice · Sector 7G</p>
-            </div>
-         </div>
-         <div className="flex items-center gap-12">
-            <div className="flex items-center gap-4">
-               <div className="w-2 h-2 bg-green-500 rounded-full" />
-               <span className="text-sm font-bold text-ink tracking-tight">Neural Link Optimized</span>
-            </div>
-            <div className="px-6 py-2 border border-border-strong rounded-full text-xs font-bold text-ink-3 uppercase tracking-widest">
-               © 2026 JARVIS Systems · Built for Mr. Nawfat
-            </div>
+      <footer className="mt-40 border-t border-[#E5E7EB] dark:border-border-default py-8 px-12 bg-white dark:bg-bg-surface shadow-sm">
+         <div className="max-w-[1240px] mx-auto flex justify-center items-center text-[13px] text-ink-3">
+            <span>© 2026 Scholar Atlas. All rights reserved.</span>
          </div>
       </footer>
 
