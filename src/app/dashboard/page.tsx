@@ -91,17 +91,17 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-bg-base flex flex-col font-body">
       <header className="bg-bg-base/95 backdrop-blur-xl border-b border-border-subtle py-3 sm:py-6 sticky top-0 z-50">
-        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 flex justify-between items-center gap-4">
-          <div className="flex items-center gap-3 sm:gap-6">
+        <div className="max-w-[1600px] mx-auto px-4 sm:px-8 flex flex-wrap justify-between items-center gap-y-3 gap-x-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-6">
             <Link href="/" className="p-2.5 sm:p-3 rounded-2xl bg-accent text-white hover:scale-105 shadow-lg shadow-accent/20 transition-all flex-shrink-0">
               <Home className="w-5 h-5 sm:w-6 h-6" />
             </Link>
-            <div className="flex items-center gap-4 sm:gap-8">
-              <h1 className="text-xl sm:text-2xl font-black text-accent tracking-tight hidden xs:block uppercase tracking-[0.1em]">Dashboard</h1>
+            <div className="flex items-center gap-2 sm:gap-8">
+              <h1 className="text-xl sm:text-2xl font-black text-accent tracking-tight hidden sm:block uppercase tracking-[0.1em]">Dashboard</h1>
               {isAdmin && (
                 <Link 
                   href="/dashboard/admin" 
-                  className="group relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-2 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 shadow-[0_4px_0_rgb(180,83,9)] hover:shadow-[0_6px_0_rgb(180,83,9)] hover:-translate-y-0.5 active:shadow-none active:translate-y-1 transition-all border border-amber-300/30"
+                  className="group relative flex items-center gap-2 sm:gap-3 px-3 sm:px-6 py-2 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 shadow-[0_4px_0_rgb(180,83,9)] hover:shadow-[0_6px_0_rgb(180,83,9)] hover:-translate-y-0.5 active:shadow-none active:translate-y-1 transition-all border border-amber-300/30"
                 >
                   <Crown className="w-3.5 h-3.5 sm:w-4 h-4 text-white drop-shadow-md" />
                   <span className="text-white font-black text-[10px] sm:text-xs uppercase tracking-widest drop-shadow-sm">Admin</span>
@@ -111,10 +111,10 @@ export default async function DashboardPage() {
             </div>
           </div>
           
-          <div className="flex items-center gap-3 sm:gap-8">
+          <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-8 shrink-0">
             <DarkModeToggle />
             {user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <UserBadge email={user.email || ""} />
                 <SignOutButton />
               </div>

@@ -513,7 +513,7 @@ export default function AdminPanel({
                      <Settings className="w-3.5 h-3.5 text-ink-4" />
                    </button>
                 </div>
-                <div className="w-10 h-10 sm:w-12 h-12 rounded-2xl bg-white border border-border-strong flex items-center justify-center text-ink font-bold text-lg shadow-sm overflow-hidden relative group/avatar">
+                <div className="w-10 h-10 sm:w-12 h-12 rounded-2xl bg-bg-surface border border-border-strong flex items-center justify-center text-text-primary font-bold text-lg shadow-sm overflow-hidden relative group/avatar">
                   {adminName[0].toUpperCase()}
                   <div className="absolute inset-0 bg-accent/5 opacity-0 group-hover/avatar:opacity-100 transition-opacity" />
                 </div>
@@ -547,29 +547,19 @@ export default function AdminPanel({
 
            {/* Admin Glorification Box */}
            <Interactive3DBox className="group">
-              <div className="p-8 h-full rounded-[40px] relative overflow-hidden bg-gradient-to-br from-[#0F172A] via-[#1E1B4B] to-[#311042] border border-[#312E81] text-white shadow-2xl transition-all">
-                 {/* Decorative elements */}
-                 <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-white/5 rounded-full blur-[40px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-                 <div className="absolute bottom-0 left-0 w-[150px] h-[150px] bg-black/45 rounded-full blur-[40px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-                 <Sparkles className="absolute top-6 right-6 w-8 h-8 text-white/50 opacity-50 group-hover:opacity-100 group-hover:animate-spin-slow transition-opacity duration-1000" />
-                 
-                 <div className="relative z-10 flex flex-col h-full justify-between">
-                    <div>
-                       <div className="flex items-center gap-3 mb-2">
-                          <Crown className="w-5 h-5 text-yellow-300 drop-shadow-md" />
-                          <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-white/90">Supreme Commander</h4>
-                       </div>
-                       <p className="text-3xl font-black tracking-tighter drop-shadow-lg break-all text-white">
-                          {ownerEmail}
-                       </p>
+              <div className="p-8 h-full glass-card rounded-[40px] text-text-primary">
+                 <div className="flex justify-between items-start mb-6">
+                    <div className="w-12 h-12 rounded-xl bg-accent/20 border border-accent/30 flex items-center justify-center group-hover:bg-accent/40 transition-all">
+                      <Crown className="w-6 h-6 text-accent" />
                     </div>
-                    
-                    <div className="mt-6 pt-6 border-t border-white/20 flex items-center justify-between">
-                       <span className="text-[10px] font-bold uppercase tracking-widest text-white/70">System Master</span>
-                       <div className="px-3 py-1 bg-white/10 rounded-full border border-white/20 backdrop-blur-sm">
-                          <span className="text-[9px] font-black tracking-widest text-white">AUTHORIZED</span>
-                       </div>
-                    </div>
+                    <div className="text-[10px] font-bold text-text-secondary tracking-widest uppercase">System Master</div>
+                 </div>
+                 <div className="space-y-1">
+                    <h4 className="text-[10px] font-bold uppercase tracking-[0.2em] text-text-secondary">Supreme Commander</h4>
+                    <p className="text-2xl sm:text-3xl font-sans font-bold text-text-primary tracking-tight break-all">{ownerEmail}</p>
+                 </div>
+                 <div className="mt-6 h-1 w-full bg-accent/20 rounded-full overflow-hidden">
+                    <div className="h-full bg-accent w-full" />
                  </div>
               </div>
            </Interactive3DBox>
@@ -597,8 +587,8 @@ export default function AdminPanel({
         <div className="flex flex-col gap-12">
            
            {/* AI Assistant Card */}
-           <div className="w-full relative">
-              <div className="w-full glass-card text-text-primary transition-colors rounded-[40px] overflow-hidden relative shadow-sm group">
+           <Interactive3DBox className="group w-full">
+              <div className="w-full glass-card text-text-primary transition-colors rounded-[40px] overflow-hidden relative shadow-sm h-full">
                  {/* top accent line */}
                  <div style={{
                    position:"absolute", top:0, left:"10%", width:"80%", height:2,
@@ -638,7 +628,7 @@ export default function AdminPanel({
                           fontSize:24, 
                           fontWeight:700, 
                           letterSpacing:"-0.02em", 
-                          color:"white",
+                          color: C.text,
                           fontFamily:"'Space Grotesk', system-ui, sans-serif"
                         }}>
                           SCHOLAR SYSTEM
@@ -917,11 +907,11 @@ export default function AdminPanel({
                      letterSpacing:"0.04em",
                      fontFamily:"'Space Grotesk', system-ui, sans-serif"
                    }}>
-                     UPTIME {metrics.uptime}
-                   </span>
-                 </div>
-              </div>
-           </div>
+                      UPTIME {metrics.uptime}
+                    </span>
+                  </div>
+               </div>
+            </Interactive3DBox>
 
            {/* ── ACCESS CODE GENERATOR ── */}
            <div className="w-full">
@@ -1359,7 +1349,7 @@ export default function AdminPanel({
                              <span className="text-[9px] font-bold text-ink-3 uppercase tracking-widest">Monitoring Nodes</span>
                           </div>
                        </div>
-                    </div>
+                     </div>
                </div>
             </div>
            </div>
