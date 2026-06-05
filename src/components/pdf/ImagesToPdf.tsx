@@ -167,12 +167,29 @@ export function ImagesToPdf() {
           continue; // Unsupported format skipped
         }
 
-        const page = pdfDoc.addPage([pdfImage.width, pdfImage.height]);
+        const isLandscape = pdfImage.width > pdfImage.height;
+        // A4 dimensions in points: 595.28 x 841.89
+        const pageWidth = isLandscape ? 841.89 : 595.28;
+        const pageHeight = isLandscape ? 595.28 : 841.89;
+        
+        const page = pdfDoc.addPage([pageWidth, pageHeight]);
+        
+        const scaleFactor = Math.min(
+          pageWidth / pdfImage.width,
+          pageHeight / pdfImage.height
+        );
+        
+        const scaledWidth = pdfImage.width * scaleFactor;
+        const scaledHeight = pdfImage.height * scaleFactor;
+        
+        const x = (pageWidth - scaledWidth) / 2;
+        const y = (pageHeight - scaledHeight) / 2;
+        
         page.drawImage(pdfImage, {
-          x: 0,
-          y: 0,
-          width: pdfImage.width,
-          height: pdfImage.height,
+          x,
+          y,
+          width: scaledWidth,
+          height: scaledHeight,
         });
       }
 
