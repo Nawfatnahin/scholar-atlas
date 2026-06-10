@@ -71,5 +71,7 @@ Continuous integration is handled via GitHub Actions (`.github/workflows/deploy.
 - **Crawler Optimization:** `robots.ts` is configured to allow indexing by major search and AI engines (like Googlebot and ClaudeBot) while actively blocking raw training collectors (like CCBot and Bytespider) from leeching bandwidth.
 
 
-## About
-- It is my first project of making a dedicated working website that is helpful for me and all the others than will use this website . I created it for my personal use and I used AI to build this whole website . It is a result of my curiosity in Vibecoding.
+## About me 
+- It is my first project of making a dedicated working website that is helpful for me and all the others who will use this website . I created it for my personal use and I used AI to build this whole website . It is a result of my curiosity in Vibecoding. 
+Currently , I'm studing BURP in RUET, Bangladesh. (2026) 
+Hoping that I will improve the website further in the future .
