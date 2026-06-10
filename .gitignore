@@ -74,3 +74,15 @@ next-env.d.ts
 GEMINI.md
 QODER.md
 .github/code-review-graph.instruction.md
+
+# Agent and System Files
+AGENTS.md
+CLAUDE.md
+JARVIS_INSTRUCTIONS.md
+MEMORY.md
+speak.py
+cf_monitor.py
+dns_monitor.py
+ui-review.html
+.version-history/
+supabase/.temp/
