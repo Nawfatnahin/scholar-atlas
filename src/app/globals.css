@@ -709,6 +709,19 @@ html, body {
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6) !important;
   }
 
+  /* Pricing Pro card CTA — exempt from global button.bg-white dark override.
+     The global rule strips bg + forces white text for tab buttons, but the
+     pricing CTA must stay white-bg / dark-text since it sits on the dark bg-ink card. */
+  .dark #pricing .bg-ink button.bg-white,
+  .dark #pricing .bg-ink button.bg-white span,
+  .dark #pricing .bg-ink button.bg-white svg,
+  .dark #pricing .bg-ink a.bg-white,
+  .dark #pricing .bg-ink a.bg-white span {
+    background: #ffffff !important;
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+  }
+
   /* Tab group container backgrounds */
   .dark .bg-stone-200\/40 {
     background: rgba(255, 255, 255, 0.03) !important;

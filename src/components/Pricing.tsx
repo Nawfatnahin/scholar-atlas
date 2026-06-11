@@ -421,7 +421,7 @@ export default function Pricing() {
                 // Guest: Show "Get Started Free" → /signup
                 <Link
                   href="/signup"
-                  className="block text-center w-full bg-white text-ink font-body text-[14px] font-bold p-3.5 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                  className="block text-center w-full bg-white text-stone-900 font-body text-[14px] font-bold p-3.5 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                 >
                   Get Started Free
                 </Link>
@@ -429,7 +429,7 @@ export default function Pricing() {
                 // Logged in, not pro: Show "Join Wishlist" → popup
                 <button
                   onClick={() => setIsWishlistOpen(true)}
-                  className="block text-center w-full bg-white text-ink font-body text-[14px] font-bold p-3.5 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+                  className="block text-center w-full bg-white text-stone-900 font-body text-[14px] font-bold p-3.5 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-lg"
                 >
                   Join Wishlist
                 </button>
